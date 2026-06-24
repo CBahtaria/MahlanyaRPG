@@ -1,0 +1,36 @@
+# Unreal Engine generated
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.suo
+*.user
+*.xcworkspace
+*.xcodeproj
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Pipeline outputs (large, generated — not committed)
+pipeline/outputs/
+pipeline/cache/
+
+# OS
+.DS_Store
+Thumbs.db
