@@ -1,0 +1,85 @@
+name: Pipeline CI
+
+on:
+  push:
+    paths:
+      - 'pipeline/**'
+      - '.github/workflows/pipeline-ci.yml'
+  pull_request:
+    paths:
+      - 'pipeline/**'
+      - '.github/workflows/pipeline-ci.yml'
+
+concurrency:
+  group: pipeline-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Python Pipeline Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Install core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy pyyaml click pytest pytest-cov
+
+      - name: Install GDAL and geo stack (Ubuntu)
+        # Geo libraries need system GDAL before pip install
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y gdal-bin libgdal-dev python3-gdal
+          pip install rasterio shapely geopandas pyproj || true
+        continue-on-error: true
+
+      - name: Install optional dependencies
+        run: |
+          pip install trimesh neo4j numba || true
+        continue-on-error: true
+
+      - name: Run environment tests
+        run: |
+          python -m pytest pipeline/tests/test_environment.py -v \
+            --tb=short
+
+      - name: Run stub API tests
+        run: |
+          python -m pytest pipeline/tests/test_pipeline_stubs.py -v \
+            --tb=short
+
+      - name: Run full test suite with coverage
+        run: |
+          python -m pytest pipeline/tests/ \
+            --cov=pipeline \
+            --cov-report=xml:coverage.xml \
+            --cov-report=term-missing \
+            --tb=short \
+            -v
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 7
+
+      - name: Check coverage threshold (≥ 80%)
+        run: |
+          python -m pytest pipeline/tests/ \
+            --cov=pipeline \
+            --cov-fail-under=80 \
+            -q

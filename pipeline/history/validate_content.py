@@ -22,12 +22,20 @@ class SwaziHistoricalValidator:
 
     def __init__(self, knowledge_graph_path: pathlib.Path) -> None:
         with open(knowledge_graph_path, "r", encoding="utf-8") as f:
-            # Support both plain JSON object and ndjson (one entity per line)
+            # Support plain JSON (object or array) and ndjson (one entity per line)
             raw = f.read().strip()
-            if raw.startswith("[") or raw.startswith("{"):
-                self.graph: dict[str, Any] = json.loads(raw)
-            else:
-                # ndjson format — merge all lines into one dict
+            try:
+                parsed = json.loads(raw)
+                if isinstance(parsed, list):
+                    self.graph: dict[str, Any] = {}
+                    for obj in parsed:
+                        entity_id = obj.get("id") or obj.get("name")
+                        if entity_id:
+                            self.graph[entity_id] = obj
+                else:
+                    self.graph = parsed
+            except json.JSONDecodeError:
+                # ndjson format — one JSON object per line
                 self.graph = {}
                 for line in raw.splitlines():
                     if line.strip():

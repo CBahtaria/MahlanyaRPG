@@ -1,0 +1,24 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "1.0",
+    "FriendlyName": "SimulationBusPlugin",
+    "Description": "Dependency-free typed multicast delegate event bus for Mahlanya simulation systems. Loaded PreDefault so all other simulation plugins can subscribe at startup.",
+    "Category": "MahlanyaRPG",
+    "CreatedBy": "Charles Bartaria",
+    "CreatedByURL": "",
+    "DocsURL": "",
+    "MarketplaceURL": "",
+    "SupportURL": "",
+    "CanContainContent": false,
+    "IsBetaVersion": false,
+    "IsExperimentalVersion": false,
+    "Installed": false,
+    "Modules": [
+        {
+            "Name": "SimulationBusPlugin",
+            "Type": "Runtime",
+            "LoadingPhase": "PreDefault"
+        }
+    ]
+}

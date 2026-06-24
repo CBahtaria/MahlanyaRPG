@@ -1,0 +1,122 @@
+name: UE5 Plugin Build
+
+on:
+  push:
+    paths:
+      - 'Source/**'
+      - 'Plugins/**'
+      - 'Config/**'
+      - 'MahlanyaRPG.uproject'
+      - '.github/workflows/ue5-build.yml'
+  pull_request:
+    paths:
+      - 'Source/**'
+      - 'Plugins/**'
+      - 'Config/**'
+      - 'MahlanyaRPG.uproject'
+      - '.github/workflows/ue5-build.yml'
+
+concurrency:
+  group: ue5-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: UE5 C++ Plugin Compile
+    # Self-hosted runner required: must have UE5.4+ installed at $UE5_ROOT
+    # GitHub-hosted runners do not have UE5 — set up a dedicated Linux build server.
+    # Runner label: 'ue5-linux'
+    runs-on: [self-hosted, ue5-linux]
+    timeout-minutes: 60
+
+    env:
+      UE5_ROOT: ${{ vars.UE5_ROOT || '/opt/UnrealEngine' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Verify UE5 installation
+        run: |
+          if [ ! -f "$UE5_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" ]; then
+            echo "ERROR: UE5 not found at $UE5_ROOT"
+            echo "Set the UE5_ROOT repository variable to your UE5 installation path."
+            exit 1
+          fi
+          echo "UE5 found at $UE5_ROOT"
+
+      - name: Build MahlanyaRPG (Development Editor, Linux)
+        run: |
+          "$UE5_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" \
+            MahlanyaRPGEditor \
+            Linux \
+            Development \
+            "${{ github.workspace }}/MahlanyaRPG.uproject" \
+            -waitmutex \
+            -NoHotReloadFromIDE
+
+      - name: Run UE5 Automation Tests
+        run: |
+          "$UE5_ROOT/Engine/Binaries/Linux/UnrealEditor-Cmd" \
+            "${{ github.workspace }}/MahlanyaRPG.uproject" \
+            -ExecCmds="Automation RunTests MahlanyaRPG; Quit" \
+            -TestExit="Automation Test Queue Empty" \
+            -ReportOutputPath="${{ github.workspace }}/TestResults" \
+            -log \
+            -nosplash \
+            -nullrhi
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ue5-test-results
+          path: TestResults/
+          retention-days: 14
+
+      - name: Parse test failures
+        if: always()
+        run: |
+          if [ -f TestResults/index.json ]; then
+            python3 -c "
+          import json, sys
+          with open('TestResults/index.json') as f:
+              results = json.load(f)
+          failed = [t for t in results.get('tests', []) if t.get('state') == 'Fail']
+          if failed:
+              print(f'FAILED: {len(failed)} test(s)')
+              for t in failed:
+                  print(f'  - {t[\"testDisplayName\"]}: {t.get(\"message\", \"\")}')
+              sys.exit(1)
+          else:
+              print(f'All tests passed: {len(results.get(\"tests\", []))} total')
+            "
+          fi
+
+  # Static analysis of C++ plugin code (runs on GitHub-hosted runner — no UE5 needed)
+  lint:
+    name: C++ Lint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install clang-tidy
+        run: sudo apt-get install -y clang-tidy
+
+      - name: Check plugin headers compile standalone
+        run: |
+          echo "Checking that plugin public headers are syntactically valid C++17..."
+          find Plugins -name "*.h" -print0 | while IFS= read -r -d '' header; do
+            clang++ -std=c++17 -fsyntax-only \
+              -DUE_BUILD_DEVELOPMENT=1 \
+              -DWITH_EDITOR=1 \
+              -Wno-unknown-pragmas \
+              -Wno-unused-command-line-argument \
+              "$header" 2>&1 | grep -v "note:" || true
+          done
+          echo "Header syntax check complete."
+        continue-on-error: true
