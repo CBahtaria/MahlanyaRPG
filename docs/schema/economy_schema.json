@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mahlanyarpg.dev/schema/economy_schema.json",
+  "title": "Mahlanya Clan Economy",
+  "description": "Schema for FClanEconomicState and the cattle flow graph. Community modders can edit data files conforming to this schema to alter clan economics, tribute relationships, and trade routes without touching C++ source code.",
+  "type": "object",
+  "required": ["clans", "cattle_flows"],
+  "additionalProperties": false,
+  "properties": {
+    "clans": {
+      "type": "array",
+      "description": "All clans whose economic state is simulated. Each entry maps to one FClanEconomicState instance.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/clan"
+      }
+    },
+    "cattle_flows": {
+      "type": "array",
+      "description": "Directed edges of the cattle flow graph. Each edge represents a monthly transfer of cattle between two clans.",
+      "items": {
+        "$ref": "#/definitions/cattle_flow"
+      }
+    }
+  },
+  "definitions": {
+    "clan": {
+      "type": "object",
+      "title": "Clan Economic State",
+      "description": "Economic snapshot of a single Swazi clan. Values are sampled every in-game month by the FClanEconomicState tick.",
+      "required": [
+        "id",
+        "cattle_count",
+        "political_strength",
+        "colonial_pressure",
+        "drought_stress",
+        "concessions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique clan identifier used as foreign key in cattle_flows and protocol data.",
+          "pattern": "^[A-Za-z0-9_]+$",
+          "examples": ["CLAN_Dlamini", "CLAN_Mamba", "CLAN_Fakudze"]
+        },
+        "cattle_count": {
+          "type": "integer",
+          "description": "Current head of cattle owned by the clan. Wealth and political standing in Swazi society are cattle-denominated.",
+          "minimum": 0
+        },
+        "political_strength": {
+          "type": "number",
+          "description": "Normalised political influence of the clan within the Swazi kingdom (0 = powerless, 1 = royal family authority).",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "colonial_pressure": {
+          "type": "number",
+          "description": "Degree of direct colonial economic pressure the clan is experiencing (0 = none, 1 = land fully alienated / concessions dominate).",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "drought_stress": {
+          "type": "number",
+          "description": "Current grazing/crop stress from drought conditions (0 = lush season, 1 = severe drought threatening herd viability).",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "concessions": {
+          "type": "array",
+          "description": "List of concession IDs granted to colonial companies or settlers that reduce the clan's effective land area.",
+          "items": {
+            "type": "string",
+            "pattern": "^CONC_[A-Za-z0-9_]+$"
+          },
+          "examples": [["CONC_Swaziland_Concessions_1888", "CONC_Forbes_1889"]]
+        }
+      }
+    },
+    "cattle_flow": {
+      "type": "object",
+      "title": "Cattle Flow Edge",
+      "description": "A directed monthly cattle transfer between two clans. Constitutes an edge in the cattle flow graph used by the economic simulation.",
+      "required": ["from", "to", "cattle_per_month", "flow_type"],
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "ID of the source clan (the clan transferring cattle).",
+          "pattern": "^[A-Za-z0-9_]+$"
+        },
+        "to": {
+          "type": "string",
+          "description": "ID of the destination clan (the clan receiving cattle).",
+          "pattern": "^[A-Za-z0-9_]+$"
+        },
+        "cattle_per_month": {
+          "type": "integer",
+          "description": "Number of cattle transferred from 'from' to 'to' each in-game month under normal conditions. The simulation may apply drought_stress and colonial_pressure modifiers at runtime.",
+          "minimum": 0
+        },
+        "flow_type": {
+          "type": "string",
+          "description": "The social/economic mechanism driving this cattle transfer. Determines which gameplay systems are notified on transfer.",
+          "enum": ["Tribute", "Trade", "Raid", "Lobola"]
+        }
+      }
+    }
+  }
+}

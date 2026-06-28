@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mahlanyarpg.dev/schema/protocol_schema.json",
+  "title": "Mahlanya Cultural Protocols",
+  "description": "Schema for Swazi cultural protocols that govern player behaviour and NPC relationship mechanics. Modders can add or modify protocols here without touching C++. Each protocol maps to a UCulturalProtocol data asset in UE5.",
+  "type": "object",
+  "required": ["protocols"],
+  "additionalProperties": false,
+  "properties": {
+    "protocols": {
+      "type": "array",
+      "description": "Complete list of cultural protocols active in the simulation.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/protocol"
+      }
+    }
+  },
+  "definitions": {
+    "protocol": {
+      "type": "object",
+      "title": "Cultural Protocol",
+      "description": "A single named cultural rule. When the player performs the required_actions in the correct context the protocol is Observed; failure or the inverse action marks it Violated. Both outcomes trigger relationship_impact on nearby NPCs.",
+      "required": [
+        "id",
+        "description",
+        "relationship_impact",
+        "status_on_observe",
+        "status_on_violate",
+        "required_actions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique protocol identifier. Used as a foreign key in dialogue and quest data. Convention: PROT_<PascalCaseName>.",
+          "pattern": "^PROT_[A-Za-z0-9_]+$",
+          "examples": ["PROT_GreetElder", "PROT_EnterRoyalKraal", "PROT_LoboPresentCattle"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable explanation of the protocol shown in the in-game cultural codex. Should contextualise the practice within Swazi history and society.",
+          "minLength": 10
+        },
+        "relationship_impact": {
+          "type": "number",
+          "description": "Delta applied to the player's relationship score with observing NPCs when the protocol is Observed. A negative value here indicates a protocol whose observation still carries a cost (rare). Violation always applies the negation of this value.",
+          "examples": [0.15, -0.05, 0.3]
+        },
+        "status_on_observe": {
+          "type": "string",
+          "description": "The protocol status flag set when the player correctly performs all required_actions. Always 'Observed' — kept as an enum for future extensibility.",
+          "enum": ["Observed"]
+        },
+        "status_on_violate": {
+          "type": "string",
+          "description": "The protocol status flag set when the player fails or inverts the required behaviour. Always 'Violated' — kept as an enum for future extensibility.",
+          "enum": ["Violated"]
+        },
+        "required_actions": {
+          "type": "array",
+          "description": "Ordered list of player actions that must be performed to satisfy the protocol. Actions are symbolic strings parsed by the protocol evaluation subsystem. Examples: 'crouch', 'clap_twice', 'say_sawubona', 'remove_hat', 'offer_snuff'.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "examples": [
+            ["crouch", "clap_twice", "say_sawubona"],
+            ["remove_hat", "lower_eyes", "await_permission"],
+            ["offer_snuff", "receive_with_both_hands"]
+          ]
+        }
+      },
+      "examples": [
+        {
+          "id": "PROT_GreetElder",
+          "description": "Swazi custom requires greeting an elder by crouching slightly, clapping twice with cupped hands and saying 'Sawubona' (I see you). Failure to do so is a serious mark of disrespect that damages relations with the elder's clan.",
+          "relationship_impact": 0.15,
+          "status_on_observe": "Observed",
+          "status_on_violate": "Violated",
+          "required_actions": ["crouch", "clap_twice", "say_sawubona"]
+        },
+        {
+          "id": "PROT_EnterRoyalKraal",
+          "description": "Entering the royal cattle kraal without permission and without removing headwear is a grave insult to the Ingwenyama. Visitors must await acknowledgement at the gate, remove any hat or head covering, and avert their gaze until addressed.",
+          "relationship_impact": 0.25,
+          "status_on_observe": "Observed",
+          "status_on_violate": "Violated",
+          "required_actions": ["remove_hat", "lower_eyes", "await_permission"]
+        }
+      ]
+    }
+  }
+}
