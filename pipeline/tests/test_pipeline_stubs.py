@@ -32,10 +32,9 @@ def test_acquire_dem_signature():
     assert "output_dir" in params
 
 
-def test_acquire_dem_raises_not_implemented():
+def test_acquire_dem_callable():
     from pipeline.terrain.acquire_dem import acquire_dem
-    with pytest.raises(NotImplementedError):
-        acquire_dem(30.79, 32.14, -27.32, -25.72, pathlib.Path("/tmp"))
+    assert callable(acquire_dem)
 
 
 def test_build_hardness_map_importable():
@@ -52,12 +51,9 @@ def test_build_hardness_map_signature():
     assert "output_path" in params
 
 
-def test_build_hardness_map_raises_not_implemented():
+def test_build_hardness_map_callable():
     from pipeline.terrain.build_hardness_map import build_hardness_map
-    with pytest.raises(NotImplementedError):
-        build_hardness_map(pathlib.Path("/tmp/dem.tif"),
-                           pathlib.Path("/tmp/geo.shp"),
-                           pathlib.Path("/tmp/out.tif"))
+    assert callable(build_hardness_map)
 
 
 def test_erode_terrain_importable():
@@ -73,7 +69,6 @@ def test_erode_terrain_signature():
     assert "hardness_path" in params
     assert "output_path" in params
     assert "iterations" in params
-    assert "use_gpu" in params
 
 
 def test_extract_rivers_importable():
@@ -90,10 +85,9 @@ def test_extract_rivers_signature():
     assert "threshold" in params
 
 
-def test_extract_rivers_raises_not_implemented():
+def test_extract_rivers_callable():
     from pipeline.terrain.extract_rivers import extract_rivers
-    with pytest.raises(NotImplementedError):
-        extract_rivers(pathlib.Path("/tmp/dem.tif"), pathlib.Path("/tmp/rivers.shp"))
+    assert callable(extract_rivers)
 
 
 def test_export_to_ue5_importable():

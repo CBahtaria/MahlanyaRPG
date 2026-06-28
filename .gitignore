@@ -34,3 +34,4 @@ pipeline/cache/
 # OS
 .DS_Store
 Thumbs.db
+pipeline/compute/.zig-cache/

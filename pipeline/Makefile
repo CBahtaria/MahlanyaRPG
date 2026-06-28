@@ -13,6 +13,11 @@
 PYTHON   := python3
 PYTEST   := $(PYTHON) -m pytest
 PIPELINE := $(PYTHON) -m pipeline
+ZIG      := zig
+
+# Zig compute library
+ZIG_DIR         := pipeline/compute
+ZIG_LIB_OUT     := $(ZIG_DIR)/zig-out/lib/libmahlanya_compute.so
 
 # Configurable paths (override from environment or CLI)
 DEM_DIR         ?= outputs/dem
@@ -35,7 +40,8 @@ BBOX_NORTH ?= -25.72
 EROSION_ITERS ?= 5000
 LLOYD_ITERS   ?= 50
 
-.PHONY: all full-pipeline full-pipeline-mobile test test-environment test-stubs \
+.PHONY: all full-pipeline full-pipeline-mobile test test-environment test-stubs test-compute \
+        zig-build zig-test zig-clean \
         terrain-acquire terrain-hardness terrain-erode terrain-rivers terrain-export \
         settlements-voronoi settlements-graph \
         atmosphere-luts atmosphere-weather \
@@ -46,8 +52,22 @@ LLOYD_ITERS   ?= 50
 # ── Default ─────────────────────────────────────────────────────────────────
 all: help
 
+# ── Zig compute library ──────────────────────────────────────────────────────
+zig-build:
+	@echo "Building libmahlanya_compute.so (Zig SIMD kernels) ..."
+	cd $(ZIG_DIR) && $(ZIG) build -Doptimize=ReleaseFast
+	@echo "Built: $(ZIG_LIB_OUT)"
+
+zig-test:
+	@echo "Running Zig unit tests ..."
+	cd $(ZIG_DIR) && $(ZIG) build test
+	@echo "Zig tests passed."
+
+zig-clean:
+	rm -rf $(ZIG_DIR)/zig-out $(ZIG_DIR)/.zig-cache
+
 # ── Full pipeline ────────────────────────────────────────────────────────────
-full-pipeline: outputs-dirs terrain settlements atmosphere audio history
+full-pipeline: zig-build outputs-dirs terrain settlements atmosphere audio history
 	@echo "================================================================"
 	@echo "  Full pipeline complete. Artifacts in outputs/"
 	@echo "================================================================"
@@ -146,7 +166,7 @@ history-validate:
 	    $(KG_PATH)
 
 # ── Tests ─────────────────────────────────────────────────────────────────────
-test: test-environment test-stubs
+test: test-environment test-stubs test-compute zig-test
 	@echo "All pipeline tests passed."
 
 test-environment:
@@ -154,6 +174,9 @@ test-environment:
 
 test-stubs:
 	$(PYTEST) pipeline/tests/test_pipeline_stubs.py -v
+
+test-compute:
+	$(PYTEST) pipeline/tests/compute/ -v
 
 test-coverage:
 	$(PYTEST) pipeline/tests/ \
@@ -167,7 +190,7 @@ outputs-dirs:
 	@mkdir -p outputs/dem outputs/weight_maps $(UE5_OUTPUT_DIR) \
 	           $(SETTLEMENTS_DIR) $(ATMOSPHERE_DIR) $(AUDIO_DIR) cache
 
-clean:
+clean: zig-clean
 	rm -rf outputs/ .pytest_cache pipeline/__pycache__ \
 	       pipeline/**/__pycache__ pipeline/**/**/__pycache__
 	find pipeline -name "*.pyc" -delete
@@ -204,10 +227,16 @@ help:
 	@echo "  make history-graph       Build Swazi historical knowledge graph"
 	@echo "  make history-validate    Validate all dialogue content (CI gate)"
 	@echo ""
+	@echo "Zig compute library:"
+	@echo "  make zig-build           Compile libmahlanya_compute.so (SIMD kernels)"
+	@echo "  make zig-test            Run Zig unit tests"
+	@echo "  make zig-clean           Remove Zig build artifacts"
+	@echo ""
 	@echo "Tests:"
-	@echo "  make test                Run environment + stub tests"
+	@echo "  make test                Run all tests (environment + stubs + compute + Zig)"
 	@echo "  make test-environment    Check required library versions"
 	@echo "  make test-stubs          Verify pipeline API signatures"
+	@echo "  make test-compute        Run Zig kernel tests via Python bridge"
 	@echo "  make test-coverage       Full coverage report"
 	@echo ""
 	@echo "Utilities:"
