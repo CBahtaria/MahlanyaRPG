@@ -1,9 +1,11 @@
 #include "SwaziKineticLocomotion.h"
+#include "FTerrainFrictionTensor.h"
 #include "SimulationBusSubsystem.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "DrawDebugHelpers.h"
+#include "PhysicalMaterials/PhysicalMaterial.h"
 
 USwaziKineticLocomotion::USwaziKineticLocomotion()
 {
@@ -70,17 +72,54 @@ FVector USwaziKineticLocomotion::ComputeWeightedSurfaceNormal() const
     return HitCount > 0 ? (AccumulatedNormal / HitCount).GetSafeNormal() : FVector::UpVector;
 }
 
-float USwaziKineticLocomotion::ComputeEffectiveFriction(
-    float BaseFriction, bool bIsWet, float SlopeDot) const
+float USwaziKineticLocomotion::ComputeAnisotropicFriction(
+    const FTerrainFrictionTensor& T, FVector MoveDir, bool bIsWet, bool bIsMoving) const
 {
-    float Friction = BaseFriction;
-    if (bIsWet)
+    // Step 1: Select base friction value from wetness and motion state
+    float Base;
+    if (bIsWet && bIsMoving)
     {
-        Friction *= WetClayFrictionScalar;
+        Base = T.DynamicWet;
     }
-    // Reduce friction slightly on steeper slopes (less contact normal force)
-    Friction *= FMath::Lerp(0.7f, 1.0f, FMath::Clamp(SlopeDot, 0.f, 1.f));
-    return Friction;
+    else if (bIsWet && !bIsMoving)
+    {
+        Base = T.StaticWet;
+    }
+    else if (!bIsWet && bIsMoving)
+    {
+        Base = T.DynamicDry;
+    }
+    else
+    {
+        Base = T.StaticDry;
+    }
+
+    // Step 2: Isotropic fast path
+    if (T.AnisotropyRatio <= 1.01f)
+    {
+        return Base;
+    }
+
+    // Step 3: Compute bearing of movement direction in degrees [0, 360)
+    float Bearing = FMath::RadiansToDegrees(FMath::Atan2(MoveDir.Y, MoveDir.X));
+    if (Bearing < 0.f)
+    {
+        Bearing += 360.f;
+    }
+
+    // Step 4: Angular difference, clamped to [0, 90] for symmetrical response
+    float AngularDiff = FMath::Abs(FMath::FindDeltaAngleDegrees(Bearing, T.AnisotropyAxis));
+    AngularDiff = FMath::Min(AngularDiff, 180.f - AngularDiff);
+
+    // Step 5: Cosine factor from angular difference
+    const float CosFactor = FMath::Cos(FMath::DegreesToRadians(AngularDiff));
+
+    // Step 6: Friction multiplier blends between min-grip (1/ratio) and max-grip (1.0)
+    const float FrictionMultiplier =
+        (1.f / T.AnisotropyRatio) + (1.f - 1.f / T.AnisotropyRatio) * (CosFactor * CosFactor);
+
+    // Step 7: Return scaled friction
+    return Base * FrictionMultiplier;
 }
 
 void USwaziKineticLocomotion::TickComponent(
@@ -93,56 +132,94 @@ void USwaziKineticLocomotion::TickComponent(
     UCharacterMovementComponent* MoveComp = OwningCharacter->GetCharacterMovement();
     if (!MoveComp || !MoveComp->IsMovingOnGround()) return;
 
-    // 1. Compute weighted surface normal from 5-point ground trace
-    FVector SurfaceNormal  = ComputeWeightedSurfaceNormal();
-    FVector VelocityDir    = OwningCharacter->GetVelocity().GetSafeNormal();
+    // ── Step 1: Compute weighted surface normal from 5-point ground trace ──────
+    FVector SurfaceNormal = ComputeWeightedSurfaceNormal();
 
-    // 2. Slope severity: dot product of world-up and surface normal
-    //    SlopeDot = 1.0 on flat ground, decreasing toward 0.0 on vertical wall
-    float SlopeDot = FVector::DotProduct(FVector::UpVector, SurfaceNormal);
-
-    // 3. Wetness from rain intensity state (set via OnRainIntensityChanged)
-    bool bIsWet = CurrentRainIntensityMmPerHr > WetRainThresholdMmPerHr;
-
-    // 4. Compute effective friction for this material + wetness + slope
-    float EffectiveFriction = ComputeEffectiveFriction(BaseFrictionCoefficient, bIsWet, SlopeDot);
-
-    if (SlopeDot < 0.98f)  // On an incline (not flat)
+    // ── Step 2: Sample physical material from centre foot trace hit ───────────
     {
-        // Direction of climbing: negative dot = moving against the surface normal (uphill)
-        float ClimbDot = FVector::DotProduct(VelocityDir, SurfaceNormal);
+        const float CapsuleHalfHeight = OwningCharacter->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+        const FVector ActorLoc        = OwningCharacter->GetActorLocation();
+        const float TraceLen          = CapsuleHalfHeight + 40.0f;
 
-        if (ClimbDot < 0.0f)  // Ascending
-        {
-            MoveComp->MaxWalkSpeed  = FMath::Lerp(120.0f, 450.0f, SlopeDot);
-            MoveComp->GroundFriction = EffectiveFriction * 1.5f;
-        }
-        else  // Descending
-        {
-            MoveComp->MaxWalkSpeed  = FMath::Lerp(850.0f, 450.0f, SlopeDot);
-            MoveComp->GroundFriction = EffectiveFriction * 0.4f;
+        FCollisionQueryParams Params;
+        Params.AddIgnoredActor(OwningCharacter);
+        Params.bReturnPhysicalMaterial = true;
 
-            // Trigger kinetic slide if friction + slope thresholds both breached
-            if (EffectiveFriction < SlipFrictionThreshold && SlopeDot < SlipSlopeThreshold)
-            {
-                if (!bIsSliding)
-                {
-                    bIsSliding = true;
-                    TriggerKineticSlideState();
-                }
-            }
-            else
-            {
-                bIsSliding = false;
-            }
+        FHitResult CentreHit;
+        FVector Start = ActorLoc;
+        FVector End   = Start - FVector(0, 0, TraceLen);
+
+        if (GetWorld()->LineTraceSingleByChannel(CentreHit, Start, End, ECC_WorldStatic, Params)
+            && CentreHit.PhysMaterial.IsValid())
+        {
+            CurrentMaterialName = CentreHit.PhysMaterial->GetFName();
         }
+        else
+        {
+            CurrentMaterialName = FName(TEXT("PM_GrasslandDry"));
+        }
+
+        CurrentFrictionTensor = FTerrainFrictionRegistry::Lookup(CurrentMaterialName);
     }
-    else  // Flat terrain — restore standard values
+
+    // ── Step 3: Determine wetness ─────────────────────────────────────────────
+    const bool bIsWet = CurrentRainIntensityMmPerHr > WetRainThresholdMmPerHr;
+
+    // ── Step 4: Slope dot product (1.0 = flat, 0.0 = vertical) ───────────────
+    const float SlopeDot = FVector::DotProduct(FVector::UpVector, SurfaceNormal);
+
+    // ── Step 5-6: Movement direction and speed ────────────────────────────────
+    const FVector Velocity  = OwningCharacter->GetVelocity();
+    const FVector MoveDir   = Velocity.GetSafeNormal();
+    const bool    bIsMoving = Velocity.Size() > 10.f;
+
+    // ── Step 7: Anisotropic effective friction ────────────────────────────────
+    const float EffectiveFriction =
+        ComputeAnisotropicFriction(CurrentFrictionTensor, MoveDir, bIsWet, bIsMoving);
+
+    // ── Step 8: Required friction from slope angle ────────────────────────────
+    // SlopeAngle = acos(SlopeDot); RequiredFriction = sin(SlopeAngle)
+    // sin(acos(x)) = sqrt(1 - x^2), avoids trig overhead
+    const float SlopeAngle       = FMath::Acos(FMath::Clamp(SlopeDot, 0.f, 1.f));
+    const float RequiredFriction = FMath::Sin(SlopeAngle);
+    InstabilityMargin = RequiredFriction - EffectiveFriction;
+
+    // ── Step 9: Chaos slip state transitions ──────────────────────────────────
+    if (InstabilityMargin > SlipInstabilityThreshold && !bIsSliding)
     {
-        MoveComp->MaxWalkSpeed   = 600.0f;
-        MoveComp->GroundFriction = EffectiveFriction;
+        bIsSliding = true;
+        OnSlipStateChanged.Broadcast(true);
+        TriggerKineticSlideState();
+    }
+    else if (InstabilityMargin <= 0.f && bIsSliding)
+    {
         bIsSliding = false;
+        OnSlipStateChanged.Broadcast(false);
     }
+
+    // ── Step 10: Apply walk speed and ground friction ─────────────────────────
+    MoveComp->MaxWalkSpeed  = FMath::Lerp(200.f, 600.f, SlopeDot) * (bIsWet ? 0.85f : 1.f);
+    MoveComp->GroundFriction = EffectiveFriction * 8.f;  // UE5 ground friction is ~0-8 scale
+
+    // ── Step 11: Stamina update ───────────────────────────────────────────────
+    const float AltitudeMultiplier =
+        1.f + FMath::Max(0.f, (CurrentAltitude_m - FatigueAltitudeBaseline_m)
+                              / FatigueAltitudeScale_m) * 0.40f;
+
+    const float SpeedFactor = FMath::Clamp(Velocity.Size() / 600.f, 0.f, 2.f);
+
+    if (SpeedFactor > 0.05f)
+    {
+        Stamina       -= BaseStaminaDrainRate * SpeedFactor * AltitudeMultiplier * DeltaTime;
+        RestDuration_s = 0.f;
+    }
+    else
+    {
+        RestDuration_s += DeltaTime;
+        Stamina        += StaminaRecoveryRate * FMath::Loge(1.f + RestDuration_s) * DeltaTime;
+    }
+
+    Stamina = FMath::Clamp(Stamina, 0.f, 1.f);
 }
 
 void USwaziKineticLocomotion::TriggerKineticSlideState_Implementation()

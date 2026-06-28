@@ -1,0 +1,19 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "Locomotion Physics Plugin",
+  "Description": "Anisotropic terrain friction tensors, altitude fatigue biomechanics, Chaos slip, footprint displacement, and cattle herding physics for Mahlanya.",
+  "Category": "Mahlanya",
+  "CreatedBy": "Charles Bartaria",
+  "CanContainContent": false,
+  "Installed": false,
+  "EnabledByDefault": false,
+  "Modules": [
+    {
+      "Name": "LocomotionPhysicsPlugin",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ]
+}

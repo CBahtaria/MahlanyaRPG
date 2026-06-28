@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "FTerrainFrictionTensor.h"
 #include "SwaziKineticLocomotion.generated.h"
 
 class ACharacter;
@@ -59,6 +60,62 @@ public:
     UPROPERTY(BlueprintReadOnly, Category = "Swazi Locomotion")
     bool bIsSliding = false;
 
+    // ── Friction system ──────────────────────────────────────────────────────
+
+    /** Detected physical material name from ground hit. Updated each tick. */
+    UPROPERTY(BlueprintReadOnly, Category = "Swazi Locomotion")
+    FName CurrentMaterialName;
+
+    /** Resolved friction tensor for CurrentMaterialName. */
+    UPROPERTY(BlueprintReadOnly, Category = "Swazi Locomotion")
+    FTerrainFrictionTensor CurrentFrictionTensor;
+
+    /** Instability margin: (RequiredFriction - EffectiveFriction). >0 = slip risk. */
+    UPROPERTY(BlueprintReadOnly, Category = "Swazi Locomotion")
+    float InstabilityMargin = 0.f;
+
+    /** Threshold above which Chaos slip is triggered. Default 0.15. */
+    UPROPERTY(EditAnywhere, Category = "Swazi Locomotion")
+    float SlipInstabilityThreshold = 0.15f;
+
+    // ── Biomechanical fatigue ─────────────────────────────────────────────────
+
+    /** Current stamina [0,1]. Drains with altitude and movement speed. */
+    UPROPERTY(BlueprintReadOnly, Category = "Swazi Locomotion|Stamina")
+    float Stamina = 1.0f;
+
+    /** Stamina drain per second at walk speed, sea level. */
+    UPROPERTY(EditAnywhere, Category = "Swazi Locomotion|Stamina")
+    float BaseStaminaDrainRate = 0.05f;
+
+    /** Stamina recovery rate scalar (logarithmic: RecoveryRate * ln(1 + RestDuration)). */
+    UPROPERTY(EditAnywhere, Category = "Swazi Locomotion|Stamina")
+    float StaminaRecoveryRate = 0.08f;
+
+    /** Altitude (m ASL) above which fatigue penalty begins. */
+    UPROPERTY(EditAnywhere, Category = "Swazi Locomotion|Stamina")
+    float FatigueAltitudeBaseline_m = 800.f;
+
+    /** Altitude atop which full +40% drain is reached.
+     *  At 1800m (1000m above baseline): multiplier = 1.40. */
+    UPROPERTY(EditAnywhere, Category = "Swazi Locomotion|Stamina")
+    float FatigueAltitudeScale_m = 1000.f;
+
+    /** Current player altitude in metres ASL (set by landscape query or direct assignment). */
+    UPROPERTY(BlueprintReadWrite, Category = "Swazi Locomotion|Stamina")
+    float CurrentAltitude_m = 0.f;
+
+    /** Seconds the character has been at rest (velocity ≈ 0). Used for log-recovery. */
+    UPROPERTY(BlueprintReadOnly, Category = "Swazi Locomotion|Stamina")
+    float RestDuration_s = 0.f;
+
+    // ── Delegates ────────────────────────────────────────────────────────────
+
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSlipStateChanged, bool, bSlipping);
+    /** Fired when slip state begins (true) or ends (false). */
+    UPROPERTY(BlueprintAssignable, Category = "Swazi Locomotion")
+    FOnSlipStateChanged OnSlipStateChanged;
+
     // ── Interface ─────────────────────────────────────────────────────────────
 
     /** Called by SimulationBus delegate when rain intensity changes. */
@@ -79,8 +136,9 @@ private:
     UPROPERTY()
     ACharacter* OwningCharacter = nullptr;
 
-    /** Compute the effective friction from anisotropic terrain material + wetness. */
-    float ComputeEffectiveFriction(float BaseFriction, bool bIsWet, float SlopeDot) const;
+    /** Compute anisotropic effective friction from terrain tensor, move direction, and wetness. */
+    float ComputeAnisotropicFriction(const FTerrainFrictionTensor& T, FVector MoveDir,
+                                     bool bIsWet, bool bIsMoving) const;
 
     /** Multi-trace 5-point weighted surface normal for foot IK stability. */
     FVector ComputeWeightedSurfaceNormal() const;
