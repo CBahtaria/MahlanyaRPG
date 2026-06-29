@@ -1,0 +1,94 @@
+// SwaziSkyAtmosphere.usf
+// Custom sky atmosphere shader for "Mahlanya" — Swazi historical RPG.
+//
+// Samples Hosek-Wilkie spectral LUTs baked by pipeline/atmosphere/compute_sky_luts.py.
+// Two 3D LUTs (Highveld 1700m, Lowveld 250m) are blended by player altitude.
+//
+// UVW mapping:
+//   U = SunElevation_deg / 90.0           (0=horizon, 1=zenith)
+//   V = (TurbidityParam - 1.5) / 4.5      (0=clean, 1=dusty)
+//   W = WavelengthBand / 15.0             (0=380nm, 1=720nm)
+//
+// Runtime parameters supplied by UMicroclimateSubsystem:
+//   SunElevation_deg    float  0–90
+//   TurbidityParam      float  1.5–6.0
+//   AltitudeLerp        float  0=Lowveld, 1=Highveld
+//   DustHumidityParam   float  0=clean blue, 1=amber haze
+
+#include "/Engine/Public/Platform.ush"
+
+// ── LUT textures ──────────────────────────────────────────────────────────────
+// Bound from sky_lut_highveld.exr (baked as 3D texture, 91×10×16)
+Texture3D    HighveldSkyLUT;
+SamplerState SkyLUTSampler;
+
+// Bound from sky_lut_lowveld.exr
+Texture3D    LowveldSkyLUT;
+
+// ── Runtime parameters ────────────────────────────────────────────────────────
+float SunElevation_deg;   // 0–90 (from world sun direction)
+float TurbidityParam;     // 1.5–6.0 (from UMicroclimateSubsystem)
+float AltitudeLerp;       // 0=Lowveld, 1=Highveld (player altitude / 1700m)
+float DustHumidityParam;  // 0=crisp Highveld blue, 1=dusty Lowveld amber
+int   WavelengthBand;     // 0–15 (iterated in Material graph for spectral pass)
+float MoonPhase;          // 0=new, 0.5=full (from lunar_calendar_1750_1910.json)
+
+// ── Sky radiance ──────────────────────────────────────────────────────────────
+
+// Sample the Hosek-Wilkie LUT and lerp between altitude bands.
+// Returns normalised radiance [0,1].
+float4 SampleSkyRadiance(float3 ViewDir)
+{
+    float3 UVW = saturate(float3(
+        SunElevation_deg / 90.0,
+        (TurbidityParam - 1.5) / 4.5,
+        (float)WavelengthBand / 15.0
+    ));
+
+    float4 HighveldSample = HighveldSkyLUT.Sample(SkyLUTSampler, UVW);
+    float4 LowveldSample  = LowveldSkyLUT.Sample(SkyLUTSampler, UVW);
+    float4 SkyRadiance    = lerp(LowveldSample, HighveldSample, AltitudeLerp);
+
+    // Cosine horizon darkening
+    float HorizonFactor = saturate(ViewDir.z + 0.1);
+    SkyRadiance *= pow(HorizonFactor, 0.3);
+
+    return SkyRadiance;
+}
+
+// ── Haze tint ─────────────────────────────────────────────────────────────────
+
+// DustHumidityParam drives continuous Mie↔Rayleigh transition:
+//   0 = clean Highveld (neutral white)
+//   1 = dusty Lowveld (amber haze)
+float3 ApplyDustHaze(float3 SkyColor)
+{
+    static const float3 HazeTint  = float3(1.0, 0.75, 0.4);
+    static const float3 ClearTint = float3(1.0, 1.0,  1.0);
+    return SkyColor * lerp(ClearTint, HazeTint, DustHumidityParam);
+}
+
+// ── Night sky ─────────────────────────────────────────────────────────────────
+
+// Stars rendered as instanced point-sprite meshes from starfield_26S_J1850.json.
+// This function returns a suppression factor so stars fade with sun elevation.
+float StarFieldSuppression()
+{
+    return saturate(1.0 - (SunElevation_deg / 90.0) * 12.0);
+}
+
+// Moon disc brightness from lunar phase (0=new moon, 0.5=full moon).
+float MoonBrightness()
+{
+    float PhaseAngle = abs(MoonPhase - 0.5) * 2.0;  // 0=full, 1=new
+    return saturate(1.0 - PhaseAngle * PhaseAngle);
+}
+
+// ── Main entry point (called from Material graph) ─────────────────────────────
+
+float4 SwaziSkyMain(float3 ViewDir)
+{
+    float4 Radiance = SampleSkyRadiance(ViewDir);
+    Radiance.rgb = ApplyDustHaze(Radiance.rgb);
+    return Radiance;
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BT001",
+    "name": "Battle of Lubombo",
+    "entity_type": "Battle",
+    "year": 1846,
+    "victor": "MS001",
+    "participants": ["MS001", "CL_Gaza"],
+    "location": "PL_Lubombo",
+    "description": "Swazi forces under Mswati I repelled a Mozambican Gaza incursion at the eastern escarpment"
+  },
+  {
+    "id": "BT002",
+    "name": "Repulse of Zulu Raid",
+    "entity_type": "Battle",
+    "year": 1836,
+    "victor": "SW001",
+    "participants": ["SW001", "CL_Zulu"],
+    "location": "PL_Hhohho",
+    "description": "Sobhuza I's forces repelled a major Zulu incursion into the Highveld"
+  },
+  {
+    "id": "BT003",
+    "name": "Gaza Repulsion",
+    "entity_type": "Battle",
+    "year": 1839,
+    "victor": "MS001",
+    "participants": ["MS001", "CL_Gaza"],
+    "location": "PL_Lubombo",
+    "description": "Early Mswati I campaign against the Gaza Nguni on the eastern frontier"
+  }
+]

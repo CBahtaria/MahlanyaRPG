@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ITEM_Umshiza",
+    "name": "Umshiza (Throwing Stick)",
+    "entity_type": "Item",
+    "category": "Weapon",
+    "introduced_to_region": 1600,
+    "description": "Traditional Swazi hardwood throwing stick used for hunting and combat"
+  },
+  {
+    "id": "ITEM_Ihawu",
+    "name": "Ihawu (Cowhide Shield)",
+    "entity_type": "Item",
+    "category": "Weapon",
+    "introduced_to_region": 1600,
+    "description": "Cowhide war shield; black-and-white colouring denotes regiment seniority"
+  },
+  {
+    "id": "ITEM_Assegai",
+    "name": "Assegai (Spear)",
+    "entity_type": "Item",
+    "category": "Weapon",
+    "introduced_to_region": 1600,
+    "description": "Iron-tipped stabbing and throwing spear; primary Swazi infantry weapon"
+  },
+  {
+    "id": "ITEM_Calabash",
+    "name": "Calabash",
+    "entity_type": "Item",
+    "category": "Vessel",
+    "introduced_to_region": 1600,
+    "description": "Dried gourd vessel for water and beer; ubiquitous throughout the historical period"
+  },
+  {
+    "id": "ITEM_Firearm_Flintlock",
+    "name": "Flintlock Musket",
+    "entity_type": "Item",
+    "category": "Weapon",
+    "introduced_to_region": 1820,
+    "description": "European flintlock muskets reached Swaziland via Portuguese and Boer trade routes"
+  },
+  {
+    "id": "ITEM_Firearm_Percussion",
+    "name": "Percussion Cap Rifle",
+    "entity_type": "Item",
+    "category": "Weapon",
+    "introduced_to_region": 1845,
+    "description": "Percussion rifles acquired by Swazi through cattle-and-ivory trade"
+  },
+  {
+    "id": "ITEM_Firearm_Breech",
+    "name": "Breech-Loading Rifle",
+    "entity_type": "Item",
+    "category": "Weapon",
+    "introduced_to_region": 1870,
+    "description": "Breech-loaders entered Swaziland during the concession period"
+  },
+  {
+    "id": "ITEM_Bangles_Brass",
+    "name": "Brass Bangles",
+    "entity_type": "Item",
+    "category": "Adornment",
+    "introduced_to_region": 1800,
+    "description": "Brass bangles via trade routes; status symbol during the colonial contact period"
+  },
+  {
+    "id": "ITEM_Concession_Paper",
+    "name": "Colonial Concession Document",
+    "entity_type": "Item",
+    "category": "Document",
+    "introduced_to_region": 1875,
+    "description": "Paper concession granted to European settler or mining company; appeared post-1875"
+  },
+  {
+    "id": "ITEM_Incwala_Emetic",
+    "name": "Incwala Ritual Emetic",
+    "entity_type": "Item",
+    "category": "Ritual",
+    "introduced_to_region": 1750,
+    "description": "Sacred mixture consumed during Incwala first-fruits ceremony; collected from royal waters"
+  }
+]

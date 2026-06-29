@@ -1,0 +1,174 @@
+{
+  "predator_prey_pairs": [
+    {
+      "id": "pair_lion_impala",
+      "predator": {
+        "id": "lion",
+        "name": "Lion",
+        "scientific_name": "Panthera leo",
+        "biome_zones": ["Lowveld", "Middleveld"],
+        "initial_population": 40,
+        "birth_rate_r": 0.15,
+        "death_rate_delta": 0.08,
+        "lv_alpha": 0.04,
+        "lv_beta": 0.02,
+        "range_km2": 250
+      },
+      "prey": {
+        "id": "impala",
+        "name": "Impala",
+        "scientific_name": "Aepyceros melampus",
+        "biome_zones": ["Lowveld", "Middleveld"],
+        "initial_population": 800,
+        "birth_rate_r": 0.6,
+        "lv_alpha": 0.04,
+        "carrying_capacity_k": 1200
+      }
+    },
+    {
+      "id": "pair_leopard_warthog",
+      "predator": {
+        "id": "leopard",
+        "name": "Leopard",
+        "scientific_name": "Panthera pardus",
+        "biome_zones": ["Highveld", "Middleveld", "Lowveld"],
+        "initial_population": 60,
+        "birth_rate_r": 0.12,
+        "death_rate_delta": 0.06,
+        "lv_alpha": 0.035,
+        "lv_beta": 0.018,
+        "range_km2": 180
+      },
+      "prey": {
+        "id": "warthog",
+        "name": "Common Warthog",
+        "scientific_name": "Phacochoerus africanus",
+        "biome_zones": ["Middleveld", "Lowveld"],
+        "initial_population": 600,
+        "birth_rate_r": 0.5,
+        "lv_alpha": 0.035,
+        "carrying_capacity_k": 900
+      }
+    },
+    {
+      "id": "pair_crocodile_fish",
+      "predator": {
+        "id": "nile_crocodile",
+        "name": "Nile Crocodile",
+        "scientific_name": "Crocodylus niloticus",
+        "biome_zones": ["Riparian"],
+        "initial_population": 120,
+        "birth_rate_r": 0.08,
+        "death_rate_delta": 0.04,
+        "lv_alpha": 0.06,
+        "lv_beta": 0.012,
+        "range_km2": 20
+      },
+      "prey": {
+        "id": "tilapia",
+        "name": "Mozambique Tilapia",
+        "scientific_name": "Oreochromis mossambicus",
+        "biome_zones": ["Riparian"],
+        "initial_population": 5000,
+        "birth_rate_r": 1.2,
+        "lv_alpha": 0.06,
+        "carrying_capacity_k": 8000
+      }
+    },
+    {
+      "id": "pair_wilddog_zebra",
+      "predator": {
+        "id": "african_wild_dog",
+        "name": "African Wild Dog",
+        "scientific_name": "Lycaon pictus",
+        "biome_zones": ["Lowveld"],
+        "initial_population": 25,
+        "birth_rate_r": 0.18,
+        "death_rate_delta": 0.10,
+        "lv_alpha": 0.05,
+        "lv_beta": 0.025,
+        "range_km2": 400
+      },
+      "prey": {
+        "id": "plains_zebra",
+        "name": "Plains Zebra",
+        "scientific_name": "Equus quagga",
+        "biome_zones": ["Lowveld", "Middleveld"],
+        "initial_population": 400,
+        "birth_rate_r": 0.35,
+        "lv_alpha": 0.05,
+        "carrying_capacity_k": 700
+      }
+    },
+    {
+      "id": "pair_python_mammals",
+      "predator": {
+        "id": "african_rock_python",
+        "name": "African Rock Python",
+        "scientific_name": "Python sebae",
+        "biome_zones": ["Riparian", "Lowveld"],
+        "initial_population": 200,
+        "birth_rate_r": 0.10,
+        "death_rate_delta": 0.05,
+        "lv_alpha": 0.08,
+        "lv_beta": 0.015,
+        "range_km2": 5
+      },
+      "prey": {
+        "id": "small_mammals",
+        "name": "Small Mammals (aggregate)",
+        "scientific_name": null,
+        "biome_zones": ["Highveld", "Middleveld", "Lowveld", "Riparian"],
+        "initial_population": 10000,
+        "birth_rate_r": 2.0,
+        "lv_alpha": 0.08,
+        "carrying_capacity_k": 15000
+      }
+    },
+    {
+      "id": "pair_mamba_rodents",
+      "predator": {
+        "id": "black_mamba",
+        "name": "Black Mamba",
+        "scientific_name": "Dendroaspis polylepis",
+        "biome_zones": ["Lowveld", "Middleveld"],
+        "initial_population": 500,
+        "birth_rate_r": 0.14,
+        "death_rate_delta": 0.06,
+        "lv_alpha": 0.10,
+        "lv_beta": 0.010,
+        "range_km2": 2
+      },
+      "prey": {
+        "id": "rodents",
+        "name": "Rodents (aggregate)",
+        "scientific_name": null,
+        "biome_zones": ["Highveld", "Middleveld", "Lowveld"],
+        "initial_population": 20000,
+        "birth_rate_r": 3.0,
+        "lv_alpha": 0.10,
+        "carrying_capacity_k": 30000
+      }
+    }
+  ],
+  "migratory_species": [
+    {
+      "id": "african_elephant",
+      "name": "African Savanna Elephant",
+      "scientific_name": "Loxodonta africana",
+      "migration_follows": "water_source_graph",
+      "dry_season_behaviour": "congregates_at_rivers",
+      "initial_population": 150,
+      "biome_zones": ["Lowveld"]
+    },
+    {
+      "id": "blue_wildebeest",
+      "name": "Blue Wildebeest",
+      "scientific_name": "Connochaetes taurinus",
+      "migration_follows": "biome_zone_boundaries",
+      "dry_season_behaviour": "moves_to_lowveld",
+      "initial_population": 300,
+      "biome_zones": ["Lowveld", "Middleveld"]
+    }
+  ]
+}

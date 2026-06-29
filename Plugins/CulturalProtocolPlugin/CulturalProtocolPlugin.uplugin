@@ -1,0 +1,7 @@
+{
+    "FileVersion": 3, "Version": 1, "VersionName": "1.0",
+    "FriendlyName": "CulturalProtocolPlugin",
+    "Description": "siSwati language morphology and Swazi cultural protocol state machine.",
+    "Category": "Mahlanya", "CreatedBy": "cbartaria1",
+    "Modules": [{"Name": "CulturalProtocolPlugin", "Type": "Runtime", "LoadingPhase": "Default"}]
+}

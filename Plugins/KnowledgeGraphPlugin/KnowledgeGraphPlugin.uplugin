@@ -1,0 +1,16 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "1.0",
+    "FriendlyName": "KnowledgeGraphPlugin",
+    "Description": "Swazi historical knowledge graph for NPC dialogue and event validation.",
+    "Category": "Mahlanya",
+    "CreatedBy": "cbartaria1",
+    "Modules": [
+        {
+            "Name": "KnowledgeGraphPlugin",
+            "Type": "Runtime",
+            "LoadingPhase": "Default"
+        }
+    ]
+}

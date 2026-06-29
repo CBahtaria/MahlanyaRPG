@@ -1,0 +1,74 @@
+[
+  {
+    "id": "PL_Zombodze",
+    "name": "Zombodze",
+    "entity_type": "Place",
+    "place_type": "Royal Kraal",
+    "coords_utm": [352000, 2992000],
+    "era_active": [1750, 1820],
+    "description": "Original royal capital under Ngwane III"
+  },
+  {
+    "id": "PL_Lobamba",
+    "name": "Lobamba",
+    "entity_type": "Place",
+    "place_type": "Royal Kraal",
+    "coords_utm": [348200, 2980400],
+    "era_active": [1820, 1906],
+    "description": "Royal capital established by Sobhuza I; ceremonial centre of the kingdom"
+  },
+  {
+    "id": "PL_Nyonyane",
+    "name": "Nyonyane (Execution Rock)",
+    "entity_type": "Place",
+    "place_type": "Landmark",
+    "coords_utm": [320000, 2995000],
+    "era_active": [1750, 1906],
+    "description": "Sacred execution site; traditional judgement place of the Swazi kings"
+  },
+  {
+    "id": "PL_Lubombo",
+    "name": "Lubombo Mountains",
+    "entity_type": "Place",
+    "place_type": "Geographic Feature",
+    "coords_utm": [410000, 2980000],
+    "era_active": [1750, 1906],
+    "description": "Eastern rhyolite plateau; site of 1846 battle; natural eastern border of Eswatini"
+  },
+  {
+    "id": "PL_Hhohho",
+    "name": "Hhohho",
+    "entity_type": "Place",
+    "place_type": "Region",
+    "coords_utm": [323000, 3010000],
+    "era_active": [1750, 1906],
+    "description": "Northern Highveld region; traditional Swazi heartland"
+  },
+  {
+    "id": "PL_Manzini",
+    "name": "Manzini",
+    "entity_type": "Place",
+    "place_type": "Settlement",
+    "coords_utm": [353000, 2975000],
+    "era_active": [1880, 1906],
+    "description": "Colonial administrative centre in the Middleveld; previously called Bremersdorp"
+  },
+  {
+    "id": "PL_UsuthuRiver",
+    "name": "Great Usuthu River",
+    "entity_type": "Place",
+    "place_type": "Geographic Feature",
+    "coords_utm": [360000, 2970000],
+    "era_active": [1750, 1906],
+    "description": "Main river draining Swaziland southward; spiritual significance; site of royal ceremonies"
+  },
+  {
+    "id": "PL_Mdzimba",
+    "name": "Mdzimba Mountain",
+    "entity_type": "Place",
+    "place_type": "Landmark",
+    "coords_utm": [339000, 2983000],
+    "era_active": [1750, 1906],
+    "description": "Sacred mountain north of Lobamba; ancestral shrine of the royal family"
+  }
+]

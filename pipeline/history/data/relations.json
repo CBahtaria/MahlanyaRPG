@@ -1,0 +1,22 @@
+[
+  { "from": "SW001", "rel": "succeeded",    "to": "NB001" },
+  { "from": "MS001", "rel": "succeeded",    "to": "SW001" },
+  { "from": "LW001", "rel": "succeeded",    "to": "MS001" },
+  { "from": "MB001", "rel": "succeeded",    "to": "LW001" },
+  { "from": "BH001", "rel": "succeeded",    "to": "MB001" },
+  { "from": "TW001", "rel": "regent_for",   "to": "BH001" },
+  { "from": "SW001", "rel": "fought_at",    "to": "BT002" },
+  { "from": "MS001", "rel": "fought_at",    "to": "BT001" },
+  { "from": "MS001", "rel": "fought_at",    "to": "BT003" },
+  { "from": "BT001", "rel": "happened_at",  "to": "PL_Lubombo" },
+  { "from": "BT002", "rel": "happened_at",  "to": "PL_Hhohho" },
+  { "from": "BT003", "rel": "happened_at",  "to": "PL_Lubombo" },
+  { "from": "EV001", "rel": "pressured",    "to": "SW001" },
+  { "from": "EV002", "rel": "pressured",    "to": "MB001" },
+  { "from": "EV003", "rel": "involved",     "to": "BH001" },
+  { "from": "EV004", "rel": "affected",     "to": "TW001" },
+  { "from": "NB001", "rel": "founded",      "to": "PL_Zombodze" },
+  { "from": "SW001", "rel": "established",  "to": "PL_Lobamba" },
+  { "from": "ML001", "rel": "served_under", "to": "BH001" },
+  { "from": "ML001", "rel": "served_under", "to": "TW001" }
+]

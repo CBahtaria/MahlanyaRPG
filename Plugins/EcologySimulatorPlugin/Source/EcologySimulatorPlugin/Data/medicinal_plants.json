@@ -1,0 +1,367 @@
+[
+  {
+    "id": "MP001", "name": "Umhlonyane", "scientific_name": "Artemisia afra",
+    "siswati_name": "Umhlonyane",
+    "uses": ["Fever", "Cough", "Chest ailments"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 800, "altitude_max_m": 1800,
+    "seasons_available": ["Winter", "Spring"],
+    "preparation": "Boil leaves; inhale steam"
+  },
+  {
+    "id": "MP002", "name": "Wild Dagga", "scientific_name": "Leonotis leonurus",
+    "siswati_name": "Ikhiwane lelikhulu",
+    "uses": ["Headache", "High blood pressure", "Snake bite"],
+    "biome_zones": ["Middleveld", "Highveld"],
+    "altitude_min_m": 600, "altitude_max_m": 1600,
+    "seasons_available": ["Summer", "Autumn"],
+    "preparation": "Infuse leaves in water"
+  },
+  {
+    "id": "MP003", "name": "Sicklebush", "scientific_name": "Dichrostachys cinerea",
+    "siswati_name": "Inhlangayipheli",
+    "uses": ["Toothache", "Wound healing"],
+    "biome_zones": ["Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 500,
+    "seasons_available": ["All"],
+    "preparation": "Bark decoction as mouthwash"
+  },
+  {
+    "id": "MP004", "name": "Fever Berry", "scientific_name": "Croton gratissimus",
+    "siswati_name": "Umganu",
+    "uses": ["Malaria", "Fever", "Stomach pain"],
+    "biome_zones": ["Lowveld", "Riparian"],
+    "altitude_min_m": 100, "altitude_max_m": 600,
+    "seasons_available": ["All"],
+    "preparation": "Root bark decoction"
+  },
+  {
+    "id": "MP005", "name": "Buffalo Thorn", "scientific_name": "Ziziphus mucronata",
+    "siswati_name": "Umlahlankosi",
+    "uses": ["Spiritual cleansing", "Ancestors", "Skin conditions"],
+    "biome_zones": ["Middleveld", "Lowveld"],
+    "altitude_min_m": 300, "altitude_max_m": 1000,
+    "seasons_available": ["All"],
+    "preparation": "Bark and root ritual infusion",
+    "spiritual_significance": "Used in burial rites; connects living to ancestors"
+  },
+  {
+    "id": "MP006", "name": "African Wormwood", "scientific_name": "Artemisia absinthium",
+    "siswati_name": "Umhlonyane omhlophe",
+    "uses": ["Intestinal worms", "Digestive disorders"],
+    "biome_zones": ["Highveld"],
+    "altitude_min_m": 1200, "altitude_max_m": 1800,
+    "seasons_available": ["Spring", "Summer"],
+    "preparation": "Leaf infusion"
+  },
+  {
+    "id": "MP007", "name": "Marula", "scientific_name": "Sclerocarya birrea",
+    "siswati_name": "Umganu",
+    "uses": ["Nutrition", "Dysentery", "Skin moisturiser"],
+    "biome_zones": ["Lowveld", "Middleveld"],
+    "altitude_min_m": 100, "altitude_max_m": 800,
+    "seasons_available": ["Summer"],
+    "preparation": "Fruit eaten fresh; oil pressed from kernels"
+  },
+  {
+    "id": "MP008", "name": "Sycamore Fig", "scientific_name": "Ficus sycomorus",
+    "siswati_name": "Umkhiwa",
+    "uses": ["Respiratory ailments", "Skin disease"],
+    "biome_zones": ["Riparian"],
+    "altitude_min_m": 100, "altitude_max_m": 700,
+    "seasons_available": ["All"],
+    "preparation": "Bark latex applied to wounds"
+  },
+  {
+    "id": "MP009", "name": "Bushwillow", "scientific_name": "Combretum molle",
+    "siswati_name": "Umdubu",
+    "uses": ["Malaria", "Bilharzia", "Oral hygiene"],
+    "biome_zones": ["Middleveld", "Lowveld"],
+    "altitude_min_m": 300, "altitude_max_m": 1000,
+    "seasons_available": ["All"],
+    "preparation": "Root decoction"
+  },
+  {
+    "id": "MP010", "name": "Wild Plum", "scientific_name": "Harpephyllum caffrum",
+    "siswati_name": "Umgwenya",
+    "uses": ["Skin rashes", "Acne", "Blood purification"],
+    "biome_zones": ["Highveld ravines", "Middleveld"],
+    "altitude_min_m": 600, "altitude_max_m": 1400,
+    "seasons_available": ["Autumn", "Winter"],
+    "preparation": "Bark decoction for bathing"
+  },
+  {
+    "id": "MP011", "name": "Aloe", "scientific_name": "Aloe ferox",
+    "siswati_name": "Inhlaba",
+    "uses": ["Burns", "Skin healing", "Constipation", "Eye infections"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 500, "altitude_max_m": 1800,
+    "seasons_available": ["All"],
+    "preparation": "Gel applied directly; sap boiled as laxative"
+  },
+  {
+    "id": "MP012", "name": "Cape Aloe", "scientific_name": "Aloe arborescens",
+    "siswati_name": "Ligwalagwala",
+    "uses": ["Cancer treatment (traditional)", "Wounds", "Burns"],
+    "biome_zones": ["Highveld"],
+    "altitude_min_m": 1000, "altitude_max_m": 1800,
+    "seasons_available": ["Winter"],
+    "preparation": "Whole leaf decoction"
+  },
+  {
+    "id": "MP013", "name": "Fever Tree", "scientific_name": "Vachellia xanthophloea",
+    "siswati_name": "Umkhanyakude",
+    "uses": ["Malaria", "Eye wash", "Fever"],
+    "biome_zones": ["Riparian", "Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 400,
+    "seasons_available": ["All"],
+    "preparation": "Bark decoction; bark ash for eye treatment"
+  },
+  {
+    "id": "MP014", "name": "Tamboti", "scientific_name": "Spirostachys africana",
+    "siswati_name": "Umtomboti",
+    "uses": ["Laxative", "Skin parasites"],
+    "biome_zones": ["Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 500,
+    "seasons_available": ["All"],
+    "preparation": "CAUTION: toxic in large doses; bark powder only",
+    "toxicity": "High — Inyanga use only"
+  },
+  {
+    "id": "MP015", "name": "Morula",
+    "scientific_name": "Sclerocarya birrea subsp. caffra",
+    "siswati_name": "Liphahla",
+    "uses": ["Nutrition", "Vitamin C", "Fermentation (umqomboti)"],
+    "biome_zones": ["Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 600,
+    "seasons_available": ["Summer"],
+    "preparation": "Fruit fermented for traditional beer"
+  },
+  {
+    "id": "MP016", "name": "Rooibos Grass", "scientific_name": "Thatcheria grass spp.",
+    "siswati_name": "Inhlanga",
+    "uses": ["Thatching material", "Ritual use in Incwala"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 600, "altitude_max_m": 1800,
+    "seasons_available": ["Winter"],
+    "preparation": "Harvested dry; cut and bundled for Umhlanga ceremony"
+  },
+  {
+    "id": "MP017", "name": "Rooiwortel", "scientific_name": "Elephantorrhiza elephantina",
+    "siswati_name": "Imfino yenkhosi",
+    "uses": ["Diarrhoea", "Dysentery", "Haemorrhoids"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 700, "altitude_max_m": 1700,
+    "seasons_available": ["All"],
+    "preparation": "Root decoction"
+  },
+  {
+    "id": "MP018", "name": "Sour Plum", "scientific_name": "Ximenia caffra",
+    "siswati_name": "Umthunduluka",
+    "uses": ["Sore throat", "Oral infections", "Skin softening"],
+    "biome_zones": ["Middleveld", "Lowveld"],
+    "altitude_min_m": 200, "altitude_max_m": 900,
+    "seasons_available": ["Summer", "Autumn"],
+    "preparation": "Fruit eaten; leaves boiled for gargle"
+  },
+  {
+    "id": "MP019", "name": "Wild Coffee", "scientific_name": "Psydrax obovata",
+    "siswati_name": "Umdoni",
+    "uses": ["Wound healing", "Anti-inflammatory"],
+    "biome_zones": ["Highveld ravines", "Middleveld"],
+    "altitude_min_m": 700, "altitude_max_m": 1600,
+    "seasons_available": ["All"],
+    "preparation": "Bark decoction for wound washing"
+  },
+  {
+    "id": "MP020", "name": "Large-leaved Rock Fig", "scientific_name": "Ficus abutilifolia",
+    "siswati_name": "Umkhiwane",
+    "uses": ["Lactation stimulant", "Infant nutrition"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 800, "altitude_max_m": 1600,
+    "seasons_available": ["All"],
+    "preparation": "Bark latex in water for nursing mothers"
+  },
+  {
+    "id": "MP021", "name": "Pepper-bark Tree", "scientific_name": "Warburgia salutaris",
+    "siswati_name": "Isibhaha",
+    "uses": ["Colds", "Flu", "Chest infections", "Rheumatism"],
+    "biome_zones": ["Middleveld"],
+    "altitude_min_m": 500, "altitude_max_m": 1000,
+    "seasons_available": ["All"],
+    "preparation": "Bark chewed or decocted",
+    "conservation": "Threatened — overharvested"
+  },
+  {
+    "id": "MP022", "name": "Wild Garlic", "scientific_name": "Tulbaghia violacea",
+    "siswati_name": "Igulube",
+    "uses": ["High blood pressure", "Chest ailments", "Tuberculosis"],
+    "biome_zones": ["Highveld"],
+    "altitude_min_m": 1000, "altitude_max_m": 1800,
+    "seasons_available": ["Spring", "Summer"],
+    "preparation": "Bulb decoction"
+  },
+  {
+    "id": "MP023", "name": "Bitter Apple", "scientific_name": "Citrullus lanatus var. citroides",
+    "siswati_name": "Imbongane",
+    "uses": ["Skin infections", "Burns", "Constipation"],
+    "biome_zones": ["Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 500,
+    "seasons_available": ["Summer"],
+    "preparation": "Pulp applied to skin; seeds boiled as purgative"
+  },
+  {
+    "id": "MP024", "name": "Magic Guarri", "scientific_name": "Euclea divinorum",
+    "siswati_name": "Umqokolo",
+    "uses": ["Toothbrush twigs", "Spiritual protection"],
+    "biome_zones": ["Lowveld", "Middleveld"],
+    "altitude_min_m": 200, "altitude_max_m": 900,
+    "seasons_available": ["All"],
+    "preparation": "Twigs used as chew-sticks; roots for spirit protection"
+  },
+  {
+    "id": "MP025", "name": "African Potato", "scientific_name": "Hypoxis hemerocallidea",
+    "siswati_name": "Inkomfe",
+    "uses": ["Immune system", "Urinary infections", "Prostate problems"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 700, "altitude_max_m": 1700,
+    "seasons_available": ["All"],
+    "preparation": "Corm boiled or eaten raw"
+  },
+  {
+    "id": "MP026", "name": "Red Milkwood", "scientific_name": "Mimusops obovata",
+    "siswati_name": "Umdoni",
+    "uses": ["Diarrhoea", "Heartburn"],
+    "biome_zones": ["Middleveld", "Highveld ravines"],
+    "altitude_min_m": 600, "altitude_max_m": 1400,
+    "seasons_available": ["All"],
+    "preparation": "Bark decoction"
+  },
+  {
+    "id": "MP027", "name": "Sagebrush", "scientific_name": "Tarchonanthus camphoratus",
+    "siswati_name": "Umhlabahlungulu",
+    "uses": ["Headache", "Rheumatism", "Ritual smoke"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 800, "altitude_max_m": 1700,
+    "seasons_available": ["All"],
+    "preparation": "Leaves burned as aromatic smoke or infused"
+  },
+  {
+    "id": "MP028", "name": "Wild Mint", "scientific_name": "Mentha longifolia",
+    "siswati_name": "Inzinziniba",
+    "uses": ["Stomach cramps", "Nausea", "Headache"],
+    "biome_zones": ["Riparian", "Highveld"],
+    "altitude_min_m": 600, "altitude_max_m": 1800,
+    "seasons_available": ["Spring", "Summer", "Autumn"],
+    "preparation": "Leaf infusion as tea"
+  },
+  {
+    "id": "MP029", "name": "Herbal Tobacco", "scientific_name": "Nicotiana glauca",
+    "siswati_name": "Ugwayi",
+    "uses": ["Ceremonial use", "Pain relief (topical)"],
+    "biome_zones": ["Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 500,
+    "seasons_available": ["All"],
+    "preparation": "Leaves dried and smoked ceremonially",
+    "introduced_to_region": 1800
+  },
+  {
+    "id": "MP030", "name": "Umzimane", "scientific_name": "Syzygium cordatum",
+    "siswati_name": "Umzimane",
+    "uses": ["Diarrhoea", "Stomach pains", "Fever"],
+    "biome_zones": ["Riparian", "Middleveld"],
+    "altitude_min_m": 300, "altitude_max_m": 1000,
+    "seasons_available": ["All"],
+    "preparation": "Bark boiled; fruit eaten"
+  },
+  {
+    "id": "MP031", "name": "Red Bushwillow", "scientific_name": "Combretum apiculatum",
+    "siswati_name": "Umhlahlane",
+    "uses": ["Chest diseases", "Malaria"],
+    "biome_zones": ["Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 600,
+    "seasons_available": ["All"],
+    "preparation": "Root bark decoction"
+  },
+  {
+    "id": "MP032", "name": "Wild Ginger", "scientific_name": "Siphonochilus aethiopicus",
+    "siswati_name": "Indungulo",
+    "uses": ["Headache", "Colds", "Malaria"],
+    "biome_zones": ["Middleveld", "Lowveld"],
+    "altitude_min_m": 200, "altitude_max_m": 900,
+    "seasons_available": ["Spring", "Summer"],
+    "preparation": "Rhizome chewed or decocted"
+  },
+  {
+    "id": "MP033", "name": "Climbing Aloe", "scientific_name": "Aloiampelos ciliaris",
+    "siswati_name": "Lihlokohloko",
+    "uses": ["Eye infections", "Ear pain"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 700, "altitude_max_m": 1700,
+    "seasons_available": ["All"],
+    "preparation": "Leaf gel applied to eyes; leaf heated for ear drops"
+  },
+  {
+    "id": "MP034", "name": "Natal Mahogany", "scientific_name": "Trichilia emetica",
+    "siswati_name": "Umahlala",
+    "uses": ["Skin moisturiser", "Joint pain", "Cosmetic"],
+    "biome_zones": ["Riparian", "Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 500,
+    "seasons_available": ["All"],
+    "preparation": "Seed oil extracted and applied"
+  },
+  {
+    "id": "MP035", "name": "Cat's Claw", "scientific_name": "Acacia robusta",
+    "siswati_name": "Umnga",
+    "uses": ["Chest pain", "Kidney complaints"],
+    "biome_zones": ["Lowveld", "Middleveld"],
+    "altitude_min_m": 200, "altitude_max_m": 900,
+    "seasons_available": ["All"],
+    "preparation": "Bark decoction"
+  },
+  {
+    "id": "MP036", "name": "Large-fruited Bushwillow", "scientific_name": "Combretum zeyheri",
+    "siswati_name": "Umdubu",
+    "uses": ["Cough", "Bilharzia", "Worms"],
+    "biome_zones": ["Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 500,
+    "seasons_available": ["All"],
+    "preparation": "Root decoction"
+  },
+  {
+    "id": "MP037", "name": "Weeping Boer-bean", "scientific_name": "Schotia brachypetala",
+    "siswati_name": "Imfece",
+    "uses": ["Insomnia", "Calming effect"],
+    "biome_zones": ["Lowveld"],
+    "altitude_min_m": 100, "altitude_max_m": 600,
+    "seasons_available": ["All"],
+    "preparation": "Seeds roasted and eaten"
+  },
+  {
+    "id": "MP038", "name": "Cabbage Tree", "scientific_name": "Cussonia spicata",
+    "siswati_name": "Umgama",
+    "uses": ["Malaria", "Rheumatism", "Venereal diseases"],
+    "biome_zones": ["Highveld", "Middleveld"],
+    "altitude_min_m": 600, "altitude_max_m": 1800,
+    "seasons_available": ["All"],
+    "preparation": "Root bark decoction"
+  },
+  {
+    "id": "MP039", "name": "Rock Cabbage Tree", "scientific_name": "Cussonia transvaalensis",
+    "siswati_name": "Umgama welidvwala",
+    "uses": ["Fever reducer", "Anti-inflammatory"],
+    "biome_zones": ["Highveld"],
+    "altitude_min_m": 1000, "altitude_max_m": 1800,
+    "seasons_available": ["All"],
+    "preparation": "Root decoction"
+  },
+  {
+    "id": "MP040", "name": "Broad-leaved Sugarbush", "scientific_name": "Protea caffra",
+    "siswati_name": "Isigaba",
+    "uses": ["Ritual importance", "Fire-making", "Charcoal"],
+    "biome_zones": ["Highveld"],
+    "altitude_min_m": 1200, "altitude_max_m": 1800,
+    "seasons_available": ["All"],
+    "preparation": "Flowers collect nectar; wood used ceremonially"
+  }
+]

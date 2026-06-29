@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mahlanyarpg.dev/schema/fauna_species_schema.json",
+  "title": "Mahlanya Fauna Species",
+  "description": "Schema for fauna species data used by the bioacoustic and ecology simulation pipelines. Extends the pipeline/history/data/ pattern (array-of-objects JSON with string IDs as foreign keys). Each species entry feeds into the Lotka-Volterra predator-prey ODE system and the biome distribution sampler in pipeline/audio/build_bioacoustic_library.py.",
+  "type": "object",
+  "required": ["species"],
+  "additionalProperties": false,
+  "properties": {
+    "species": {
+      "type": "array",
+      "description": "Catalogue of all simulated fauna species. Order is not significant; the simulation resolves predator/prey relationships by ID lookup.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/species_entry"
+      }
+    }
+  },
+  "definitions": {
+    "biome_zone": {
+      "type": "string",
+      "description": "Eswatini biome zone identifier. highveld: 1200–1800 m granite plateau. middleveld: 600–1200 m mixed bushveld. lowveld: 150–600 m savanna/thornveld. riparian: river corridors regardless of altitude.",
+      "enum": ["highveld", "middleveld", "lowveld", "riparian"]
+    },
+    "active_period": {
+      "type": "string",
+      "description": "Coarse time-of-day activity window used by the audio and NPC spawning systems.",
+      "enum": ["dawn", "day", "dusk", "night"]
+    },
+    "lotka_volterra_params": {
+      "type": "object",
+      "title": "Lotka-Volterra Parameters",
+      "description": "Per-species coefficients for the Lotka-Volterra predator-prey ordinary differential equations. These values are consumed by pipeline/audio/build_bioacoustic_library.py to model population dynamics that affect ambient soundscape density.",
+      "required": ["r", "alpha"],
+      "additionalProperties": false,
+      "properties": {
+        "r": {
+          "type": "number",
+          "description": "Intrinsic growth rate (prey species) or intrinsic death rate (predator species) in the absence of the other. Units: per in-game month. Positive for prey, negative for predators that cannot sustain themselves without food.",
+          "examples": [0.4, -0.1, 1.2]
+        },
+        "alpha": {
+          "type": "number",
+          "description": "Predation (interaction) coefficient. For a prey species: rate at which predator encounters reduce prey population per predator-prey pair. For a predator: rate at which prey encounters increase predator population per predator-prey pair. Units: per (individual * month).",
+          "minimum": 0.0,
+          "examples": [0.01, 0.005, 0.002]
+        }
+      }
+    },
+    "species_entry": {
+      "type": "object",
+      "title": "Fauna Species",
+      "description": "Complete ecological description of one fauna species. Foreign-key references to other species IDs must resolve within the same data file.",
+      "required": [
+        "id",
+        "common_name",
+        "scientific_name",
+        "biome_zones",
+        "altitude_min_m",
+        "altitude_max_m",
+        "active_hours",
+        "prey",
+        "predators",
+        "lotka_volterra"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique species identifier used as a foreign key in prey/predators arrays and audio asset manifests. Convention: SPECIES_<CommonName> in snake_case.",
+          "pattern": "^SPECIES_[A-Za-z0-9_]+$",
+          "examples": [
+            "SPECIES_African_Lion",
+            "SPECIES_Impala",
+            "SPECIES_African_Fish_Eagle"
+          ]
+        },
+        "common_name": {
+          "type": "string",
+          "description": "Human-readable common name displayed in the in-game field guide.",
+          "minLength": 1,
+          "examples": ["African Lion", "Impala", "African Fish Eagle"]
+        },
+        "scientific_name": {
+          "type": "string",
+          "description": "Binomial nomenclature used for ecological validation and academic sourcing.",
+          "minLength": 3,
+          "examples": ["Panthera leo", "Aepyceros melampus", "Haliaeetus vocifer"]
+        },
+        "biome_zones": {
+          "type": "array",
+          "description": "Biome zones where this species is found. The spawn sampler will only place the species in tiles whose biome_zone attribute matches one of these values.",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/biome_zone"
+          }
+        },
+        "altitude_min_m": {
+          "type": "integer",
+          "description": "Minimum altitude (metres above sea level) at which the species is found. Used to clip biome_zones placement to topographically valid tiles.",
+          "minimum": 0
+        },
+        "altitude_max_m": {
+          "type": "integer",
+          "description": "Maximum altitude (metres above sea level) at which the species is found.",
+          "minimum": 0
+        },
+        "active_hours": {
+          "type": "array",
+          "description": "Time-of-day windows during which this species is active. Drives audio layer scheduling and NPC visibility.",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/active_period"
+          }
+        },
+        "prey": {
+          "type": "array",
+          "description": "Species IDs that this species hunts. Empty array for herbivores and detritivores. Values must resolve to IDs present in the same species array.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^SPECIES_[A-Za-z0-9_]+$"
+          }
+        },
+        "predators": {
+          "type": "array",
+          "description": "Species IDs that hunt this species. Empty array for apex predators. Values must resolve to IDs present in the same species array.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^SPECIES_[A-Za-z0-9_]+$"
+          }
+        },
+        "lotka_volterra": {
+          "$ref": "#/definitions/lotka_volterra_params"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "species": [
+        {
+          "id": "SPECIES_Impala",
+          "common_name": "Impala",
+          "scientific_name": "Aepyceros melampus",
+          "biome_zones": ["middleveld", "lowveld", "riparian"],
+          "altitude_min_m": 150,
+          "altitude_max_m": 1400,
+          "active_hours": ["dawn", "day", "dusk"],
+          "prey": [],
+          "predators": ["SPECIES_African_Lion", "SPECIES_Leopard", "SPECIES_Cheetah"],
+          "lotka_volterra": {
+            "r": 0.6,
+            "alpha": 0.012
+          }
+        },
+        {
+          "id": "SPECIES_African_Lion",
+          "common_name": "African Lion",
+          "scientific_name": "Panthera leo",
+          "biome_zones": ["lowveld", "middleveld"],
+          "altitude_min_m": 150,
+          "altitude_max_m": 1000,
+          "active_hours": ["dusk", "night", "dawn"],
+          "prey": ["SPECIES_Impala", "SPECIES_Blue_Wildebeest", "SPECIES_Plains_Zebra"],
+          "predators": [],
+          "lotka_volterra": {
+            "r": -0.08,
+            "alpha": 0.003
+          }
+        }
+      ]
+    }
+  ]
+}

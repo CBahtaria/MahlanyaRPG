@@ -1,0 +1,25 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "1.0",
+    "FriendlyName": "Mahlanya Pipeline Plugin",
+    "Description": "Editor-only commandlets wrapping Zig SIMD compute kernels for terrain, rivers, settlements, and UE5 Landscape export.",
+    "Category": "Mahlanya",
+    "CreatedBy": "Charles Bartaria",
+    "CreatedByURL": "",
+    "DocsURL": "",
+    "MarketplaceURL": "",
+    "SupportURL": "",
+    "CanContainContent": false,
+    "IsBetaVersion": false,
+    "IsExperimentalVersion": false,
+    "Installed": false,
+    "EnabledByDefault": false,
+    "Modules": [
+        {
+            "Name": "MahlanyaPipelinePlugin",
+            "Type": "Editor",
+            "LoadingPhase": "Default"
+        }
+    ]
+}

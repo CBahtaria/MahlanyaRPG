@@ -1,0 +1,112 @@
+[
+  {
+    "id": "PROT_GreetElder",
+    "display_name": "Greeting an Elder",
+    "description": "Crouch slightly, clap hands twice, say 'Sawubona'",
+    "trigger_condition": "encounter_elder",
+    "required_gestures": ["crouch", "clap_twice"],
+    "required_words": ["Sawubona"],
+    "relationship_impact": 0.08,
+    "status": "Required",
+    "fail_consequence": "Elder shows displeasure; -0.08 relationship"
+  },
+  {
+    "id": "PROT_AddressInkosi",
+    "display_name": "Addressing the Inkosi (Chief)",
+    "description": "Remove headgear, use indirect speech ('The Chief may consider...'), never gesture directly at the Inkosi",
+    "trigger_condition": "encounter_inkosi",
+    "required_gestures": ["remove_headgear", "lower_gaze"],
+    "required_words": ["Nkhosi"],
+    "relationship_impact": 0.15,
+    "status": "Required",
+    "fail_consequence": "Grave insult to royalty; -0.40 relationship; possible banishment"
+  },
+  {
+    "id": "PROT_InhloniphhoLaw",
+    "display_name": "Inhlonipho (Avoidance Vocabulary)",
+    "description": "Near in-laws, substitute taboo root words with clan-specific alternates. Father-in-law's name root is avoided entirely.",
+    "trigger_condition": "encounter_inlaw",
+    "required_gestures": [],
+    "required_words": [],
+    "relationship_impact": 0.05,
+    "status": "Required",
+    "fail_consequence": "Social shame; -0.10 relationship with entire in-law clan"
+  },
+  {
+    "id": "PROT_GreetMale_Peer",
+    "display_name": "Greeting a Male Peer",
+    "description": "Right-hand clasp, then clasp with thumb raised, then plain clasp again (three-stage handshake)",
+    "trigger_condition": "encounter_male_peer",
+    "required_gestures": ["three_stage_handshake"],
+    "required_words": ["Sawubona", "Yebo"],
+    "relationship_impact": 0.03,
+    "status": "Optional",
+    "fail_consequence": "Minor awkwardness; -0.01 relationship"
+  },
+  {
+    "id": "PROT_GreetFemale_Peer",
+    "display_name": "Greeting a Female Peer",
+    "description": "Brief incline of head, 'Sawubona'; physical contact inappropriate unless family",
+    "trigger_condition": "encounter_female_peer",
+    "required_gestures": ["head_nod"],
+    "required_words": ["Sawubona"],
+    "relationship_impact": 0.02,
+    "status": "Optional",
+    "fail_consequence": "Social impropriety if physical contact made; -0.05 relationship"
+  },
+  {
+    "id": "PROT_EntryToHomestead",
+    "display_name": "Entering a Homestead (Umuti)",
+    "description": "Announce arrival at the gate; wait to be invited; do not enter Sibaya unbidden",
+    "trigger_condition": "approach_umuti_gate",
+    "required_gestures": ["wait_at_gate", "call_out"],
+    "required_words": ["Ema!", "Ngicela ngingene"],
+    "relationship_impact": 0.04,
+    "status": "Required",
+    "fail_consequence": "Treated as hostile intruder; -0.20 relationship; potential combat"
+  },
+  {
+    "id": "PROT_RequestAudience",
+    "display_name": "Requesting Audience with Indvuna",
+    "description": "Send a child ahead to announce. Bring a small gift (tobacco, snuff, or beer). State business indirectly.",
+    "trigger_condition": "seek_indvuna_audience",
+    "required_gestures": ["present_gift"],
+    "required_words": [],
+    "relationship_impact": 0.06,
+    "status": "Optional",
+    "fail_consequence": "Audience may be refused; -0.05 relationship"
+  },
+  {
+    "id": "PROT_OfferFood",
+    "display_name": "Offering or Accepting Food",
+    "description": "Accept food with both hands cupped; thank with clap before and after eating; do not eat standing",
+    "trigger_condition": "receive_food_offer",
+    "required_gestures": ["receive_both_hands", "sit_before_eating"],
+    "required_words": ["Ngiyabonga"],
+    "relationship_impact": 0.04,
+    "status": "Required",
+    "fail_consequence": "Insults the host's generosity; -0.08 relationship"
+  },
+  {
+    "id": "PROT_LobolaPresentation",
+    "display_name": "Lobola Cattle Presentation",
+    "description": "Cattle must be presented by the groom's uncle, not the groom. Negotiations conducted in formal siSwati proverb speech.",
+    "trigger_condition": "lobola_negotiation",
+    "required_gestures": ["cattle_presentation"],
+    "required_words": ["Siyacela", "Siyabonga"],
+    "relationship_impact": 0.25,
+    "status": "Required",
+    "fail_consequence": "Marriage considered informal; severe social stigma"
+  },
+  {
+    "id": "PROT_MourningObservance",
+    "display_name": "Mourning Period (Umlindelo)",
+    "description": "Observe silence at the homestead. No singing or dancing for 30 days. Wear darker clothing or ashes.",
+    "trigger_condition": "death_in_community",
+    "required_gestures": ["lower_voice", "avoid_celebration"],
+    "required_words": ["Siyabona", "Siyajabula"],
+    "relationship_impact": 0.10,
+    "status": "Required",
+    "fail_consequence": "Seen as disrespecting the dead; -0.15 relationship with deceased's family"
+  }
+]

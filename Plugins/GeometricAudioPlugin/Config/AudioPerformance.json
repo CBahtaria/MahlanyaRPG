@@ -1,0 +1,32 @@
+{
+  "RayCount": {
+    "Ultra": 64,
+    "HighEnd": 32,
+    "MidRange": 0,
+    "LowEnd": 0
+  },
+  "MaxBounces": {
+    "Ultra": 6,
+    "HighEnd": 4,
+    "MidRange": 0,
+    "LowEnd": 0
+  },
+  "IRQuality": {
+    "Ultra": "FullRayTracing",
+    "HighEnd": "PrebakedReverb",
+    "MidRange": "PrebakedReverb",
+    "LowEnd": "SimpleReverb"
+  },
+  "BioacousticComplexity": {
+    "Ultra": "FullEnsemble",
+    "HighEnd": "SpeciesLimited",
+    "MidRange": "AmbientLoop",
+    "LowEnd": "AmbientLoop"
+  },
+  "CPUConcurrencyBudget": {
+    "Ultra": 0.3,
+    "HighEnd": 0.2,
+    "MidRange": 0.1,
+    "LowEnd": 0.05
+  }
+}

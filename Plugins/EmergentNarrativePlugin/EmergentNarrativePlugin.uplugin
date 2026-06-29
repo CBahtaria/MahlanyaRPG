@@ -1,0 +1,30 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "1.0",
+    "FriendlyName": "EmergentNarrativePlugin",
+    "Description": "Procedural historical narrative system for Mahlanya RPG. Fires historical events via BFS dependency resolution, generates Imbongi praise verse, and triggers quests through the SimulationBus.",
+    "Category": "MahlanyaRPG",
+    "CreatedBy": "Charles Bartaria",
+    "CreatedByURL": "",
+    "DocsURL": "",
+    "MarketplaceURL": "",
+    "SupportURL": "",
+    "CanContainContent": false,
+    "IsBetaVersion": false,
+    "IsExperimentalVersion": false,
+    "Installed": false,
+    "Modules": [
+        {
+            "Name": "EmergentNarrativePlugin",
+            "Type": "Runtime",
+            "LoadingPhase": "PostDefault"
+        }
+    ],
+    "Plugins": [
+        {
+            "Name": "SimulationBusPlugin",
+            "Enabled": true
+        }
+    ]
+}
