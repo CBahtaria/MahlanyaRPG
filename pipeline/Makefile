@@ -40,7 +40,8 @@ BBOX_NORTH ?= -25.72
 EROSION_ITERS ?= 5000
 LLOYD_ITERS   ?= 50
 
-.PHONY: all full-pipeline full-pipeline-mobile test test-environment test-stubs test-compute \
+.PHONY: all full-pipeline full-pipeline-mobile mobile-package \
+        test test-environment test-stubs test-compute \
         zig-build zig-test zig-clean \
         terrain-acquire terrain-hardness terrain-erode terrain-rivers terrain-export \
         settlements-voronoi settlements-graph \
@@ -72,8 +73,17 @@ full-pipeline: zig-build outputs-dirs terrain settlements atmosphere audio histo
 	@echo "  Full pipeline complete. Artifacts in outputs/"
 	@echo "================================================================"
 
-full-pipeline-mobile: full-pipeline
+full-pipeline-mobile: full-pipeline mobile-package
 	@echo "Mobile artifact set baked — pre-baked data only, no runtime compute."
+
+# ── Mobile packaging ──────────────────────────────────────────────────────────
+MOBILE_OUTPUTS_DIR ?= outputs
+MOBILE_PACKAGE_DIR ?= outputs/mobile_package
+
+mobile-package: outputs-dirs
+	$(PYTHON) -m pipeline.mobile.package_mobile_artifacts \
+	    $(MOBILE_OUTPUTS_DIR) $(MOBILE_PACKAGE_DIR)
+	@echo "Mobile package written to $(MOBILE_PACKAGE_DIR)/"
 
 # Convenience group targets
 terrain: terrain-acquire terrain-hardness terrain-erode terrain-rivers terrain-export
@@ -238,6 +248,10 @@ help:
 	@echo "  make test-stubs          Verify pipeline API signatures"
 	@echo "  make test-compute        Run Zig kernel tests via Python bridge"
 	@echo "  make test-coverage       Full coverage report"
+	@echo ""
+	@echo "Mobile packaging:"
+	@echo "  make mobile-package      Bundle pre-baked artifacts for mobile cook"
+	@echo "  make full-pipeline-mobile Run full pipeline + package mobile artifacts"
 	@echo ""
 	@echo "Utilities:"
 	@echo "  make clean               Remove outputs and caches"
