@@ -1,0 +1,67 @@
+name: Phase 10 — Production Validation
+on:
+  push:
+    paths:
+      - 'Source/MahlanyaRPG/Performance/**'
+      - 'Source/MahlanyaRPG/Core/MahlanyaLogChannels.*'
+      - 'Config/**'
+      - 'Plugins/*/Config/**'
+      - 'pipeline/advanced_validator.py'
+      - 'pipeline/validate_configs.py'
+      - 'pipeline/check_regression.py'
+  pull_request:
+    paths:
+      - 'Source/MahlanyaRPG/Performance/**'
+      - 'Config/**'
+      - 'pipeline/advanced_validator.py'
+      - 'pipeline/validate_configs.py'
+      - 'pipeline/check_regression.py'
+
+jobs:
+  python-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pytest
+      - name: Run advanced validator tests
+        run: python -m pytest pipeline/tests/history/test_advanced_validator.py -v
+      - name: Run regression detector tests
+        run: python -m pytest pipeline/tests/test_check_regression.py -v
+      - name: Full pipeline test suite
+        run: python -m pytest pipeline/tests/ -q
+
+  config-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run build-time config validator
+        run: python pipeline/validate_configs.py
+      - name: Check CVar count
+        run: |
+          COUNT=$(grep -c "TAutoConsoleVariable" Source/MahlanyaRPG/Performance/MahlanyaPerformanceCVars.cpp || echo 0)
+          echo "Registered CVars: $COUNT"
+          [ "$COUNT" -ge 14 ] || (echo "Expected >=14 CVars" && exit 1)
+      - name: Check log channel count
+        run: |
+          COUNT=$(grep -c "DECLARE_LOG_CATEGORY_EXTERN" Source/MahlanyaRPG/Core/MahlanyaLogChannels.h || echo 0)
+          echo "Log channels: $COUNT"
+          [ "$COUNT" -ge 8 ] || (echo "Expected >=8 log channels" && exit 1)
+      - name: Check device profile count
+        run: |
+          COUNT=$(grep -c "DeviceProfileName" Config/DefaultGame.ini)
+          [ "$COUNT" -ge 10 ] || (echo "Expected >=10 device profiles" && exit 1)
+      - name: Verify subsystem registrations
+        run: |
+          grep -q "UHardwareAdaptiveScaler" Config/DefaultEngine.ini
+          grep -q "UDynamicRuntimeThrottle" Config/DefaultEngine.ini
+          grep -q "UYearChangeOrchestrator" Config/DefaultEngine.ini
+      - name: Validate plugin configs are valid JSON
+        run: |
+          python -c "import json; json.load(open('Plugins/MicroclimateEngine/Config/MicroclimatePerformance.json'))"
+          python -c "import json; json.load(open('Plugins/GeometricAudioPlugin/Config/AudioPerformance.json'))"

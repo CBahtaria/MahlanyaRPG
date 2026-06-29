@@ -2,6 +2,7 @@
 
 #include "MahlanyaGameState.h"
 #include "Net/UnrealNetwork.h"
+#include "UYearChangeOrchestrator.h"
 
 AMahlanyaGameState::AMahlanyaGameState()
 {
@@ -51,5 +52,14 @@ void AMahlanyaGameState::ServerAdvanceYear(int32 Delta)
     {
         return;
     }
-    CurrentGameYear += Delta;
+
+    if (UYearChangeOrchestrator* Orch =
+            GetWorld()->GetSubsystem<UYearChangeOrchestrator>())
+    {
+        Orch->StartYearChange(CurrentGameYear + Delta);
+    }
+    else
+    {
+        CurrentGameYear += Delta;
+    }
 }

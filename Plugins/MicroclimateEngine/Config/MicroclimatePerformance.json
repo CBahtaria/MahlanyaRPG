@@ -1,0 +1,26 @@
+{
+  "WeatherUpdateIntervals": {
+    "Ultra": 0.5,
+    "HighEnd": 1.0,
+    "MidRange": 2.0,
+    "LowEnd": 4.0
+  },
+  "LightningCalculation": {
+    "Ultra": "FullPhysics",
+    "HighEnd": "Simplified",
+    "MidRange": "Prebaked",
+    "LowEnd": "Prebaked"
+  },
+  "FogQuality": {
+    "Ultra": "Volumetric",
+    "HighEnd": "Volumetric",
+    "MidRange": "HeightFog",
+    "LowEnd": "Simple"
+  },
+  "CloudQuality": {
+    "Ultra": "Volumetric4D",
+    "HighEnd": "Volumetric2D",
+    "MidRange": "StaticMesh",
+    "LowEnd": "Skybox"
+  }
+}
