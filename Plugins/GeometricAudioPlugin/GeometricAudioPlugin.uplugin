@@ -1,0 +1,23 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "GeometricAudioPlugin",
+  "Description": "Ray-traced geometric acoustic system for Eswatini environments — image source + Monte Carlo runtime IR, atmospheric propagation, bioacoustic zone management",
+  "Category": "MahlanyaRPG",
+  "CreatedBy": "Mahlanya Project",
+  "EnabledByDefault": true,
+  "CanContainContent": false,
+  "IsBetaVersion": false,
+  "IsExperimentalVersion": false,
+  "Modules": [
+    {
+      "Name": "GeometricAudioPlugin",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    { "Name": "SimulationBusPlugin", "Enabled": true }
+  ]
+}
