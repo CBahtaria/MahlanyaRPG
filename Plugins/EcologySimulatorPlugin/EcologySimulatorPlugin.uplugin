@@ -1,0 +1,7 @@
+{
+    "FileVersion": 3, "Version": 1, "VersionName": "1.0",
+    "FriendlyName": "EcologySimulatorPlugin",
+    "Description": "Lotka-Volterra wildlife population dynamics for Eswatini.",
+    "Category": "Mahlanya", "CreatedBy": "cbartaria1",
+    "Modules": [{"Name": "EcologySimulatorPlugin", "Type": "Runtime", "LoadingPhase": "Default"}]
+}

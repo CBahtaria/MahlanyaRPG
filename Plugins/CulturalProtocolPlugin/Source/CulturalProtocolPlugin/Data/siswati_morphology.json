@@ -1,0 +1,96 @@
+{
+  "noun_classes": [
+    {
+      "class": "1a",
+      "prefix_singular": "um",
+      "prefix_plural": "em",
+      "description": "Persons and animate beings",
+      "examples": ["umuntu (person)", "umfana (boy)", "umuntu (person)"]
+    },
+    {
+      "class": "2",
+      "prefix_singular": "li",
+      "prefix_plural": "ema",
+      "description": "Things, augmentatives",
+      "examples": ["lihhashi (horse)", "litja (stone)", "likhiwa (fig)"]
+    },
+    {
+      "class": "3",
+      "prefix_singular": "in",
+      "prefix_plural": "tin",
+      "description": "Animals and abstract nouns",
+      "examples": ["imbuti (goat)", "inja (dog)", "inkhosi (chief)"]
+    },
+    {
+      "class": "4",
+      "prefix_singular": "si",
+      "prefix_plural": "ti",
+      "description": "Things, instruments",
+      "examples": ["sikhali (weapon)", "sitja (pot)", "sikhundla (chiefdom)"]
+    },
+    {
+      "class": "5",
+      "prefix_singular": "ku",
+      "prefix_plural": "ku",
+      "description": "Infinitives and abstract states",
+      "examples": ["kuhamba (to walk)", "kudla (to eat)"]
+    }
+  ],
+  "name_roots": {
+    "warrior_roots": [
+      "Hlanya", "Ntombi", "Nkosi", "Busa", "Phila", "Wela", "Khona",
+      "Bongani", "Dumisa", "Fanele", "Gedla", "Hlubi", "Jabulo",
+      "Khanyisa", "Lungelo", "Mandla", "Nhlanhla", "Phiwayinkosi",
+      "Sibonelo", "Thandeka", "Vusi", "Wandile", "Xolani", "Yenza",
+      "Buhle", "Cebile", "Dalisu", "Emihle", "Fiwa"
+    ],
+    "place_roots": [
+      "Lobamba", "Zombodze", "Mdzimba", "Lubombo", "Usuthu", "Hhohho",
+      "Manzini", "Nhlangano", "Siteki", "Piggs", "Mhlangatane"
+    ],
+    "clan_roots": [
+      "Dlamini", "Nkosi", "Mdluli", "Simelane", "Shabalala",
+      "Mkhonta", "Ginindza", "Hlophe", "Motsa", "Tfwala",
+      "Magagula", "Mamba", "Nxumalo", "Fakudze", "Khumalo"
+    ]
+  },
+  "honorific_suffixes": {
+    "royal": "weNkosi",
+    "warrior": "waMasoja",
+    "elder": "welikhulu",
+    "priest": "weNgoma",
+    "chief": "weNkhundla"
+  },
+  "praisewords": {
+    "Ndlovu": "Great Elephant; lord of strength and memory",
+    "Ingwe": "Leopard; swift, patient, and fearless",
+    "Wethu": "Ours; beloved of the people",
+    "Mahlanya": "Bold one; reckless beyond measure; the daring one",
+    "Nkhosi": "Chief; one who rules wisely",
+    "Siyanda": "We grow; that which increases",
+    "Bayete": "Royal salute; hail to the king"
+  },
+  "greeting_phrases": {
+    "sawubona": {"gloss": "I see you", "context": "standard greeting", "register": "neutral"},
+    "yebo": {"gloss": "Yes / I am here / I see you too", "context": "response to sawubona", "register": "neutral"},
+    "nkhosi": {"gloss": "My lord / chief", "context": "address to royalty", "register": "formal"},
+    "ngicela ngingene": {"gloss": "I humbly request to enter", "context": "homestead entry", "register": "formal"},
+    "ngiyabonga": {"gloss": "I thank you", "context": "gratitude", "register": "neutral"},
+    "siyabona": {"gloss": "We see you", "context": "communal greeting", "register": "communal"},
+    "hamba kahle": {"gloss": "Go well", "context": "farewell to departing person", "register": "neutral"},
+    "sala kahle": {"gloss": "Stay well", "context": "farewell from departing person", "register": "neutral"}
+  },
+  "avoidance_vocabulary": {
+    "description": "Inhlonipho: words containing the root of a father-in-law's name must be replaced.",
+    "example_substitutions": [
+      {"original_root": "gama (name)", "substitute": "libito", "avoid_near": "father-in-law named Mgama"},
+      {"original_root": "mbuti (goat)", "substitute": "sigwagwa", "avoid_near": "father-in-law named Mbuti"},
+      {"original_root": "nkomo (cow)", "substitute": "silwane", "avoid_near": "father-in-law named Nkomo"}
+    ]
+  },
+  "verb_tenses": {
+    "past": {"prefix": "wa", "example": "wahamba (he/she went)"},
+    "present": {"prefix": "ya", "example": "yahamba (he/she is going)"},
+    "future": {"prefix": "taw", "example": "tawahamba (he/she will go)"}
+  }
+}
