@@ -1,1 +1,84 @@
-[]
+[
+  {
+    "id": "NB001",
+    "name": "Ngwane III",
+    "entity_type": "Person",
+    "title": "King",
+    "born": 1780,
+    "died": 1815,
+    "clan": "Nkosi Dlamini",
+    "capital": "PL_Zombodze",
+    "description": "Founder of the Swazi nation; led the Dlamini people to Swaziland"
+  },
+  {
+    "id": "SW001",
+    "name": "Sobhuza I",
+    "entity_type": "Person",
+    "title": "King",
+    "born": 1795,
+    "died": 1839,
+    "clan": "Nkosi Dlamini",
+    "capital": "PL_Lobamba",
+    "description": "Second king; consolidated Swazi territory and repelled Zulu incursions"
+  },
+  {
+    "id": "MS001",
+    "name": "Mswati I",
+    "entity_type": "Person",
+    "title": "King",
+    "born": 1820,
+    "died": 1865,
+    "clan": "Nkosi Dlamini",
+    "description": "Third king; expanded Swazi territory to its greatest extent"
+  },
+  {
+    "id": "LW001",
+    "name": "Ludvonga II",
+    "entity_type": "Person",
+    "title": "King",
+    "born": 1845,
+    "died": 1874,
+    "clan": "Nkosi Dlamini",
+    "description": "Fourth king; short reign"
+  },
+  {
+    "id": "MB001",
+    "name": "Mbandzeni",
+    "entity_type": "Person",
+    "title": "King",
+    "born": 1855,
+    "died": 1889,
+    "clan": "Nkosi Dlamini",
+    "description": "Fifth king; granted many concessions to Europeans during the concession rush"
+  },
+  {
+    "id": "BH001",
+    "name": "Bhunu",
+    "entity_type": "Person",
+    "title": "King",
+    "born": 1874,
+    "died": 1899,
+    "clan": "Nkosi Dlamini",
+    "description": "Sixth king; tried by colonial court in 1898 following the Mbhulazwe incident"
+  },
+  {
+    "id": "TW001",
+    "name": "Labotsibeni",
+    "entity_type": "Person",
+    "title": "Queen Regent",
+    "born": 1858,
+    "died": 1925,
+    "clan": "Nkosi Dlamini",
+    "description": "Queen regent who fought colonial partition; mother of Bhunu"
+  },
+  {
+    "id": "ML001",
+    "name": "Mahlanya",
+    "entity_type": "Person",
+    "title": "Warrior",
+    "born": 1855,
+    "died": 1920,
+    "clan": "Nkosi Dlamini",
+    "description": "The protagonist; reckless one; warrior of the colonial resistance era"
+  }
+]

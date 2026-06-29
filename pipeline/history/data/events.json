@@ -1,1 +1,65 @@
-[]
+[
+  {
+    "id": "EV001",
+    "name": "Mfecane",
+    "entity_type": "Event",
+    "event_type": "Regional Upheaval",
+    "year": 1815,
+    "period": [1815, 1840],
+    "description": "Wave of violence and forced migration across southern Africa driven by Zulu expansion"
+  },
+  {
+    "id": "EV002",
+    "name": "Concession Rush",
+    "entity_type": "Event",
+    "event_type": "Colonial Pressure",
+    "year": 1880,
+    "period": [1880, 1894],
+    "description": "European concession-seekers obtained grants from Mbandzeni covering most of Swazi land"
+  },
+  {
+    "id": "EV003",
+    "name": "Bhunu Trial",
+    "entity_type": "Event",
+    "event_type": "Colonial Legal Action",
+    "year": 1898,
+    "period": [1898, 1898],
+    "description": "King Bhunu tried by colonial court over the Mbhulazwe incident; major sovereignty crisis"
+  },
+  {
+    "id": "EV004",
+    "name": "Partition of Swaziland",
+    "entity_type": "Event",
+    "event_type": "Colonial Administration",
+    "year": 1906,
+    "period": [1906, 1906],
+    "description": "British Order-in-Council placed Swaziland under direct administration; end of formal Swazi sovereignty"
+  },
+  {
+    "id": "EV005",
+    "name": "Swazi Kingdom Formation",
+    "entity_type": "Event",
+    "event_type": "Political Formation",
+    "year": 1750,
+    "period": [1750, 1770],
+    "description": "Ngwane III leads Dlamini people to establish the Swazi kingdom in the Highveld"
+  },
+  {
+    "id": "EV006",
+    "name": "Incwala Ceremony",
+    "entity_type": "Event",
+    "event_type": "Annual Royal Ceremony",
+    "year": 1800,
+    "period": [1800, 1906],
+    "description": "Annual first-fruits ceremony of the Swazi king; anchors royal legitimacy; tied to lunar calendar"
+  },
+  {
+    "id": "EV007",
+    "name": "Umhlanga Reed Dance",
+    "entity_type": "Event",
+    "event_type": "Annual Royal Ceremony",
+    "year": 1800,
+    "period": [1800, 1906],
+    "description": "Annual reed-cutting ceremony for unmarried women; presented at the queen mother's kraal"
+  }
+]

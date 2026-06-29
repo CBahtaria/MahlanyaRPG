@@ -1,4 +1,5 @@
 #include "Economy/EconomySimulatorSubsystem.h"
+#include "SimulationBusSubsystem.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogMahlanya, Log, All);
 
@@ -167,8 +168,16 @@ void UEconomySimulatorSubsystem::ProcessEventBuffer()
                 Event.CattleDelta, Event.Timestamp);
             ApplyCattleDelta(Event.SourceClan, -Event.CattleDelta);
             ApplyCattleDelta(Event.TargetClan, +Event.CattleDelta);
-            // Lobola triggers a demographic recompute; external systems
-            // subscribe to OnSettlementDemographicChanged via SimulationBusSubsystem.
+            // Lobola triggers a demographic recompute; broadcast to SibayaEngine via
+            // SimulationBusSubsystem so it can recompute Voronoi settlement boundaries.
+            if (USimulationBusSubsystem* Bus =
+                    GetWorld() ? GetWorld()->GetSubsystem<USimulationBusSubsystem>() : nullptr)
+            {
+                // NewWifeCount param carries the signed cattle delta as the demographic
+                // signal: payer's homestead shrinks, receiver's grows.
+                Bus->BroadcastSettlementDemographicChanged(Event.SourceClan, -Event.CattleDelta);
+                Bus->BroadcastSettlementDemographicChanged(Event.TargetClan, +Event.CattleDelta);
+            }
             break;
 
         case EEconomyEventType::Tribute:
@@ -320,6 +329,14 @@ void UEconomySimulatorSubsystem::CheckRaidTriggers(float GameDayDelta)
         UE_LOG(LogMahlanya, Log,
             TEXT("UEconomySimulatorSubsystem::CheckRaidTriggers: '%s' queued raid on '%s' for %d cattle (P=%.3f)."),
             *Clan.ClanID.ToString(), *TargetClan.ToString(), RaidAmount, P);
+
+        // Notify EmergentNarrativePlugin that a "RaidOfNeed" condition has been met.
+        // ConditionValue = DroughtStress of the raiding clan as the severity proxy.
+        if (USimulationBusSubsystem* Bus =
+                GetWorld() ? GetWorld()->GetSubsystem<USimulationBusSubsystem>() : nullptr)
+        {
+            Bus->BroadcastQuestTriggerConditionMet(FName("RaidOfNeed"), Clan.DroughtStress);
+        }
     }
 }
 
@@ -355,6 +372,14 @@ void UEconomySimulatorSubsystem::CheckConcessionTriggers()
             P, Clan.ColonialPressure, Clan.PoliticalStrength);
 
         OnConcessionAccepted.Broadcast(Clan.ClanID);
+
+        // Notify EmergentNarrativePlugin that a "ConcessionBetrayal" condition has
+        // been met. ConditionValue = ColonialPressure as the pressure level proxy.
+        if (USimulationBusSubsystem* Bus =
+                GetWorld() ? GetWorld()->GetSubsystem<USimulationBusSubsystem>() : nullptr)
+        {
+            Bus->BroadcastQuestTriggerConditionMet(FName("ConcessionBetrayal"), Clan.ColonialPressure);
+        }
     }
 }
 

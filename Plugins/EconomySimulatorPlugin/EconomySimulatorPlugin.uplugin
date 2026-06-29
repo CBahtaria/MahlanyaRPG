@@ -1,0 +1,30 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "1.0",
+    "FriendlyName": "EconomySimulatorPlugin",
+    "Description": "Cattle-based Swazi political economy simulator for Mahlanya RPG. Models tribute flows, colonial concession pressure, drought-driven raids, and lobola transactions.",
+    "Category": "MahlanyaRPG",
+    "CreatedBy": "Charles Bartaria",
+    "CreatedByURL": "",
+    "DocsURL": "",
+    "MarketplaceURL": "",
+    "SupportURL": "",
+    "CanContainContent": false,
+    "IsBetaVersion": false,
+    "IsExperimentalVersion": false,
+    "Installed": false,
+    "Plugins": [
+        {
+            "Name": "SimulationBusPlugin",
+            "Enabled": true
+        }
+    ],
+    "Modules": [
+        {
+            "Name": "EconomySimulatorPlugin",
+            "Type": "Runtime",
+            "LoadingPhase": "Default"
+        }
+    ]
+}

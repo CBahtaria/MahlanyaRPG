@@ -175,8 +175,11 @@ class SwaziSettlementGenerator:
             for i in range(len(roles))
         ]
 
+        hut_positions = [[float(relaxed[i, 0]), float(relaxed[i, 1])] for i in range(len(roles))]
+
         return {
             "positions": positions,
+            "hut_positions": hut_positions,
             "cattle_count": cattle_count,
             "n_wives": n_wives,
             "n_sons": n_sons,
