@@ -9,9 +9,9 @@ A Swazi historical 3D RPG spanning multiple eras of Eswatini's history — pre-c
 
 The game's central differentiator is that its environment does not *look* realistic — it *behaves* with the physical, geological, climatological, acoustic, and social reality of the actual Kingdom of Eswatini.
 
-**Protagonist:** Mahlanya ("the reckless/daring one")  
-**Engine:** Unreal Engine 5.4+  
-**Language:** C++ + Blueprint  
+**Protagonist:** Mahlanya ("the reckless/daring one") 
+**Engine:** Unreal Engine 5.4+ 
+**Language:** C++ + Blueprint 
 **Platforms:** PC (primary), iOS, Android (pre-baked tier), Console (planned)
 
 ---

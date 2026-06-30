@@ -1,7 +1,7 @@
 # Swazi Historical 3D RPG — "Mahlanya" — Production Specification
-**Date:** 2026-06-24  
-**Author:** Charles Bartaria (cbartaria1)  
-**Status:** Approved for Implementation  
+**Date:** 2026-06-24 
+**Author:** Charles Bartaria (cbartaria1)
+**Status:** Approved for Implementation
 
 ---
 
@@ -11,10 +11,10 @@ This document specifies the complete architecture for a Swazi historical 3D RPG 
 
 **The protagonist is Mahlanya.** The game spans the collision between Swazi sovereignty and colonial expansion. Accuracy is non-negotiable — the historical knowledge graph structurally prevents historically false statements.
 
-**Engine:** Unreal Engine 5 (C++ + Blueprint)  
-**Target Platforms:** PC (primary), Mobile (iOS + Android, pre-baked tier), Console (future phase)  
-**Multiplayer:** Single-player with co-op multiplayer layer (GAS-ready architecture from day one)  
-**GIS Data:** Copernicus DEM GLO-10 (10m resolution) + public SAWS climatology data  
+**Engine:** Unreal Engine 5 (C++ + Blueprint)
+**Target Platforms:** PC (primary), Mobile (iOS + Android, pre-baked tier), Console (future phase)
+**Multiplayer:** Single-player with co-op multiplayer layer (GAS-ready architecture from day one) 
+**GIS Data:** Copernicus DEM GLO-10 (10m resolution) + public SAWS climatology data
 
 ---
 

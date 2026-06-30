@@ -1,6 +1,6 @@
 # Third-Party Notices and Attributions
 
-**Project:** Mahlanya RPG  
+**Project:** Mahlanya RPG 
 **Copyright:** © 2025–2026 Charles Bartaria / BRT Inc. All Rights Reserved.
 
 This file lists all third-party components incorporated into Mahlanya RPG,
@@ -11,10 +11,10 @@ requires reproduction of its text, the full text is included below.
 
 ## 1. Terrain Data — Copernicus DEM GLO-10
 
-**Used in:** `pipeline/terrain/acquire_dem.py`, offline pipeline  
-**Source:** European Space Agency / Airbus Defence and Space  
-**Access:** OpenTopography API; AWS Open Data (s3://copernicus-dem-30m)  
-**Licence:** Copernicus DEM — Non-Exclusive, Royalty Free Licence  
+**Used in:** `pipeline/terrain/acquire_dem.py`, offline pipeline 
+**Source:** European Space Agency / Airbus Defence and Space 
+**Access:** OpenTopography API; AWS Open Data (s3://copernicus-dem-30m) 
+**Licence:** Copernicus DEM — Non-Exclusive, Royalty Free Licence 
 
 > © DLR e.V. 2010–2014 and © Airbus Defence and Space GmbH 2014–2018
 > provided under COPERNICUS by the European Union and ESA.
@@ -25,17 +25,17 @@ elevation model and is made available under the Copernicus Open Access
 Hub conditions. Attribution must appear in any publication, product, or
 derivative work produced using this data.
 
-Reference:  
-*Copernicus DEM — Global and European Digital Elevation Model (COP-DEM).*  
+Reference: 
+*Copernicus DEM — Global and European Digital Elevation Model (COP-DEM).* 
 Document DS-MKS-0112, European Space Agency, 2021.
 
 ---
 
 ## 2. Geological Data — Council for Geoscience South Africa
 
-**Used in:** `pipeline/terrain/build_hardness_map.py`  
-**Source:** Council for Geoscience, Republic of South Africa  
-**Website:** https://www.geoscience.org.za  
+**Used in:** `pipeline/terrain/build_hardness_map.py` 
+**Source:** Council for Geoscience, Republic of South Africa 
+**Website:** https://www.geoscience.org.za 
 
 Rock hardness coefficients are derived from published geotechnical
 literature and from public geological survey vector datasets produced by
@@ -50,9 +50,9 @@ research purposes.*
 
 ## 3. Climatological Data — South African Weather Service (SAWS)
 
-**Used in:** `pipeline/atmosphere/build_weather_tables.py`  
-**Source:** South African Weather Service  
-**Website:** https://www.weathersa.co.za  
+**Used in:** `pipeline/atmosphere/build_weather_tables.py` 
+**Source:** South African Weather Service 
+**Website:** https://www.weathersa.co.za 
 
 Historical weather summary data for Eswatini stations (Manzini, Big Bend,
 Pigg's Peak, Mbabane) is derived from publicly available SAWS climatological
@@ -65,8 +65,8 @@ Weather Service (SAWS). © SAWS. Used under the SAWS open-data terms.*
 
 ## 4. Sky Radiance Model — Hosek-Wilkie Spectral Sky Model
 
-**Used in:** `pipeline/atmosphere/compute_sky_luts.py`, `Shaders/`  
-**Authors:** Lukas Hosek, Alexander Wilkie  
+**Used in:** `pipeline/atmosphere/compute_sky_luts.py`, `Shaders/` 
+**Authors:** Lukas Hosek, Alexander Wilkie 
 **Licence:** The mathematical model and its parameterisation are described
 in a peer-reviewed publication. The original C reference implementation was
 released by the authors as free software (BSD-style, no-attribution-required
@@ -83,8 +83,8 @@ Required citation:
 
 ## 5. D-infinity Flow Algorithm
 
-**Used in:** `pipeline/compute/src/dinf.zig`, `pipeline/terrain/extract_rivers.py`  
-**Author:** David G. Tarboton, Utah Water Research Laboratory  
+**Used in:** `pipeline/compute/src/dinf.zig`, `pipeline/terrain/extract_rivers.py` 
+**Author:** David G. Tarboton, Utah Water Research Laboratory 
 **Licence:** Algorithm in the public domain; citation required.
 
 Required citation:
@@ -120,16 +120,16 @@ All are permissively licensed and compatible with proprietary use.
 | CuPy ≥ 13.0 (optional) | MIT | https://cupy.dev |
 | aws-cdk-lib (optional) | Apache-2.0 | https://docs.aws.amazon.com/cdk |
 
-Full licence texts for BSD-3-Clause, MIT, and Apache-2.0 are available at:  
+Full licence texts for BSD-3-Clause, MIT, and Apache-2.0 are available at: 
 https://opensource.org/licenses
 
 ---
 
 ## 7. Zig Programming Language
 
-**Used in:** `pipeline/compute/`  
-**Licence:** MIT  
-**Copyright:** © Zig Software Foundation and contributors  
+**Used in:** `pipeline/compute/` 
+**Licence:** MIT 
+**Copyright:** © Zig Software Foundation and contributors 
 **Website:** https://ziglang.org
 
 ```
@@ -156,9 +156,9 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ## 8. Unreal Engine 5
 
-**Used in:** `Source/`, `Plugins/`, `Config/`, `Shaders/`  
-**Author:** Epic Games, Inc.  
-**Licence:** Unreal Engine End User License Agreement  
+**Used in:** `Source/`, `Plugins/`, `Config/`, `Shaders/` 
+**Author:** Epic Games, Inc. 
+**Licence:** Unreal Engine End User License Agreement 
 **URL:** https://www.unrealengine.com/eula/unrealengine
 
 This project is built on Unreal Engine 5 (UE5). The UE5 source code is not
@@ -207,7 +207,7 @@ itself is not owned by any party.
 
 ## 11. Lotka-Volterra Equations
 
-**Used in:** `Plugins/EcologySimulatorPlugin/`  
+**Used in:** `Plugins/EcologySimulatorPlugin/` 
 The Lotka-Volterra predator-prey equations are mathematical formulas
 published independently by Alfred J. Lotka (1925) and Vito Volterra
 (1926) and are in the public domain. No attribution is legally required;
@@ -215,5 +215,5 @@ it is included here for scientific integrity.
 
 ---
 
-*This NOTICE.md was last updated: 2026-06-30*  
+*This NOTICE.md was last updated: 2026-06-30* 
 *For corrections or licensing queries: charleskris9@gmail.com*
