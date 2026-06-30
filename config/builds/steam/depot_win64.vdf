@@ -1,0 +1,28 @@
+"DepotBuildConfig"
+{
+    // DepotID: obtain from https://partner.steamgames.com/ → App Admin → Depots tab (Win64 depot)
+    "DepotID"     "MAHLANYA_DEPOT_WIN64"
+    "ContentRoot" "..\\..\\..\\"
+    "FileMapping"
+    {
+        "LocalPath"  ".\\Binaries\\Win64\\*"
+        "DepotPath"  ".\\Binaries\\Win64\\"
+        "recursive"  "1"
+    }
+    "FileMapping"
+    {
+        "LocalPath"  ".\\Content\\Paks\\*"
+        "DepotPath"  ".\\Content\\Paks\\"
+        "recursive"  "1"
+    }
+    "FileMapping"
+    {
+        "LocalPath"  ".\\Engine\\Binaries\\Win64\\*"
+        "DepotPath"  ".\\Engine\\Binaries\\Win64\\"
+        "recursive"  "1"
+    }
+    "FileExclusion" "*.pdb"
+    "FileExclusion" "*.exp"
+    "FileExclusion" "*-DebugGame*"
+    "FileExclusion" "*-Editor*"
+}

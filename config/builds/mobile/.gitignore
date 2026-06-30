@@ -1,0 +1,7 @@
+# NEVER commit signing credentials
+keystore.properties
+*.jks
+*.keystore
+*.p12
+*.mobileprovision
+*.cer

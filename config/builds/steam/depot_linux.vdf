@@ -1,0 +1,28 @@
+"DepotBuildConfig"
+{
+    // DepotID: obtain from https://partner.steamgames.com/ → App Admin → Depots tab (Linux depot)
+    "DepotID"     "MAHLANYA_DEPOT_LINUX"
+    "ContentRoot" "..\\..\\..\\"
+    "FileMapping"
+    {
+        "LocalPath"  ".\\Binaries\\Linux\\*"
+        "DepotPath"  ".\\Binaries\\Linux\\"
+        "recursive"  "1"
+    }
+    "FileMapping"
+    {
+        "LocalPath"  ".\\Content\\Paks\\*"
+        "DepotPath"  ".\\Content\\Paks\\"
+        "recursive"  "1"
+    }
+    "FileMapping"
+    {
+        "LocalPath"  ".\\Engine\\Binaries\\Linux\\*"
+        "DepotPath"  ".\\Engine\\Binaries\\Linux\\"
+        "recursive"  "1"
+    }
+    "FileExclusion" "*.pdb"
+    "FileExclusion" "*.exp"
+    "FileExclusion" "*-DebugGame*"
+    "FileExclusion" "*-Editor*"
+}

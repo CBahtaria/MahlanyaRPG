@@ -1,0 +1,17 @@
+"AppBuild"
+{
+    // AppID: obtain from https://partner.steamgames.com/ → App Admin → your app's App ID
+    "AppID"         "MAHLANYA_APP_ID"
+    "Desc"          "MahlanyaRPG — Swazi Historical RPG"
+    "BuildOutput"   ".\\output\\"
+    // SetLive: leave empty for manual promotion; or set to branch name (e.g. "internal_qa")
+    "SetLive"       ""
+
+    "Depots"
+    {
+        // Depot IDs: obtain from https://partner.steamgames.com/ → App Admin → Depots tab
+        "MAHLANYA_DEPOT_WIN64"   "depot_win64.vdf"
+        "MAHLANYA_DEPOT_LINUX"   "depot_linux.vdf"
+        "MAHLANYA_DEPOT_CONTENT" "depot_content.vdf"
+    }
+}

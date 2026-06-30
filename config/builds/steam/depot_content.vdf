@@ -1,0 +1,19 @@
+"DepotBuildConfig"
+{
+    // DepotID: obtain from https://partner.steamgames.com/ → App Admin → Depots tab (shared content depot)
+    // This depot contains pre-baked artifacts shared across platforms:
+    // heightmaps, LUTs, impulse responses (IRs), and the knowledge graph.
+    "DepotID"     "MAHLANYA_DEPOT_CONTENT"
+    "ContentRoot" "..\\..\\..\\"
+    "FileMapping"
+    {
+        "LocalPath"  ".\\Content\\Paks\\MahlanyaRPG-WindowsNoEditor.pak"
+        "DepotPath"  ".\\Content\\Paks\\"
+    }
+    "FileMapping"
+    {
+        "LocalPath"  ".\\Config\\*"
+        "DepotPath"  ".\\Config\\"
+        "recursive"  "1"
+    }
+}
