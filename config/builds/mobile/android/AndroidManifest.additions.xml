@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MahlanyaRPG Android Manifest Additions
+     Injected into the base UE5 AndroidManifest.xml at cook time.
+     Only declare permissions actually used; over-permissioning triggers
+     Google Play review flags and user-visible permission dialogs.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ── Network (co-op multiplayer) ─────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- ── Storage (pre-baked terrain/audio cache, save files) ─────────────── -->
+    <!-- READ_EXTERNAL_STORAGE: Android ≤12 (API 32); superseded by granular
+         media permissions on Android 13+; UE5 handles the runtime split. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+                     android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                     android:maxSdkVersion="29"
+                     tools:ignore="ScopedStorage"/>
+
+    <!-- ── Vibration (controller haptics, lightning strike feedback) ─────────── -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <!-- ── Wake lock (prevent screen sleep during long loading sequences) ────── -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!-- ── Hardware feature declarations ──────────────────────────────────── -->
+    <!-- NOT required: game runs without touchscreen (gamepad supported) -->
+    <uses-feature android:name="android.hardware.touchscreen"
+                  android:required="false"/>
+    <!-- Microphone NOT used; prevent store from flagging audio permission -->
+    <uses-feature android:name="android.hardware.microphone"
+                  android:required="false"/>
+
+    <!-- ── Application-level additions ────────────────────────────────────── -->
+    <application>
+        <!-- Large heap: UE5 mobile tier + pre-baked atlas textures need headroom -->
+        <meta-data android:name="android.app.largeHeap" android:value="true"/>
+        <!-- Game Category — improves Play Store discoverability -->
+        <meta-data android:name="com.google.android.play.games.APP_ID"
+                   android:value="@string/app_id"/>
+    </application>
+
+</manifest>

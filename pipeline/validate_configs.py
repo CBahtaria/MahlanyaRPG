@@ -6,6 +6,7 @@ Exit 0 = all checks pass. Exit 1 = any check fails.
 
 import json
 import re
+from pathlib import Path
 
 
 def validate_ini_sections(ini_path: str, required_sections: list[str]) -> list[str]:
@@ -70,6 +71,27 @@ def validate_subsystem_registrations(engine_ini_path: str) -> list[str]:
         content = f.read()
 
     return [cls for cls in required if cls not in content]
+
+
+def validate_privacy_manifests() -> list[str]:
+    """Returns list of errors if privacy manifests are missing or malformed."""
+    errors = []
+
+    ios_privacy = Path("config/builds/mobile/ios/PrivacyInfo.xcprivacy")
+    if not ios_privacy.exists():
+        errors.append("MISSING: config/builds/mobile/ios/PrivacyInfo.xcprivacy (required for App Store)")
+    else:
+        content = ios_privacy.read_text()
+        if "NSPrivacyTracking" not in content:
+            errors.append("INVALID: PrivacyInfo.xcprivacy missing NSPrivacyTracking key")
+        if "NSPrivacyAccessedAPITypes" not in content:
+            errors.append("INVALID: PrivacyInfo.xcprivacy missing NSPrivacyAccessedAPITypes key")
+
+    android_manifest = Path("config/builds/mobile/android/AndroidManifest.additions.xml")
+    if not android_manifest.exists():
+        errors.append("MISSING: config/builds/mobile/android/AndroidManifest.additions.xml")
+
+    return errors
 
 
 def run_all_checks() -> bool:
@@ -144,6 +166,15 @@ def run_all_checks() -> bool:
         all_passed = False
     else:
         print("[PASS] All subsystem registrations present")
+
+    # Check 8: Privacy manifests (iOS App Store + Android)
+    errors = validate_privacy_manifests()
+    if errors:
+        for err in errors:
+            print(f"[FAIL] {err}")
+        all_passed = False
+    else:
+        print("[PASS] Mobile privacy manifests present and valid")
 
     if all_passed:
         print("\n[PASS] All config checks passed.")

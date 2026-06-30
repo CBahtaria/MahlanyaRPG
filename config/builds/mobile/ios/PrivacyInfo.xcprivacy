@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MahlanyaRPG iOS Privacy Manifest (PrivacyInfo.xcprivacy)
+  Required for App Store submission as of Spring 2024 (iOS 17+).
+
+  API categories declared and why:
+
+  NSPrivacyAccessedAPICategoryFileTimestamp (C617.1)
+    UE5's save game manager reads file modification dates on-device to sort
+    save slots by recency and display "last saved" timestamps in the UI.
+
+  NSPrivacyAccessedAPICategoryDiskSpace (E174.1)
+    Before writing pre-baked terrain atlas textures and audio caches
+    (which can exceed several hundred MB), UE5 checks available disk space
+    to avoid partial writes and corrupt cache files.
+
+  NSPrivacyAccessedAPICategorySystemBootTime (35F9.1)
+    UE5's FPlatformTime relies on mach_absolute_time, whose epoch is system
+    boot time, to provide high-resolution elapsed-time measurements used by
+    the renderer, physics tick, and audio subsystem.
+
+  NSPrivacyAccessedAPICategoryUserDefaults (CA92.1)
+    UE5 persists graphics scalability settings (resolution scale, shadow
+    quality, etc.) and save-slot metadata in NSUserDefaults so preferences
+    survive app restarts. Data is read and written only within this app.
+
+  No user tracking. No advertising SDKs. No third-party data collection.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSPrivacyTracking</key>
+    <false/>
+    <key>NSPrivacyTrackingDomains</key>
+    <array/>
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array/>
+    <key>NSPrivacyAccessedAPITypes</key>
+    <array>
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>C617.1</string>
+            </array>
+        </dict>
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryDiskSpace</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>E174.1</string>
+            </array>
+        </dict>
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategorySystemBootTime</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>35F9.1</string>
+            </array>
+        </dict>
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>CA92.1</string>
+            </array>
+        </dict>
+    </array>
+</dict>
+</plist>

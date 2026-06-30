@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.first_cattle_raid</string>
+        <key>title</key><string>Umshini Wami</string>
+        <key>desc</key><string>Complete your first cattle raid.</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>10</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.mfecane_survived</string>
+        <key>title</key><string>Survivor of the Mfecane</string>
+        <key>desc</key><string>Live through the chaos years (1815–1840).</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>25</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.lobola_paid</string>
+        <key>title</key><string>Umnumzane</string>
+        <key>desc</key><string>Pay lobola and establish your first homestead.</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>15</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.lubombo_victory</string>
+        <key>title</key><string>Lubombo Stands</string>
+        <key>desc</key><string>Win the Battle of Lubombo (1846).</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>30</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.sacred_tree</string>
+        <key>title</key><string>Omens of Mdzimba</string>
+        <key>desc</key><string>Witness lightning strike a sacred tree.</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>10</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.full_alliance</string>
+        <key>title</key><string>Inkhundla Unified</string>
+        <key>desc</key><string>Forge alliances with 5 chiefdoms simultaneously.</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>20</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.knowledge_complete</string>
+        <key>title</key><string>Imbongi ya Sikhulu</string>
+        <key>desc</key><string>Discover all entries in the historical knowledge graph.</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>50</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.colony_resisted</string>
+        <key>title</key><string>Sovereignty</string>
+        <key>desc</key><string>Reject every colonial concession for 20 game-years.</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>40</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.zero_drought_loss</string>
+        <key>title</key><string>The Rains Came</string>
+        <key>desc</key><string>Survive a drought season without losing cattle.</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>15</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.coop_raid</string>
+        <key>title</key><string>Lihlanganisa</string>
+        <key>desc</key><string>Complete a cattle raid with another player in co-op.</string>
+        <key>hidden</key><false/>
+        <key>points</key><integer>20</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.full_playthrough</string>
+        <key>title</key><string>Mahlanya</string>
+        <key>desc</key><string>Complete the game across all historical eras.</string>
+        <key>hidden</key><true/>
+        <key>points</key><integer>100</integer>
+    </dict>
+    <dict>
+        <key>id</key><string>com.mahlanyarpg.ach.speedrun_era</string>
+        <key>title</key><string>Reckless One</string>
+        <key>desc</key><string>Complete an era in under 2 real hours.</string>
+        <key>hidden</key><true/>
+        <key>points</key><integer>25</integer>
+    </dict>
+</array>
+</plist>
