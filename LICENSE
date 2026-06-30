@@ -1,0 +1,89 @@
+Copyright (c) 2025–2026 Charles Bartaria / BRT Inc.
+All Rights Reserved.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROPRIETARY SOFTWARE — SOURCE-AVAILABLE, NOT OPEN SOURCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This software and associated documentation files (the "Software") are the
+exclusive and confidential property of Charles Bartaria and BRT Inc.
+("Owner"). The Software is protected by copyright law (Eswatini Copyright
+Order 2015, UK Copyright, Designs and Patents Act 1988 as applied to
+Eswatini, and the Berne Convention for the Protection of Literary and
+Artistic Works).
+
+Publication of source code on GitHub does not constitute a grant of any
+licence or right whatsoever. The source code is disclosed solely for
+portfolio and professional assessment purposes.
+
+1. PERMITTED USES
+   You may:
+   (a) View this source code for personal education or assessment purposes.
+   (b) Clone this repository locally for evaluation only.
+
+2. PROHIBITED USES
+   Without the prior written consent of the Owner you may NOT:
+   (a) Reproduce, copy, or distribute any part of the Software in any form.
+   (b) Modify, adapt, translate, or create derivative works.
+   (c) Publish, sublicence, sell, rent, lease, transfer, or assign any
+       rights in the Software.
+   (d) Use any part of the Software in another project, commercial or
+       non-commercial.
+   (e) Reverse-engineer any compiled binary or shader artefact included
+       herein beyond what is permitted by applicable law.
+
+3. UNREAL ENGINE COMPONENTS
+   Source files under Source/ and Plugins/ that import or link against
+   Unreal Engine 5 headers or libraries are additionally subject to the
+   Unreal Engine End User License Agreement available at:
+       https://www.unrealengine.com/eula/unrealengine
+   Nothing in this licence supersedes the Unreal Engine EULA.
+
+4. THIRD-PARTY COMPONENTS
+   This Software incorporates third-party components that retain their
+   original open-source licences. See NOTICE.md for a complete list,
+   licence texts, and required attributions.
+
+5. TRADEMARKS AND BRANDING
+   "Mahlanya RPG", "Mahlanya", and "BRT Inc." are common-law trade marks
+   of Charles Bartaria / BRT Inc. and may be registered in one or more
+   jurisdictions. No right to use these marks is granted by publication
+   of this source code.
+
+6. CULTURAL CONTENT
+   This Software incorporates historical records, cultural references, and
+   linguistic content of the Kingdom of Eswatini and the Swazi people.
+   Such content is used with respect, for the purpose of authentic
+   historical representation, and under the fair-use principles of
+   historical scholarship. The Owner is committed to engaging Swazi
+   cultural advisors and, where appropriate, the Eswatini National
+   Cultural Centre, during further development. Historical data files
+   under pipeline/history/data/ constitute a curated compilation; the
+   underlying historical facts are not subject to copyright.
+
+7. DISCLAIMER OF WARRANTIES
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
+   NON-INFRINGEMENT. THE OWNER DOES NOT WARRANT THAT THE SOFTWARE WILL
+   MEET YOUR REQUIREMENTS OR THAT ITS OPERATION WILL BE UNINTERRUPTED
+   OR ERROR-FREE.
+
+8. LIMITATION OF LIABILITY
+   TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL
+   THE OWNER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+   EXEMPLARY, PUNITIVE, OR CONSEQUENTIAL DAMAGES (INCLUDING, WITHOUT
+   LIMITATION, LOSS OF PROFITS, LOSS OF DATA, BUSINESS INTERRUPTION, OR
+   COST OF SUBSTITUTE GOODS) ARISING OUT OF OR IN CONNECTION WITH THIS
+   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+9. GOVERNING LAW AND JURISDICTION
+   This licence is governed by the laws of the Kingdom of Eswatini.
+   Any dispute arising under this licence shall be subject to the
+   exclusive jurisdiction of the courts of the Kingdom of Eswatini,
+   without prejudice to the Owner's right to seek injunctive relief in
+   any jurisdiction.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Licensing enquiries: charleskris9@gmail.com
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

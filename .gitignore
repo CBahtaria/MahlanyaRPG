@@ -34,4 +34,32 @@ pipeline/cache/
 # OS
 .DS_Store
 Thumbs.db
+
+# Zig build cache
 pipeline/compute/.zig-cache/
+.zig-cache/
+
+# Secrets and environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+aws_credentials
+credentials
+secrets.json
+
+# CDK deployment artefacts
+cdk.out/
+cdk.context.json
+
+# Node (CDK tooling)
+node_modules/
+package-lock.json
+
+# IDE
+.idea/
+*.iml
+.vscode/settings.json
