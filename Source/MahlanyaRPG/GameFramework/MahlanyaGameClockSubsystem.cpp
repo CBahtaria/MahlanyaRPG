@@ -5,6 +5,8 @@
 #include "Core/MahlanyaLogChannels.h"
 #include "UEconomySimulatorSubsystem.h"
 #include "UEcologySimulatorSubsystem.h"
+#include "UMicroclimateSubsystem.h"
+#include "SimulationBusSubsystem.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
 
@@ -23,6 +25,22 @@ void UMahlanyaGameClockSubsystem::Initialize(FSubsystemCollectionBase& Collectio
         const ENetMode NetMode = World->GetNetMode();
         if (NetMode != NM_Client)
         {
+            // Wire terrain saturation changes into drought stress on all clans
+            if (USimulationBusSubsystem* Bus = World->GetSubsystem<USimulationBusSubsystem>())
+            {
+                DroughtWireHandle = Bus->OnTerrainSaturationChanged.AddWeakLambda(
+                    this, [this](float SaturationFraction)
+                    {
+                        UWorld* W = GetWorld();
+                        if (!W) return;
+                        UEconomySimulatorSubsystem* Economy = W->GetSubsystem<UEconomySimulatorSubsystem>();
+                        if (!Economy) return;
+                        const float DroughtIndex = FMath::Max(0.f, 1.f - SaturationFraction);
+                        for (const FName& ClanID : Economy->GetAllClanIDs())
+                            Economy->SetDroughtStress(ClanID, DroughtIndex);
+                    });
+            }
+
             StartClock();
             UE_LOG(LogMahlanyaSimulation, Log,
                 TEXT("GameClock: started at year %d (%.2f s/day)"),
@@ -33,6 +51,11 @@ void UMahlanyaGameClockSubsystem::Initialize(FSubsystemCollectionBase& Collectio
 
 void UMahlanyaGameClockSubsystem::Deinitialize()
 {
+    if (UWorld* World = GetWorld())
+    {
+        if (USimulationBusSubsystem* Bus = World->GetSubsystem<USimulationBusSubsystem>())
+            Bus->OnTerrainSaturationChanged.Remove(DroughtWireHandle);
+    }
     StopClock();
     Super::Deinitialize();
 }
@@ -82,6 +105,40 @@ void UMahlanyaGameClockSubsystem::OnClockTick()
     }
 
     OnGameDayAdvanced.Broadcast(CurrentGameDay);
+
+    // ── Replication push: weather + clan snapshots every 30 game-days ─────────
+    if (DayOfYear % 30 == 0)
+    {
+        if (AMahlanyaGameState* GS = World->GetGameState<AMahlanyaGameState>())
+        {
+            if (UMicroclimateSubsystem* Clim = World->GetSubsystem<UMicroclimateSubsystem>())
+            {
+                const FMicroclimateState& MS = Clim->GetCurrentState();
+                FReplicatedWeatherState WS;
+                WS.PressureHPa            = MS.PressureHPa;
+                WS.PrecipitationIntensity = MS.PrecipitationIntensity;
+                WS.WindSpeed_ms           = MS.WindSpeed_ms;
+                WS.WindBearing_deg        = MS.WindBearing_deg;
+                WS.TurbidityParam         = MS.TurbidityParam;
+                WS.FogBaseAltitude_m      = MS.FogBaseAltitude_m;
+                GS->ServerUpdateWeather(WS);
+            }
+
+            if (UEconomySimulatorSubsystem* Economy = World->GetSubsystem<UEconomySimulatorSubsystem>())
+            {
+                for (const FName& ClanID : Economy->GetAllClanIDs())
+                {
+                    const FClanEconomicState& CS = Economy->GetClanState(ClanID);
+                    FReplicatedClanSnapshot Snap;
+                    Snap.ClanID            = ClanID;
+                    Snap.CattleCount       = CS.CattleCount;
+                    Snap.PoliticalStrength = CS.PoliticalStrength;
+                    Snap.ColonialPressure  = CS.ColonialPressure;
+                    GS->ServerUpdateClanSnapshot(Snap);
+                }
+            }
+        }
+    }
 
     // ── Year wrap ─────────────────────────────────────────────────────────────
     if (DayOfYear >= DaysPerYear)

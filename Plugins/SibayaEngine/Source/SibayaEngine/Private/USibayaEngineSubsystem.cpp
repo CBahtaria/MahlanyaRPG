@@ -1,5 +1,7 @@
 #include "USibayaEngineSubsystem.h"
 #include "VoronoiSolver.h"
+#include "SimulationBusSubsystem.h"
+#include "Engine/World.h"
 
 // ---------------------------------------------------------------------------
 // UWorldSubsystem overrides
@@ -8,6 +10,19 @@
 void USibayaEngineSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
+
+    if (USimulationBusSubsystem* Bus = GetWorld()->GetSubsystem<USimulationBusSubsystem>())
+    {
+        Bus->OnSettlementDemographicChanged.AddWeakLambda(
+            this, [this](FName InSettlementID, int32 /*NewWifeCount*/)
+            {
+                FSettlementID SID;
+                SID.ID = InSettlementID;
+                if (Settlements.Contains(SID))
+                    RecomputeLayout(SID);
+            });
+    }
+
     UE_LOG(LogTemp, Log, TEXT("USibayaEngineSubsystem initialized"));
 }
 
@@ -155,8 +170,12 @@ void USibayaEngineSubsystem::RecomputeLayout(FSettlementID SettlementID)
 
 void USibayaEngineSubsystem::PublishDemographicChange(FSettlementID SettlementID)
 {
-    // Full SimulationBus integration requires the bus header which may not be
-    // available at this stage; use a simple log for now.
+    const FSettlementData* Data = Settlements.Find(SettlementID);
+    if (!Data) return;
+
+    if (USimulationBusSubsystem* Bus = GetWorld()->GetSubsystem<USimulationBusSubsystem>())
+        Bus->BroadcastSettlementDemographicChanged(SettlementID.ID, Data->NumWives);
+
     UE_LOG(LogTemp, Verbose, TEXT("Settlement %s demographic changed"),
            *SettlementID.ID.ToString());
 }

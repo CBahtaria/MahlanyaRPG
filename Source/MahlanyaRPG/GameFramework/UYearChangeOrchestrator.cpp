@@ -3,6 +3,7 @@
 #include "UYearChangeOrchestrator.h"
 #include "Performance/UHardwareAdaptiveScaler.h"
 #include "Performance/MahlanyaPerformanceCVars.h"
+#include "Performance/FSimulationTracer.h"
 #include "Core/MahlanyaLogChannels.h"
 #include "Engine/World.h"
 #include "Engine/GameInstance.h"
@@ -49,7 +50,6 @@ void UYearChangeOrchestrator::Tick(float DeltaTime)
     {
     case EYearChangeState::CollectingEvents:
     {
-        // Collect unlocked events from the calendar into the pool
         UHistoricalCalendarSubsystem* Cal = CalendarRef.Get();
         if (!Cal)
         {
@@ -57,24 +57,24 @@ void UYearChangeOrchestrator::Tick(float DeltaTime)
             return;
         }
 
-        // AdvanceYear enqueues events in the calendar's internal graph.
-        // We call it here (once) to populate GetEventsFiredThisYear().
-        Cal->AdvanceYear(TargetYear);
+        // Snapshot events eligible to fire BEFORE advancing — after AdvanceTime()
+        // they will be marked bFired=true and GetPendingEvents() returns empty.
+        const TArray<FHistoricalEventNode> PendingEvents = Cal->GetPendingEvents();
 
-        // Now enqueue those events into our pool for paced processing.
-        const TArray<FName>& FiredIDs = Cal->GetEventsFiredThisYear();
-        for (const FName& EID : FiredIDs)
+        // Advance the calendar by one full game-year; fires events internally.
+        Cal->AdvanceTime(365.f);
+
+        // Enqueue collected events into the pool for paced side-effect processing.
+        for (const FHistoricalEventNode& Node : PendingEvents)
         {
             FEventPoolSlot* Slot = AllocateEventSlot();
             if (!Slot)
             {
                 UE_LOG(LogMahlanyaYearChange, Warning,
-                       TEXT("Event pool full — dropping event %s"), *EID.ToString());
+                       TEXT("Event pool full — dropping event %s"), *Node.EventID.ToString());
                 break;
             }
-            Slot->Event.EventID = EID;
-            Slot->Event.Year    = TargetYear;
-            Slot->bInUse        = true;
+            Slot->Event = Node;
             PendingIndices.Add(static_cast<int32>(Slot - EventPool));
         }
 
@@ -85,6 +85,8 @@ void UYearChangeOrchestrator::Tick(float DeltaTime)
 
     case EYearChangeState::ProcessingEvents:
     {
+        SCOPED_SIM_PHASE(ESimPhase::YearChange_Orchestrate, (uint32)TargetYear);
+
         if (PendingIndices.IsEmpty())
         {
             OrchestratorState = EYearChangeState::Syncing;

@@ -99,7 +99,8 @@ public:
 private:
     void OnClockTick();
 
-    FTimerHandle ClockTimerHandle;
+    FTimerHandle    ClockTimerHandle;
+    FDelegateHandle DroughtWireHandle;
 
     int32 CurrentGameDay  = 0;
     int32 CurrentGameYear = 1750;

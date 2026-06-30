@@ -1,5 +1,6 @@
 #include "ULightningSystem.h"
 #include "UMicroclimateSubsystem.h"
+#include "SimulationBusSubsystem.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Pawn.h"
@@ -71,6 +72,9 @@ void ULightningSystem::FireStrike()
     }
 
     OnLightningStrike.Broadcast(StrikeLocation, false);
+
+    if (USimulationBusSubsystem* Bus = GetWorld()->GetSubsystem<USimulationBusSubsystem>())
+        Bus->BroadcastLightningStrike(StrikeLocation, false);
 }
 
 void ULightningSystem::SetTreeState(AActor* Tree, ELightningTreeState State)
