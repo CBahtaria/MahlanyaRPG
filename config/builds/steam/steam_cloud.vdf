@@ -1,0 +1,34 @@
+// MahlanyaRPG — Steam Cloud Save Path Layout
+// -----------------------------------------------------------------------
+// Steam reads this file to determine which local paths are synced to the
+// Steam Cloud for each user. Paths are relative to the game's save root.
+//
+// Path roles:
+//   slot_0 / slot_1 / slot_2  — Per-playthrough save slots. Each slot
+//       contains serialised UMahlanyaSaveGame objects (clan states, fired
+//       historical events, settlement snapshots, calendar year). Slot
+//       directories are wiped and rewritten by UMahlanyaSaveSubsystem on
+//       every save. 3 slots match the CloudSave entries in steam_sdk.config.
+//
+//   settings  — Single flat config file storing player preferences:
+//       scalability tier, audio levels, and keybinds. Intentionally kept
+//       outside slot directories so that a slot-reset never erases them.
+//
+//   chronicle — Append-only JSON log written once per in-game year. Each
+//       entry records the year, key events, and clan standings. Survives
+//       across slot resets to give the player a cross-playthrough history.
+// -----------------------------------------------------------------------
+
+"CloudPaths"
+{
+    // Save slots (3 per spec) — overwritten on every Save Game call
+    "slot_0"    "save/slot_0/*.sav"
+    "slot_1"    "save/slot_1/*.sav"
+    "slot_2"    "save/slot_2/*.sav"
+
+    // Settings — never wiped by slot reset
+    "settings"  "save/settings.cfg"
+
+    // Persistent chronicle — append-only playthrough log
+    "chronicle" "save/chronicle/*.json"
+}

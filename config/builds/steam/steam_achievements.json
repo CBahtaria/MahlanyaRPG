@@ -1,0 +1,16 @@
+{
+  "achievements": [
+    { "id": "ACH_FIRST_CATTLE_RAID",   "name": "Umshini Wami",            "desc": "Complete your first cattle raid.",                       "hidden": false },
+    { "id": "ACH_MFECANE_SURVIVED",    "name": "Survivor of the Mfecane", "desc": "Live through the chaos years (1815–1840).",          "hidden": false },
+    { "id": "ACH_LOBOLA_PAID",         "name": "Umnumzane",               "desc": "Pay lobola and establish your first homestead.",         "hidden": false },
+    { "id": "ACH_LUBOMBO_VICTORY",     "name": "Lubombo Stands",          "desc": "Win the Battle of Lubombo (1846).",                     "hidden": false },
+    { "id": "ACH_SACRED_TREE",         "name": "Omens of Mdzimba",        "desc": "Witness lightning strike a sacred tree.",                "hidden": false },
+    { "id": "ACH_FULL_ALLIANCE",       "name": "Inkhundla Unified",       "desc": "Forge alliances with 5 chiefdoms simultaneously.",      "hidden": false },
+    { "id": "ACH_KNOWLEDGE_COMPLETE",  "name": "Imbongi ya Sikhulu",      "desc": "Discover all entries in the historical knowledge graph.", "hidden": false },
+    { "id": "ACH_COLONY_RESISTED",     "name": "Sovereignty",             "desc": "Reject every colonial concession for 20 game-years.",   "hidden": false },
+    { "id": "ACH_ZERO_DROUGHT_LOSS",   "name": "The Rains Came",          "desc": "Survive a drought season without losing cattle.",        "hidden": false },
+    { "id": "ACH_COOP_RAID",           "name": "Lihlanganisa",            "desc": "Complete a cattle raid with another player in co-op.",   "hidden": false },
+    { "id": "ACH_FULL_PLAYTHROUGH",    "name": "Mahlanya",                "desc": "Complete the game across all historical eras.",          "hidden": true  },
+    { "id": "ACH_SPEEDRUN_ERA",        "name": "Reckless One",            "desc": "Complete an era in under 2 real hours.",                 "hidden": true  }
+  ]
+}
