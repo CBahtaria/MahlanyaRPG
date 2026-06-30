@@ -16,22 +16,22 @@ struct FReplicatedWeatherState
 {
     GENERATED_BODY()
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     float PressureHPa = 1013.25f;
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     float PrecipitationIntensity = 0.f;   // mm/hr
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     float WindSpeed_ms = 0.f;
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     float WindBearing_deg = 0.f;
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     float TurbidityParam = 0.f;           // 0 = clean Highveld, 1 = dusty Lowveld
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     float FogBaseAltitude_m = 9999.f;
 };
 
@@ -40,16 +40,16 @@ struct FReplicatedClanSnapshot
 {
     GENERATED_BODY()
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     FName ClanID;
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     int32 CattleCount = 0;
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     float PoliticalStrength = 0.5f;
 
-    UPROPERTY(BlueprintReadOnly, Replicated)
+    UPROPERTY(BlueprintReadOnly)
     float ColonialPressure = 0.f;
 };
 

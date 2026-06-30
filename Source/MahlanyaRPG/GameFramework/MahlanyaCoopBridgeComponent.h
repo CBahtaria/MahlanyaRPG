@@ -3,9 +3,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "MahlanyaGameState.h"
 #include "MahlanyaCoopBridgeComponent.generated.h"
-
-class AMahlanyaGameState;
 
 /**
  * Attached to the player pawn.  Bridges the replicated simulation state in

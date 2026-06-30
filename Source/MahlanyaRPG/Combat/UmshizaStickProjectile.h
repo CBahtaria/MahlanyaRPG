@@ -5,6 +5,8 @@
 #include "Components/SplineComponent.h"
 #include "UmshizaStickProjectile.generated.h"
 
+class UStaticMeshComponent;
+
 /**
  * AUmshizaStickProjectile
  *
@@ -19,7 +21,7 @@
  *   3. On arrival, the stick attaches itself to OwnerHandSocket on the owner's mesh.
  */
 UCLASS()
-class AUmshizaStickProjectile : public AActor
+class MAHLANYARPG_API AUmshizaStickProjectile : public AActor
 {
     GENERATED_BODY()
 
