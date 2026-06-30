@@ -19,7 +19,8 @@ public class MahlanyaRPG : ModuleRules
 
         PrivateDependencyModuleNames.AddRange(new string[]
         {
-            "DeviceProfileServices", "Compression", "Slate", "SlateCore"
+            "DeviceProfileServices", "Compression", "Slate", "SlateCore",
+            "SimulationBusPlugin", "EmergentNarrativePlugin"
         });
 
         // Insights tracing only in non-Shipping builds
