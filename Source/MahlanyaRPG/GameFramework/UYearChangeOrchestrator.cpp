@@ -13,7 +13,8 @@ void UYearChangeOrchestrator::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
 
-    CalendarRef = GetWorld()->GetSubsystem<UHistoricalCalendarSubsystem>();
+    if (UWorld* World = GetWorld())
+        CalendarRef = World->GetSubsystem<UHistoricalCalendarSubsystem>();
 
     // Zero the pool slots on init (bInUse = false for all)
     for (FEventPoolSlot& Slot : EventPool)

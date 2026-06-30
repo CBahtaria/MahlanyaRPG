@@ -157,6 +157,12 @@ void ASimulationReplicationManager::Client_ReceivePropertyBatch_Implementation(
     const TArray<float>& Values,
     int32 Tick)
 {
+    if (Props.Num() != Values.Num())
+    {
+        UE_LOG(LogMahlanyaNetwork, Warning,
+               TEXT("Client_ReceivePropertyBatch: Props.Num()=%d != Values.Num()=%d — truncating to shorter"),
+               Props.Num(), Values.Num());
+    }
     const int32 Count = FMath::Min(Props.Num(), Values.Num());
     for (int32 i = 0; i < Count; ++i)
     {

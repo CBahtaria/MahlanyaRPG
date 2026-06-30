@@ -31,7 +31,8 @@ void UMicroclimateSubsystem::SimulateMinuteTick(float GameMinuteDelta)
     CurrentState.PressureHPa = FMath::Clamp(CurrentState.PressureHPa, 870.f, 1020.f);
 
     // Pressure tendency (difference from oldest history entry)
-    CurrentState.PressureTendencyHPa = CurrentState.PressureHPa - PressureHistory[0];
+    if (PressureHistory.Num() > 0)
+        CurrentState.PressureTendencyHPa = CurrentState.PressureHPa - PressureHistory[0];
     if (PressureHistory.Num() >= 3) PressureHistory.RemoveAt(0);
     PressureHistory.Add(CurrentState.PressureHPa);
 
