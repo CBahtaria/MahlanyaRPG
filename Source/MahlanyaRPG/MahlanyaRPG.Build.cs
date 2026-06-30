@@ -12,7 +12,9 @@ public class MahlanyaRPG : ModuleRules
         {
             "Core", "CoreUObject", "Engine", "InputCore",
             "NetCore", "DeveloperSettings", "TraceLog", "RHI",
-            "GameplayAbilities", "UMG"
+            "GameplayAbilities", "UMG",
+            "EnhancedInput",
+            "LocomotionPhysicsPlugin"
         });
 
         PrivateDependencyModuleNames.AddRange(new string[]
