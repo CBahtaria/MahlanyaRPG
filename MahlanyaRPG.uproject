@@ -20,6 +20,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "ErosionRuntimePlugin",
+			"Enabled": true
+		},
+		{
 			"Name": "MahlanyaPipelinePlugin",
 			"Enabled": true
 		},

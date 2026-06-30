@@ -1,0 +1,45 @@
+// ErosionCS.usf — Mahlanya RPG runtime fluvial erosion compute shader
+// Dispatched from URuntimeHeightmapComponent::DispatchErosionIteration()
+// One pass per dispatch; caller fires at 50 Hz while rain > 0.
+
+#include "/Engine/Public/Platform.ush"
+
+// ── Shader parameters (bound by FErosionCS::FParameters) ─────────────────────
+
+RWTexture2D<float> HeightmapUAV;  // R16f displacement target, 0 = no displacement
+int   PatchResolution;            // Both axes; must match texture dimensions
+float ErosionRate;                // Per-texel depth removed per iteration (cm/iter)
+
+// ── Kernel ─────────────────────────────────────────────────────────────────────
+
+[numthreads(THREAD_GROUP_SIZE, THREAD_GROUP_SIZE, 1)]
+void MainCS(uint3 ThreadId : SV_DispatchThreadID)
+{
+    int2 Coord = int2(ThreadId.xy);
+
+    // Boundary guard — threads outside the texture are discarded
+    if (Coord.x >= PatchResolution || Coord.y >= PatchResolution)
+        return;
+
+    // Central height sample
+    float h = HeightmapUAV[Coord];
+
+    // Four-neighbour samples (clamp-to-edge boundary condition)
+    int2 MaxCoord = int2(PatchResolution - 1, PatchResolution - 1);
+    float hN = HeightmapUAV[clamp(Coord + int2( 0, -1), int2(0,0), MaxCoord)];
+    float hS = HeightmapUAV[clamp(Coord + int2( 0,  1), int2(0,0), MaxCoord)];
+    float hE = HeightmapUAV[clamp(Coord + int2( 1,  0), int2(0,0), MaxCoord)];
+    float hW = HeightmapUAV[clamp(Coord + int2(-1,  0), int2(0,0), MaxCoord)];
+
+    // Central-difference slope gradient
+    float dX = (hE - hW) * 0.5;
+    float dY = (hS - hN) * 0.5;
+    float Slope = sqrt(dX * dX + dY * dY);
+
+    // Fluvial erosion: remove material proportional to slope × ErosionRate
+    // Slope-driven erosion ensures flat areas are unaffected; cliff faces erode fastest
+    float Erosion = ErosionRate * Slope;
+
+    // Write back clamped to zero (no negative heights — terrain cannot rise under erosion)
+    HeightmapUAV[Coord] = max(0.0, h - Erosion);
+}

@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Erosion Runtime Plugin",
+	"Description": "Session-local GPU erosion overlay for Mahlanya RPG. Subscribes to MicroclimateEngine rain events via SimulationBus and dispatches a fluvial erosion compute shader over a 200m radius patch around the player. Also receives footprint and wheel-rut displacement writes. Resets to the baked heightmap on session end — deterministic for multiplayer.",
+	"Category": "Mahlanya",
+	"CreatedBy": "Charles Bartaria / BRT Inc.",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "ErosionRuntimePlugin",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
