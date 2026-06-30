@@ -1,11 +1,14 @@
 #include "UMicroclimateSubsystem.h"
+#include "SimulationBusSubsystem.h"
 #include "Math/UnrealMathUtility.h"
 
 void UMicroclimateSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
     PressureHistory = { 1013.25f, 1013.25f, 1013.25f };
-    UE_LOG(LogTemp, Log, TEXT("UMicroclimateSubsystem initialized"));
+
+    if (UWorld* World = GetWorld())
+        CachedSimBus = World->GetSubsystem<USimulationBusSubsystem>();
 }
 
 void UMicroclimateSubsystem::Deinitialize()
@@ -63,14 +66,20 @@ void UMicroclimateSubsystem::BroadcastStateChanges(float PrevRain)
 {
     if (FMath::Abs(CurrentState.PrecipitationIntensity - LastBroadcastRain) > 1.0f)
     {
-        OnRainIntensityChanged.Broadcast(CurrentState.PrecipitationIntensity);
-        LastBroadcastRain = CurrentState.PrecipitationIntensity;
+        const float NewRain = CurrentState.PrecipitationIntensity;
+        OnRainIntensityChanged.Broadcast(NewRain);
+        if (USimulationBusSubsystem* Bus = CachedSimBus.Get())
+            Bus->BroadcastRainIntensityChanged(NewRain);
+        LastBroadcastRain = NewRain;
     }
 
     const int32 Tier = FMath::Clamp((int32)(RainAccumulation_mm / 50.f), 0, 3);
     if (Tier != LastSaturationTier)
     {
-        OnTerrainSaturationChanged.Broadcast(Tier / 3.f);
+        const float SatFraction = Tier / 3.f;
+        OnTerrainSaturationChanged.Broadcast(SatFraction);
+        if (USimulationBusSubsystem* Bus = CachedSimBus.Get())
+            Bus->BroadcastTerrainSaturationChanged(SatFraction);
         LastSaturationTier = Tier;
     }
 }

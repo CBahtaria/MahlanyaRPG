@@ -5,6 +5,8 @@
 #include "FMicroclimateState.h"
 #include "UMicroclimateSubsystem.generated.h"
 
+class USimulationBusSubsystem;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnRainIntensityChanged,
                                              float, NewIntensity_mm_per_hr);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTerrainSaturationChanged,
@@ -16,28 +18,31 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTerrainSaturationChanged,
  * Server-authoritative world subsystem running a simplified barometric
  * pressure simulation and orographic rainfall model for Eswatini.
  *
- * Publishes:
- *   FOnRainIntensityChanged  → subscribed by ErosionRuntimePlugin, LocomotionPhysicsPlugin
- *   FOnTerrainSaturationChanged → subscribed by ErosionRuntimePlugin
+ * Publishes (two channels):
+ *   1. Local UPROPERTY delegates (OnRainIntensityChanged / OnTerrainSaturationChanged)
+ *      — for Blueprint bindings directly on this subsystem.
+ *   2. SimulationBus (USimulationBusSubsystem::BroadcastRainIntensityChanged /
+ *      BroadcastTerrainSaturationChanged) — consumed by ErosionRuntimePlugin
+ *      and LocomotionPhysicsPlugin which subscribe to the bus, not this subsystem.
  */
 UCLASS()
-class MICROCLIMATEENGINE_API UMicroclimateSubsystem : public UWorldSubsystem
+class MICROCLIMATEENGINE_API UMicroclimateSubsystem : public UTickableWorldSubsystem
 {
     GENERATED_BODY()
 
 public:
-    //~ Begin UWorldSubsystem Interface
+    //~ Begin USubsystem Interface
     virtual void Initialize(FSubsystemCollectionBase& Collection) override;
     virtual void Deinitialize() override;
-    virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return true; }
-    //~ End UWorldSubsystem Interface
+    //~ End USubsystem Interface
 
-    virtual void Tick(float DeltaTime);
-    virtual bool IsTickable() const { return true; }
+    //~ Begin FTickableGameObject Interface (via UTickableWorldSubsystem)
+    virtual void Tick(float DeltaTime) override;
     virtual TStatId GetStatId() const override
     {
         RETURN_QUICK_DECLARE_CYCLE_STAT(UMicroclimateSubsystem, STATGROUP_Tickables);
     }
+    //~ End FTickableGameObject Interface
 
     /** Current atmospheric snapshot. */
     UFUNCTION(BlueprintCallable, Category = "Microclimate")
@@ -87,6 +92,8 @@ private:
 
     TArray<TTuple<FVector, float>> SmokeSources;
     TArray<float> PressureHistory;
+
+    TWeakObjectPtr<USimulationBusSubsystem> CachedSimBus;
 
     void SimulateMinuteTick(float GameMinuteDelta);
     void BroadcastStateChanges(float PrevRainIntensity);
