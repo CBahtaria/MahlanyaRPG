@@ -212,22 +212,62 @@ UE5 build requires a self-hosted runner with UE5.4+ at `$UE5_ROOT`. Set the `UE5
 
 ---
 
+## Project Status
+
+**This is a technical foundation, not yet a playable game.**
+
+The offline science pipeline, Zig compute kernels, C++ plugin source, and UE5 project configuration are complete. No game content exists yet (no maps, character meshes, animations, or playable level). Getting to a playable vertical slice requires a machine with UE5.4+, NVIDIA GPU, ~22h to run the terrain pipeline, and significant content production work.
+
+### What exists
+
+| Component | State |
+|---|---|
+| Python science pipeline | ✅ 310 tests pass |
+| Zig SIMD compute kernels | ✅ `libmahlanya_compute.so` builds |
+| C++ plugin source (11 plugins) | ✅ Written, not yet compiled in UE5 |
+| UE5 project file (`MahlanyaRPG.uproject`) | ✅ Written |
+| CI/CD workflows | ✅ Active |
+| Config files (scalability, device profiles) | ✅ Written |
+| Historical data (persons, relations, events) | ✅ Validated |
+
+### What does not exist yet
+
+| Component | Needed for |
+|---|---|
+| UE5 project compiled and opened | Everything |
+| Terrain heightmap (make full-pipeline output) | Any world geometry |
+| Character skeletal mesh / animations | Protagonist Mahlanya |
+| Any maps or levels | Playable content |
+| NPC meshes, settlement assets, flora/fauna | World population |
+| Game UI | Menus, HUD, dialogue |
+
+### Milestones to first playable
+
+1. **Bootstrap** — Compile C++ source in UE5.4 on a development machine
+2. **Terrain** — Run `make full-pipeline` on a machine with NVIDIA GPU + GDAL; import heightmap tiles into a UE5 Landscape
+3. **Character** — Create or licence skeletal mesh + animations for Mahlanya; wire ABP, Control Rig, locomotion plugin
+4. **First level** — Assemble one playable area (Middleveld valley) with terrain, lighting, and basic movement
+5. **Settlement** — Spawn one Umuti via PCG + SibayaEngine; verify Voronoi layout
+6. **Content production** — 2–3 years of asset, level, narrative, and audio production work
+
 ## Implementation Phases
 
 | Phase | Deliverable | Status |
 |---|---|---|
-| **0 — Foundation** | Scaffold, Git LFS, CI/CD, Python env | ✅ Complete |
-| **1 — Terrain** | Trilingual pipeline (Python + Zig + C++ commandlets); eroded Eswatini heightmap in UE5 | ✅ Complete |
-| **2 — Locomotion** | Anisotropic friction, altitude fatigue, Chaos slip, footprint physics | ✅ Complete |
-| **3 — Settlement** | SibayaEngine; Voronoi Umuti villages; political graph | ✅ Complete |
-| **4 — Atmosphere** | Hosek-Wilkie sky, MicroclimateEngine, lightning, controlled burns | ✅ Complete |
-| **5 — Audio** | 64-ray geometric audio, acoustic IRs, bioacoustics, MetaSounds | ✅ Complete |
-| **6 — Historical World** | Knowledge graph, economy simulator, emergent narrative | ✅ Complete |
-| **7 — Ecology & Culture** | Lotka-Volterra fauna grid, siSwati protocol engine | ✅ Complete |
-| **8 — Mobile** | Artifact packager, `UMahlanyaScalabilitySubsystem`, mobile tiers | ✅ Complete |
-| **9 — Co-op** | `AMahlanyaGameState`, `UMahlanyaCoopBridgeComponent`, GAS replication | ✅ Complete |
-| **10 — Production** | Hardware scaler, runtime throttle, trust matrix, year-change orchestrator, Insights tracing | ✅ Complete |
-| **Ship** | Platform certification | Planned |
+| **0 — Foundation** | Scaffold, Git LFS, CI/CD, Python env | ✅ Source complete |
+| **1 — Terrain** | Trilingual pipeline (Python + Zig + C++ commandlets) | ✅ Source complete |
+| **2 — Locomotion** | Anisotropic friction, altitude fatigue, Chaos slip, footprint physics | ✅ Source complete |
+| **3 — Settlement** | SibayaEngine; Voronoi Umuti villages; political graph | ✅ Source complete |
+| **4 — Atmosphere** | Hosek-Wilkie sky, MicroclimateEngine, lightning, controlled burns | ✅ Source complete |
+| **5 — Audio** | 64-ray geometric audio, acoustic IRs, bioacoustics, MetaSounds | ✅ Source complete |
+| **6 — Historical World** | Knowledge graph, economy simulator, emergent narrative | ✅ Source complete |
+| **7 — Ecology & Culture** | Lotka-Volterra fauna grid, siSwati protocol engine | ✅ Source complete |
+| **8 — Mobile** | Artifact packager, `UMahlanyaScalabilitySubsystem`, mobile tiers | ✅ Source complete |
+| **9 — Co-op** | `AMahlanyaGameState`, `UMahlanyaCoopBridgeComponent`, GAS replication | ✅ Source complete |
+| **10 — Production** | Hardware scaler, runtime throttle, trust matrix, year-change orchestrator, Insights tracing | ✅ Source complete |
+| **Bootstrap UE5** | Compile + open project; import first terrain tile | 🔲 Next |
+| **First Playable** | Mahlanya moves through one Middleveld area | 🔲 Planned |
+| **Ship** | Platform certification | 🔲 Planned |
 
 ---
 
@@ -267,10 +307,15 @@ MahlanyaRPG/
 │   ├── CulturalProtocolPlugin/    # siSwati language + protocols
 │   ├── EcologySimulatorPlugin/    # Fauna/flora simulation
 │   └── EmergentNarrativePlugin/   # Quest generation + Imbongi
-├── Source/MahlanyaRPG/            # UE5 game module
-│   ├── Core/MahlanyaLogChannels.h # 8 log categories
-│   ├── Performance/               # Phase 10: hardware scaler, throttle, tracer
-│   └── GameFramework/             # Trust matrix, replication manager, year orchestrator
+├── Source/
+│   ├── MahlanyaRPG.Target.cs      # Game target
+│   ├── MahlanyaRPGEditor.Target.cs# Editor target
+│   └── MahlanyaRPG/               # UE5 game module
+│       ├── MahlanyaRPG.cpp        # IMPLEMENT_PRIMARY_GAME_MODULE
+│       ├── MahlanyaRPG.Build.cs
+│       ├── Core/MahlanyaLogChannels.h  # 8 log categories
+│       ├── Performance/           # Phase 10: hardware scaler, throttle, tracer
+│       └── GameFramework/         # Trust matrix, replication manager, year orchestrator
 ├── Content/                       # UE5 assets (Git LFS)
 ├── Config/                        # DefaultEngine / DefaultGame / DefaultScalability
 │   ├── DefaultEngine.ini          # Subsystem auto-registration
@@ -285,8 +330,8 @@ MahlanyaRPG/
 ├── .gitignore
 ├── .gitattributes                 # Git LFS for .uasset, .r16, .exr, .wav
 ├── NOTICE.md                      # Third-party licence attributions
-├── LICENSE                        # MIT
-└── MahlanyaRPG.uproject
+├── LICENSE                        # Proprietary source-available
+└── MahlanyaRPG.uproject           # UE5 project descriptor
 ```
 
 ---

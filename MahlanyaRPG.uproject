@@ -1,0 +1,105 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.4",
+	"Category": "RPG",
+	"Description": "Swazi historical 3D RPG spanning 1750-1906. Physics-accurate terrain, Hosek-Wilkie atmosphere, geometric audio, Swazi social geometry, cattle economy, emergent narrative.",
+	"Modules": [
+		{
+			"Name": "MahlanyaRPG",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"CoreUObject"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "SimulationBusPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "MahlanyaPipelinePlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "SibayaEngine",
+			"Enabled": true
+		},
+		{
+			"Name": "LocomotionPhysicsPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "MicroclimateEngine",
+			"Enabled": true
+		},
+		{
+			"Name": "GeometricAudioPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "KnowledgeGraphPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "EconomySimulatorPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "CulturalProtocolPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "EcologySimulatorPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "EmergentNarrativePlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "GameplayAbilities",
+			"Enabled": true
+		},
+		{
+			"Name": "PCGFramework",
+			"Enabled": true
+		},
+		{
+			"Name": "MetasoundEngine",
+			"Enabled": true
+		},
+		{
+			"Name": "ControlRig",
+			"Enabled": true
+		},
+		{
+			"Name": "MotionWarping",
+			"Enabled": true
+		},
+		{
+			"Name": "ChaosSolverPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "OnlineSubsystem",
+			"Enabled": true
+		},
+		{
+			"Name": "OnlineSubsystemUtils",
+			"Enabled": true
+		},
+		{
+			"Name": "NaniteDisplacedMesh",
+			"Enabled": true
+		}
+	],
+	"TargetPlatforms": [
+		"Windows",
+		"Linux",
+		"Android",
+		"IOS"
+	]
+}
