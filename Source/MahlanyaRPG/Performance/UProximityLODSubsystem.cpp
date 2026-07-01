@@ -3,6 +3,8 @@
 #include "UProximityLODSubsystem.h"
 #include "MahlanyaPerformanceCVars.h"
 #include "Core/MahlanyaLogChannels.h"
+#include "UHardwareAdaptiveScaler.h"
+#include "Engine/GameInstance.h"
 #include "Engine/World.h"
 #include "Engine/StaticMeshActor.h"
 #include "Components/StaticMeshComponent.h"
@@ -23,6 +25,42 @@ void UProximityLODSubsystem::Initialize(FSubsystemCollectionBase& Collection)
     {
         bSubsystemEnabled = false;
         return;
+    }
+
+    if (UGameInstance* GI = GetWorld()->GetGameInstance())
+    {
+        if (UHardwareAdaptiveScaler* Scaler = GI->GetSubsystem<UHardwareAdaptiveScaler>())
+        {
+            EHardwareTier Tier = Scaler->GetDetectedTier();
+            // Override CVars for tier — tighter focus on lower-end hardware
+            IConsoleManager& CM = IConsoleManager::Get();
+            auto SetCVar = [&](const TCHAR* Name, float Val) {
+                if (IConsoleVariable* V = CM.FindConsoleVariable(Name))
+                    V->Set(Val, ECVF_SetByCode);
+            };
+            switch (Tier)
+            {
+            case EHardwareTier::UltraLowEnd:
+                SetCVar(TEXT("mahlanya.ProximityLOD.FocusConeAngle"),        15.f);
+                SetCVar(TEXT("mahlanya.ProximityLOD.BackgroundDotThreshold"), 0.0f);
+                SetCVar(TEXT("mahlanya.ProximityLOD.EvalIntervalSeconds"),    0.05f);
+                break;
+            case EHardwareTier::LowEnd:
+                SetCVar(TEXT("mahlanya.ProximityLOD.FocusConeAngle"),        20.f);
+                SetCVar(TEXT("mahlanya.ProximityLOD.BackgroundDotThreshold"),-0.1f);
+                SetCVar(TEXT("mahlanya.ProximityLOD.EvalIntervalSeconds"),   0.08f);
+                break;
+            case EHardwareTier::HighEnd:
+                SetCVar(TEXT("mahlanya.ProximityLOD.FocusConeAngle"),        30.f);
+                SetCVar(TEXT("mahlanya.ProximityLOD.BackgroundDotThreshold"),-0.4f);
+                break;
+            case EHardwareTier::Ultra:
+                SetCVar(TEXT("mahlanya.ProximityLOD.FocusConeAngle"),        35.f);
+                SetCVar(TEXT("mahlanya.ProximityLOD.BackgroundDotThreshold"),-0.5f);
+                break;
+            default: break; // MidRange uses defaults
+            }
+        }
     }
 
     UE_LOG(LogMahlanyaPerformance, Verbose, TEXT("ProximityLOD subsystem initialized"));

@@ -74,6 +74,9 @@ public:
     // Called by UDynamicRuntimeThrottle to reduce settings mid-session
     void DynamicApplyConfig(const FAdaptiveSimulationConfig& NewConfig);
 
+    // Re-applies all CVars for the detected tier (used by throttle system to restore after Emergency)
+    void WriteCVarsForCurrentTier() { WriteCVarsForTier(DetectedTier); }
+
     UFUNCTION(BlueprintPure, Category="Mahlanya|Performance")
     EHardwareTier GetDetectedTier() const { return DetectedTier; }
 

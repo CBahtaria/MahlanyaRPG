@@ -206,32 +206,115 @@ void UHardwareAdaptiveScaler::WriteCVarsForTier(EHardwareTier Tier)
         SetInt  (TEXT("sg.PostProcessQuality"),      0);
         break;
     case EHardwareTier::LowEnd:
+        // Simulation CVars
         SetInt  (CVar_RuntimeErosion,  0);
         SetInt  (CVar_RuntimeVoronoi,  0);
         SetInt  (CVar_AudioRayCount,   0);
         SetInt  (CVar_AudioMaxBounces, 0);
         SetFloat(CVar_DrawDistance,    1.0f);
+        // Renderer
+        SetInt  (TEXT("r.Nanite"),                   0);
+        SetInt  (TEXT("r.Lumen.Enabled"),            0);
+        SetInt  (TEXT("r.VolumetricCloud"),          0);
+        SetInt  (TEXT("r.SkyAtmosphere"),            1);
+        SetInt  (TEXT("r.DynamicRes.Enabled"),       1);
+        SetFloat(TEXT("r.DynamicRes.TargetedScreenPercentage"), 60.f);
+        SetFloat(TEXT("r.DynamicRes.MinScreenPercentage"),      50.f);
+        SetFloat(TEXT("t.MaxFPS"),                  30.f);
+        SetInt  (TEXT("r.BloomQuality"),             0);
+        SetInt  (TEXT("r.DepthOfFieldQuality"),      0);
+        SetInt  (TEXT("r.MotionBlurQuality"),        0);
+        SetInt  (TEXT("r.AmbientOcclusionLevels"),   0);
+        SetInt  (TEXT("r.MaterialQualityLevel"),     0);
+        SetInt  (TEXT("r.ReflectionCaptureResolution"), 128);
+        SetInt  (TEXT("sg.ShadowQuality"),           0);
+        SetInt  (TEXT("sg.TextureQuality"),          1);
+        SetInt  (TEXT("sg.EffectsQuality"),          0);
+        SetInt  (TEXT("sg.PostProcessQuality"),      0);
+        SetFloat(TEXT("r.Streaming.MipBias"),        2.f);
         break;
     case EHardwareTier::MidRange:
+        // Simulation CVars
         SetInt  (CVar_RuntimeErosion,  0);
         SetInt  (CVar_RuntimeVoronoi,  0);
         SetInt  (CVar_AudioRayCount,   0);
         SetInt  (CVar_AudioMaxBounces, 0);
         SetFloat(CVar_DrawDistance,    2.0f);
+        // Renderer
+        SetInt  (TEXT("r.Nanite"),                   1);
+        SetInt  (TEXT("r.Lumen.Enabled"),            0);  // Lumen too expensive for mid
+        SetInt  (TEXT("r.VolumetricCloud"),          0);
+        SetInt  (TEXT("r.SkyAtmosphere"),            1);
+        SetInt  (TEXT("r.DynamicRes.Enabled"),       1);
+        SetFloat(TEXT("r.DynamicRes.TargetedScreenPercentage"), 78.f);
+        SetFloat(TEXT("r.DynamicRes.MinScreenPercentage"),      60.f);
+        SetFloat(TEXT("t.MaxFPS"),                  60.f);
+        SetInt  (TEXT("r.BloomQuality"),             2);
+        SetInt  (TEXT("r.DepthOfFieldQuality"),      0);
+        SetInt  (TEXT("r.MotionBlurQuality"),        1);
+        SetInt  (TEXT("r.AmbientOcclusionLevels"),   1);
+        SetInt  (TEXT("r.MaterialQualityLevel"),     1);
+        SetInt  (TEXT("r.ReflectionCaptureResolution"), 256);
+        SetInt  (TEXT("sg.ShadowQuality"),           1);
+        SetInt  (TEXT("sg.TextureQuality"),          1);
+        SetInt  (TEXT("sg.EffectsQuality"),          1);
+        SetInt  (TEXT("sg.PostProcessQuality"),      1);
+        SetFloat(TEXT("r.Streaming.MipBias"),        1.f);
         break;
     case EHardwareTier::HighEnd:
+        // Simulation CVars
         SetInt  (CVar_RuntimeErosion,  1);
         SetInt  (CVar_RuntimeVoronoi,  1);
         SetInt  (CVar_AudioRayCount,   32);
         SetInt  (CVar_AudioMaxBounces, 4);
         SetFloat(CVar_DrawDistance,    6.0f);
+        // Renderer
+        SetInt  (TEXT("r.Nanite"),                   1);
+        SetInt  (TEXT("r.Lumen.Enabled"),            1);
+        SetInt  (TEXT("r.VolumetricCloud"),          1);
+        SetInt  (TEXT("r.SkyAtmosphere"),            1);
+        SetInt  (TEXT("r.DynamicRes.Enabled"),       1);
+        SetFloat(TEXT("r.DynamicRes.TargetedScreenPercentage"), 90.f);
+        SetFloat(TEXT("r.DynamicRes.MinScreenPercentage"),      75.f);
+        SetFloat(TEXT("t.MaxFPS"),                  60.f);
+        SetInt  (TEXT("r.BloomQuality"),             4);
+        SetInt  (TEXT("r.DepthOfFieldQuality"),      1);
+        SetInt  (TEXT("r.MotionBlurQuality"),        2);
+        SetInt  (TEXT("r.AmbientOcclusionLevels"),   2);
+        SetInt  (TEXT("r.MaterialQualityLevel"),     1);
+        SetInt  (TEXT("r.ReflectionCaptureResolution"), 512);
+        SetInt  (TEXT("sg.ShadowQuality"),           2);
+        SetInt  (TEXT("sg.TextureQuality"),          2);
+        SetInt  (TEXT("sg.EffectsQuality"),          2);
+        SetInt  (TEXT("sg.PostProcessQuality"),      2);
+        SetFloat(TEXT("r.Streaming.MipBias"),        0.f);
         break;
     case EHardwareTier::Ultra:
+        // Simulation CVars
         SetInt  (CVar_RuntimeErosion,  1);
         SetInt  (CVar_RuntimeVoronoi,  1);
         SetInt  (CVar_AudioRayCount,   64);
         SetInt  (CVar_AudioMaxBounces, 6);
         SetFloat(CVar_DrawDistance,    8.0f);
+        // Renderer
+        SetInt  (TEXT("r.Nanite"),                   1);
+        SetInt  (TEXT("r.Lumen.Enabled"),            1);
+        SetInt  (TEXT("r.VolumetricCloud"),          1);
+        SetInt  (TEXT("r.SkyAtmosphere"),            1);
+        SetInt  (TEXT("r.DynamicRes.Enabled"),       0);  // Static 100% — no need to scale
+        SetFloat(TEXT("r.ScreenPercentage"),       100.f);
+        SetFloat(TEXT("t.MaxFPS"),                144.f);
+        SetInt  (TEXT("r.BloomQuality"),             5);
+        SetInt  (TEXT("r.DepthOfFieldQuality"),      4);
+        SetInt  (TEXT("r.MotionBlurQuality"),        4);
+        SetInt  (TEXT("r.AmbientOcclusionLevels"),   4);
+        SetInt  (TEXT("r.MaterialQualityLevel"),     1);
+        SetInt  (TEXT("r.ReflectionCaptureResolution"), 1024);
+        SetInt  (TEXT("sg.ShadowQuality"),           3);
+        SetInt  (TEXT("sg.TextureQuality"),          3);
+        SetInt  (TEXT("sg.EffectsQuality"),          3);
+        SetInt  (TEXT("sg.PostProcessQuality"),      3);
+        SetFloat(TEXT("r.Streaming.MipBias"),        0.f);
         break;
     default:
         break;

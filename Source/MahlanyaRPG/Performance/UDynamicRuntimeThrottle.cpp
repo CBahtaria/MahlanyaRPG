@@ -109,6 +109,18 @@ void UDynamicRuntimeThrottle::EvaluateThrottle()
     if (Scaler)
     {
         FAdaptiveSimulationConfig Cfg = Scaler->GetSimulationConfig();
+        IConsoleManager& CM = IConsoleManager::Get();
+        auto SetInt = [&](const TCHAR* Name, int32 Val)
+        {
+            if (IConsoleVariable* CVar = CM.FindConsoleVariable(Name))
+                CVar->Set(Val, ECVF_SetByCode);
+        };
+        auto SetFloat = [&](const TCHAR* Name, float Val)
+        {
+            if (IConsoleVariable* CVar = CM.FindConsoleVariable(Name))
+                CVar->Set(Val, ECVF_SetByCode);
+        };
+
         switch (CurrentState)
         {
         case EThrottleState::Moderate:
@@ -118,14 +130,23 @@ void UDynamicRuntimeThrottle::EvaluateThrottle()
         case EThrottleState::Aggressive:
             Cfg.ReplicationUpdateFrequency *= 0.5f;
             Cfg.MaxActiveNPCs = FMath::FloorToInt(Cfg.MaxActiveNPCs * 0.5f);
+            SetFloat(TEXT("r.ScreenPercentage"), 65.f);
+            SetInt  (TEXT("sg.ShadowQuality"),   0);
             break;
         case EThrottleState::Emergency:
             Cfg.ReplicationUpdateFrequency = 5.f;
             Cfg.MaxActiveNPCs = 10;
+            SetFloat(TEXT("r.ScreenPercentage"), 50.f);
+            SetInt  (TEXT("sg.ShadowQuality"),   0);
+            SetInt  (TEXT("sg.EffectsQuality"),  0);
+            SetInt  (TEXT("r.BloomQuality"),     0);
             break;
         case EThrottleState::Normal:
         default:
-            break;  // Normal: config already reflects hardware tier
+            // Restore rendering CVars to tier defaults
+            if (UHardwareAdaptiveScaler* TierScaler = Scaler)
+                TierScaler->WriteCVarsForCurrentTier();
+            break;
         }
         Scaler->DynamicApplyConfig(Cfg);
     }
