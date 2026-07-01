@@ -1,0 +1,29 @@
+{
+  "minimum": {
+    "os": "Windows 10 64-bit (version 1903 or later)",
+    "processor": "Intel Core i5-8400 / AMD Ryzen 5 2600",
+    "memory": "12 GB RAM",
+    "graphics": "NVIDIA GTX 1060 6GB / AMD RX 580 8GB (DirectX 12 feature level 11.0)",
+    "directx": "Version 12",
+    "storage": "25 GB available space",
+    "notes": "SSD strongly recommended. HDD supported with extended loading times. Integrated graphics not supported."
+  },
+  "recommended": {
+    "os": "Windows 11 64-bit",
+    "processor": "Intel Core i7-12700K / AMD Ryzen 7 5800X3D",
+    "memory": "16 GB RAM",
+    "graphics": "NVIDIA RTX 3070 / AMD RX 6800 XT (8GB VRAM minimum)",
+    "directx": "Version 12",
+    "storage": "25 GB available space (NVMe SSD)",
+    "notes": "Ray tracing (Lumen) requires DirectX 12 Ultimate. Nanite Landscape requires feature level 12.0."
+  },
+  "ultra": {
+    "os": "Windows 11 64-bit",
+    "processor": "Intel Core i9-13900K / AMD Ryzen 9 7950X",
+    "memory": "32 GB RAM",
+    "graphics": "NVIDIA RTX 4080 / AMD RX 7900 XTX (16GB VRAM)",
+    "directx": "Version 12 Ultimate",
+    "storage": "25 GB available space (NVMe Gen 4 SSD)",
+    "notes": "Ultra tier: 64-ray geometric audio, full runtime Voronoi, Nanite Landscape at max density."
+  }
+}

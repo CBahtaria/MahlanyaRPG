@@ -1,0 +1,29 @@
+{
+  "app_name": "Mahlanya RPG",
+  "subtitle": "Eswatini Historical RPG",
+  "description": "MAHLANYA RPG — THE KINGDOM OF ESWATINI, 1750–1906\n\nPlay as Mahlanya — meaning \"the reckless one\" in siSwati — a young Swazi man whose life spans four epochs of Eswatini history: pre-colonial kingdom formation, the Mfecane upheaval of 1815–1840, the Battle of Lubombo in 1846, and the colonial resistance period leading to 1906 annexation.\n\nThis is a historical 3D RPG built on real geophysical data. Every terrain zone — Highveld granite cliffs, Middleveld agricultural valleys, Lowveld acacia savanna, Lubombo rhyolite plateau — is derived from GIS elevation sources and rendered with hardware-adaptive detail that scales cleanly from mid-range phones to the latest iPad Pro.\n\nTHE CATTLE ECONOMY\n\nCattle are not collectibles. In Mahlanya RPG, your herd is your wealth, your political leverage, and your spiritual capital. Lobola — cattle paid at marriage — establishes kinship alliances. Tribute cattle cement relationships between chiefdoms. Raiding cattle from a rival polity is an act of war. Your herd size determines which quests open, which dialogue options appear, and how chiefs and elders receive you at their homesteads.\n\nManage your Sibaya (cattle kraal) through seasons. Drought reduces herd condition. Raids can deplete you in an afternoon. Strategic use of cattle in diplomacy is as important as your skill with a spear.\n\nCULTURAL PROTOCOLS\n\nSwazi society runs on Inhlonipho — a system of avoidance vocabulary and respect obligations that governs how you address the Inkosi (chief), greet elders, and navigate the hierarchy of a homestead. The game enforces these protocols. Arriving at an Umuti (homestead) without the correct greeting has consequences. Addressing an indvuna (headman) incorrectly closes dialogue branches.\n\nThe game is voiced in siSwati — the national language of Eswatini — with English subtitles and glosses throughout. Cultural ceremonies including the Incwala (first fruits ceremony) and Umhlanga (Reed Dance) are depicted as historically documented events that shift the simulation state: political relationships update, seasonal economies change, historical triggers activate.\n\nFOUR HISTORICAL ERAS\n\n• Pre-colonial formation (~1750): Dlamini dynasty consolidation. Diplomatic missions, tribute negotiations, inter-chiefdom rivalry.\n• Mfecane upheaval (1815–1840): Regional disruption driven by Zulu expansion. Refugee crises, shifting alliances, raid economies across southern Africa.\n• Battle of Lubombo (1846): A historically documented engagement on the eastern escarpment — playable, not a cutscene, with period-accurate tactics and weapons.\n• Colonial resistance (1880–1906): Concession crisis, constrained Ngwenyama sovereignty, land alienation, and the 1903 British annexation. Mahlanya navigates the end of an era.\n\nNarrative is emergent: a knowledge graph enforces historical accuracy so no NPC can state a historically false claim. Drought simulation raises cattle raid probability and generates related quests automatically.\n\nMOBILE-OPTIMISED\n\nThe mobile tier uses pre-baked terrain and pre-computed lighting to deliver consistent 60fps on mid-range devices, with hardware-adaptive NPC scaling (15 NPCs on LowEnd, up to 200 on Ultra). The game is fully offline-capable — no internet connection required after initial download. Touch controls are designed specifically for Swazi terrain traversal: two-thumb movement, context-sensitive interaction prompts, and a dedicated cattle management panel.\n\n12 Game Center achievements track historical milestones and cultural protocol mastery. Steam Cloud save is supported for cross-device continuity.\n\nCO-OP (2–4 PLAYERS)\n\nCattle raid and diplomatic escort missions support two to four players. All players are subject to the same cultural protocol rules. Your party's collective cattle holdings and standing determine available options.\n\nBuilt by BRT Inc. in Manzini, Kingdom of Eswatini — the country the game depicts.",
+  "keywords": "RPG,historical,Africa,Eswatini,Swazi,open world,cattle,exploration,cultural,multiplayer",
+  "support_url": "https://brtinc.dev/support/mahlanya",
+  "marketing_url": "https://brtinc.dev/mahlanya",
+  "privacy_policy_url": "https://brtinc.dev/privacy",
+  "primary_category": "GAMES",
+  "secondary_category": "GAMES_ROLE_PLAYING",
+  "age_rating": {
+    "iarc_rating": "12+",
+    "violence_cartoon": "NONE",
+    "violence_realistic": "INFREQUENT_MILD",
+    "violence_realistic_prolonged": "NONE",
+    "profanity": "NONE",
+    "nudity_cartoon": "NONE",
+    "nudity_realistic": "NONE",
+    "sexual_content": "NONE",
+    "gambling": "NONE",
+    "alcohol_tobacco_drugs": "NONE",
+    "horror": "NONE",
+    "mature_suggestive": "NONE",
+    "unrestricted_web_access": "NONE",
+    "social_networking": "NONE",
+    "game_center": true
+  },
+  "what_is_new": "Initial release. Phases 0–10 complete. Steam Cloud save, 12 Game Center achievements, hardware-adaptive scaling from LowEnd (15 NPCs) to Ultra (200 NPCs)."
+}

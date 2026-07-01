@@ -1,0 +1,26 @@
+{
+  "violence": {
+    "level": "moderate",
+    "descriptor": "ESRB_VIOLENCE",
+    "details": "Combat with traditional Swazi weapons (Umshiza fighting stick, spear). Cattle raids depict conflict. No gore. No dismemberment. Historical battles depicted with period-accurate weapons.",
+    "esrb_rating": "T (Teen)",
+    "pegi_rating": "12"
+  },
+  "language": {
+    "level": "none",
+    "descriptor": "No strong language"
+  },
+  "sexual_content": {
+    "level": "none",
+    "descriptor": "No sexual content. Lobola (cattle bride price) is a cultural/economic mechanic only."
+  },
+  "themes": {
+    "level": "mature_themes",
+    "descriptor": "Historical subjugation, colonial violence, depiction of 19th-century Eswatini political crises. Presented from Swazi perspective with historical accuracy.",
+    "positive_note": "Cultural ceremonies (Incwala, Umhlanga Reed Dance) depicted respectfully with consultation context."
+  },
+  "drug_use": { "level": "none" },
+  "gambling": { "level": "none" },
+  "iarc_age_rating": "12+",
+  "steam_content_descriptors": ["Moderate Violence", "Historical Themes"]
+}

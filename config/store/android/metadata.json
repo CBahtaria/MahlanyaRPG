@@ -1,0 +1,22 @@
+{
+  "title": "Mahlanya RPG — Kingdom of Eswatini",
+  "short_description": "Historical 3D RPG — Eswatini. Cattle economy, colonial resistance.",
+  "full_description": "MAHLANYA RPG — THE KINGDOM OF ESWATINI, 1750 TO 1906\n\nPlay as Mahlanya — meaning \"the reckless one\" in siSwati — a young Swazi man navigating four epochs of Eswatini history across an open world built from real geophysical data.\n\nThis is a historical RPG grounded in documented events: the pre-colonial Dlamini kingdom formation, the Mfecane upheaval of 1815–1840, the Battle of Lubombo in 1846, and the colonial resistance period ending with British annexation in 1906. Every terrain zone — Highveld granite escarpment, Middleveld agricultural valleys, Lowveld acacia savanna, Lubombo rhyolite plateau — is derived from GIS elevation sources.\n\n★ THE CATTLE ECONOMY ★\n\nCattle are your wealth, political leverage, and spiritual capital. Lobola (cattle bride price) establishes kinship alliances. Tribute cattle cement chiefdom relationships. Raiding cattle from a rival polity is an act of war. Your Sibaya (cattle kraal) must be managed through seasons — drought reduces herd condition, raids can strip you overnight. Cattle determine which quests open and how chiefs receive you at their Umuti (homestead).\n\n★ CULTURAL PROTOCOLS ★\n\nSwazi society operates through Inhlonipho — avoidance vocabulary and respect obligations that govern how you address the Inkosi (chief) and greet elders. The game enforces these rules: wrong greetings close dialogue branches, disrespect has consequences. The game is voiced in siSwati with English subtitles throughout. Cultural ceremonies — the Incwala (first fruits ceremony) and Umhlanga (Reed Dance) — are historically grounded simulation events, not mini-games.\n\n★ FOUR HISTORICAL ERAS ★\n\n• Pre-colonial formation (~1750): Kingdom consolidation, diplomacy, tribute negotiations\n• Mfecane upheaval (1815–1840): Regional disruption, refugee crises, shifting alliances\n• Battle of Lubombo (1846): Playable historical engagement on the eastern escarpment\n• Colonial resistance (1880–1906): Concession crisis, land alienation, Ngwenyama sovereignty under siege\n\nA knowledge graph enforces historical accuracy — no NPC can assert a historically false claim. Emergent narrative: drought raises raid probability and generates related quests automatically.\n\n★ OPTIMISED FOR ANDROID ★\n\nPre-baked terrain and pre-computed lighting deliver consistent performance across Android hardware. Hardware-adaptive NPC scaling (15 NPCs on LowEnd, 200 on Ultra). Fully offline after download — no internet required during play. Touch controls designed for Swazi terrain traversal with context-sensitive interaction prompts and a dedicated cattle management panel.\n\nGoogle Play Games integration: achievements tracking historical milestones and cultural protocol mastery. Game controller support included.\n\n★ CO-OP MULTIPLAYER ★\n\n2–4 players for cattle raid and diplomatic escort missions. All cultural protocol rules apply to the full party. Collective cattle holdings and standing determine available options.\n\n★ NO ADS. NO IN-APP PURCHASES. ★\n\nPay once. Play everything. No battle pass, no loot boxes, no microtransactions. The cattle economy in the game uses in-game cattle only — no real-money wagering of any kind.\n\nBuilt by BRT Inc. in Manzini, Kingdom of Eswatini.",
+  "category": "GAME_ROLE_PLAYING",
+  "content_rating": {
+    "iarc_rating": "12+",
+    "violence": "MILD",
+    "language": "NONE",
+    "sexual_content": "NONE",
+    "controlled_substances": "NONE",
+    "user_interaction": "USERS_INTERACT"
+  },
+  "pricing": "PAID",
+  "in_app_purchases": false,
+  "ads": false,
+  "target_sdk": 34,
+  "min_sdk": 26,
+  "target_devices": ["phone", "tablet"],
+  "game_controller_support": true,
+  "google_play_games": true
+}
