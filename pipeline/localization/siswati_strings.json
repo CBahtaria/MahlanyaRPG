@@ -1,0 +1,566 @@
+{
+  "version": "1.0",
+  "language_codes": ["en", "ss"],
+  "strings": [
+    {
+      "key": "ui.greeting.sawubona",
+      "en": "I see you.",
+      "ss": "Sawubona.",
+      "context": "Greeting — singular. Mahlanya addressing one person.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.sanibonani",
+      "en": "I see you all.",
+      "ss": "Sanibonani.",
+      "context": "Greeting — plural. Mahlanya addressing a group.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.yebo",
+      "en": "Yes. I see you.",
+      "ss": "Yebo.",
+      "context": "Affirmative response to a greeting. Also used as general 'yes'.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.ngiyabonga",
+      "en": "Thank you.",
+      "ss": "Ngiyabonga.",
+      "context": "Thanks — singular speaker thanking one person.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.siyabonga",
+      "en": "We thank you.",
+      "ss": "Siyabonga.",
+      "context": "Thanks — plural, on behalf of a group or showing deep respect.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.hamba_kahle",
+      "en": "Go well.",
+      "ss": "Hamba kahle.",
+      "context": "Farewell said to the person who is leaving. Speaker remains.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.sala_kahle",
+      "en": "Stay well.",
+      "ss": "Sala kahle.",
+      "context": "Farewell said by the person who is leaving. The other stays.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.usuku_lomuhle",
+      "en": "Good day.",
+      "ss": "Usuku lomuhle.",
+      "context": "Daytime well-wishing. Used at meeting or parting during daylight.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.ubusuku_obuhle",
+      "en": "Good night.",
+      "ss": "Ubusuku obuhle.",
+      "context": "Nighttime farewell or blessing before sleep.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.greeting.sibuye_futsi",
+      "en": "We will meet again.",
+      "ss": "Sibuye futsi.",
+      "context": "Parting phrase expressing hope for reunion. Used at significant farewells.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.inkosi",
+      "en": "Chief / King",
+      "ss": "Inkosi",
+      "context": "Title for a ruling chief or king. Plural: emakhosi. Requires Inhlonipho speech near the Inkosi.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.ndvuna",
+      "en": "Headman / Induna",
+      "ss": "Ndvuna",
+      "context": "Administrative head of a district or regiment. Plural: beNdvuna. Appointed by Inkosi.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.inyanga",
+      "en": "Traditional healer / Herbalist",
+      "ss": "Inyanga",
+      "context": "Specialist in medicinal plants and healing practices. Distinct from Sangoma (diviner).",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.imbongi",
+      "en": "Praise poet",
+      "ss": "Imbongi",
+      "context": "Oral poet who recites izibongo (praise poems) at royal and public events.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.umgangi",
+      "en": "Blacksmith / Iron smelter",
+      "ss": "Umgangi",
+      "context": "Craftsman who works iron and steel. Historically a prestigious and sometimes feared trade.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.umlimi",
+      "en": "Farmer / Cultivator",
+      "ss": "Umlimi",
+      "context": "One who farms the land. Primary agricultural producer in the homestead economy.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.umalusi",
+      "en": "Herdsman / Cattle herder",
+      "ss": "Umalusi",
+      "context": "Herdsman responsible for driving and protecting cattle. Often a young man or boy.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.umntfwanenkhosi",
+      "en": "Prince / Princess",
+      "ss": "Umntfwanenkhosi",
+      "context": "Child of the Inkosi (king/chief). Royal bloodline. Requires respectful address.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.indlovukati",
+      "en": "Queen Mother",
+      "ss": "Indlovukati",
+      "context": "The queen mother — literally 'She-elephant'. Co-ruler with the king in Swazi tradition.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "role.sikhulu",
+      "en": "Elder / Notable",
+      "ss": "Sikhulu",
+      "context": "A senior man of importance in the community. Elder, person of rank or distinction.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.umuti",
+      "en": "Homestead",
+      "ss": "Umuti",
+      "context": "The family dwelling compound. Radiates outward from the Sibaya cattle kraal.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.sibaya",
+      "en": "Cattle kraal",
+      "ss": "Sibaya",
+      "context": "Sacred central cattle enclosure of the homestead. Hub of economic and spiritual life.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.emsamo",
+      "en": "Sacred inner shrine area",
+      "ss": "Emsamo",
+      "context": "The back section of the great hut (indlunkulu). Point of connection with ancestors.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.inhlambiso",
+      "en": "Cattle pen entrance",
+      "ss": "Inhlambiso",
+      "context": "The entrance gateway to the sibaya. Ritually significant during ceremonies.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.inkhundla",
+      "en": "Chiefdom meeting place",
+      "ss": "Inkhundla",
+      "context": "Public assembly ground where community matters, disputes, and announcements occur.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.lusengo",
+      "en": "Royal cattle kraal",
+      "ss": "Lusengo",
+      "context": "The royal kraal — the cattle enclosure at the king's main homestead. Of special sacred status.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.emtfuntini",
+      "en": "In the shade / resting place",
+      "ss": "Emtfuntini",
+      "context": "A place of shade and rest, often under a tree. Used for informal meetings and rest.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.emfuleni",
+      "en": "At the river",
+      "ss": "Emfuleni",
+      "context": "Locative form indicating presence at or near a river. Common navigation reference.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.entabeni",
+      "en": "On the mountain",
+      "ss": "Entabeni",
+      "context": "Locative form for being on or at a mountain. Strategic and spiritual significance.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "place.esigangeni",
+      "en": "In the wilderness / bush",
+      "ss": "Esigangeni",
+      "context": "The uncultivated, wild land beyond the homestead. Dangerous and spiritually charged.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.hlonipha",
+      "en": "To show respect / avoidance",
+      "ss": "Hlonipha",
+      "context": "The practice of verbal and behavioural avoidance near in-laws or royalty. Core social obligation.",
+      "register": "inhlonipho",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.lobola",
+      "en": "Bride-wealth in cattle",
+      "ss": "Lobola",
+      "context": "Transfer of cattle from groom's family to bride's family. An alliance, not a purchase.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.umshado",
+      "en": "Wedding / marriage ceremony",
+      "ss": "Umshado",
+      "context": "The marriage ceremony, following completion of lobola negotiations.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.incwala",
+      "en": "First fruits ceremony",
+      "ss": "Incwala",
+      "context": "Annual royal ceremony of first fruits and kingship renewal. Most sacred Swazi ceremony.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.umhlanga",
+      "en": "Reed dance ceremony",
+      "ss": "Umhlanga",
+      "context": "Annual ceremony where young women cut reeds and dance before the queen mother.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.kudla_kwemhlaba",
+      "en": "Eating of the earth / land blessing",
+      "ss": "Kudla kwemhlaba",
+      "context": "Ritual eating of sacred earth or first harvest — blessing of the land and its people.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.ukubusa",
+      "en": "To rule / govern",
+      "ss": "Ukubusa",
+      "context": "The act of ruling or governing. Used of a chief or headman exercising authority.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.ukulalela",
+      "en": "To listen / obey",
+      "ss": "Ukulalela",
+      "context": "To listen with intention and obey. Expected of subordinates before elders and the Inkosi.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.ukuhlonipha",
+      "en": "Performing respect / observing avoidance",
+      "ss": "Ukuhlonipha",
+      "context": "The act of performing inhlonipho — substituting words, lowering eyes, kneeling.",
+      "register": "inhlonipho",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.ukucansela",
+      "en": "To greet by clapping",
+      "ss": "Ukucansela",
+      "context": "Clapping cupped hands as a formal greeting gesture — especially before elders and royalty.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.ukubalekela",
+      "en": "To flee / take refuge",
+      "ss": "Ukubalekela",
+      "context": "To flee from danger or seek refuge. Used in context of Mfecane displacement.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.umphakelo",
+      "en": "Tribute / offering",
+      "ss": "Umphakelo",
+      "context": "A formal tribute or offering brought to the Inkosi or elders. Economic and political act.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.inkehli",
+      "en": "Married woman's head covering",
+      "ss": "Inkehli",
+      "context": "The traditional red ochre-covered head covering worn by married women — marks status.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.umcwasho",
+      "en": "Girls' chastity cloth",
+      "ss": "Umcwasho",
+      "context": "Wool tassels worn by young women during the Umhlanga period to signal unmarried status.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "action.tisongo",
+      "en": "Married woman's hair knots / plaits",
+      "ss": "Tisongo",
+      "context": "The distinctive ochred plaits worn by married women. Complementary to inkehli.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "economy.tindvuna_temakhandza",
+      "en": "Trusted advisors / counsellors",
+      "ss": "Tindvuna temakhandza",
+      "context": "The inner circle of trusted indvuna advisors to the Inkosi. Political economy concept.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "economy.imali",
+      "en": "Money / currency",
+      "ss": "Imali",
+      "context": "Monetary currency. In the 1750–1906 period, increasingly present through colonial trade.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "economy.tinkomo",
+      "en": "Cattle (plural)",
+      "ss": "Tinkomo",
+      "context": "Plural of cattle — the primary unit of wealth, social capital, and lobola exchange.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "economy.inkhomo",
+      "en": "Cow (singular)",
+      "ss": "Inkhomo",
+      "context": "A single head of cattle. Base economic unit in the homestead economy.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "economy.tinkhobe",
+      "en": "Boiled maize",
+      "ss": "Tinkhobe",
+      "context": "Boiled maize kernels — a staple subsistence food unit and marker of agricultural output.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "economy.lisiko",
+      "en": "Custom / tradition / obligation",
+      "ss": "Lisiko",
+      "context": "A binding custom or tradition carrying economic and social obligation. Must be honoured.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "economy.sifiso",
+      "en": "Desire / wish",
+      "ss": "Sifiso",
+      "context": "A stated desire or wish — used in bargaining to express intent without direct demand.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "economy.intsengo",
+      "en": "Price / value",
+      "ss": "Intsengo",
+      "context": "The price or value of an item in trade or negotiation context.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "history.mfecane",
+      "en": "The great scattering / the crushing",
+      "ss": "Mfecane",
+      "context": "Period of upheaval and mass displacement c.1815–1840. Also called Difaqane. Pivotal narrative era.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "history.luhlanga",
+      "en": "Ancestral lineage / spiritual heritage",
+      "ss": "Luhlanga",
+      "context": "The ancestral reed — lineage, clan identity, and spiritual inheritance from forebears.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "history.liphupho",
+      "en": "Vision / dream / prophecy",
+      "ss": "Liphupho",
+      "context": "A prophetic dream or vision. Carries divinatory significance in narrative contexts.",
+      "register": "ceremonial",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "history.sigodlo",
+      "en": "Royal women's quarters",
+      "ss": "Sigodlo",
+      "context": "The enclosed royal section of the main homestead where the king's wives reside.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "history.bukhosi",
+      "en": "Kingship / royalty",
+      "ss": "Bukhosi",
+      "context": "The institution and authority of the kingship. Abstract concept of royal power.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "history.sikhundla",
+      "en": "Status / position / office",
+      "ss": "Sikhundla",
+      "context": "One's rank, position, or office in the social hierarchy. Political and social context.",
+      "register": "formal",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "history.litsemba",
+      "en": "Trust / hope",
+      "ss": "Litsemba",
+      "context": "Trust and hope — used in treaty and alliance contexts. Also the foundation of the trust meter.",
+      "register": "standard",
+      "speaker_constraint": "any"
+    },
+    {
+      "key": "ui.menu.new_game",
+      "en": "New Game",
+      "ss": "Dlala Lokusha",
+      "context": "Main menu item to start a new game session.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.menu.continue",
+      "en": "Continue",
+      "ss": "Chubeka",
+      "context": "Main menu item to continue the most recent saved game.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.menu.save_game",
+      "en": "Save Game",
+      "ss": "Gcina Umdlalo",
+      "context": "Menu item to save the current game state.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.menu.load_game",
+      "en": "Load Game",
+      "ss": "Layisha Umdlalo",
+      "context": "Menu item to load a previously saved game.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.menu.settings",
+      "en": "Settings",
+      "ss": "Tilungiselelo",
+      "context": "Menu item to open the settings / options screen.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.menu.quit",
+      "en": "Quit",
+      "ss": "Phuma",
+      "context": "Menu item to quit the game. 'Phuma' means 'go out / exit'.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.hud.cattle_count",
+      "en": "Cattle: {0}",
+      "ss": "Tinkomo: {0}",
+      "context": "HUD display showing the player's current cattle count. {0} is substituted with the integer value.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.hud.day_year",
+      "en": "Day {0}, Year {1}",
+      "ss": "Lilanga {0}, Umnyaka {1}",
+      "context": "HUD display showing current in-game date. {0} = day number, {1} = year number.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.hud.trust_warning",
+      "en": "Simulation trust low — reconnecting...",
+      "ss": "Lusito lwekulingisa luphansi — kuyaxhunywa...",
+      "context": "Warning shown when the simulation trust matrix detects low trust. Appears in top-right HUD.",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    },
+    {
+      "key": "ui.save.slot",
+      "en": "Save Slot {0}",
+      "ss": "Indzawo Yokugcina {0}",
+      "context": "Label for a save game slot in the load/save screen. {0} is the slot number (1-based).",
+      "register": "standard",
+      "speaker_constraint": "ui"
+    }
+  ]
+}

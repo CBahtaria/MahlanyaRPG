@@ -22,7 +22,8 @@ public class MahlanyaRPG : ModuleRules
             "DeviceProfileServices", "Compression", "Slate", "SlateCore",
             "SimulationBusPlugin", "EmergentNarrativePlugin",
             "EconomySimulatorPlugin", "EcologySimulatorPlugin",
-            "MicroclimateEngine"
+            "MicroclimateEngine",
+            "Json", "JsonUtilities"
         });
 
         // Insights tracing only in non-Shipping builds

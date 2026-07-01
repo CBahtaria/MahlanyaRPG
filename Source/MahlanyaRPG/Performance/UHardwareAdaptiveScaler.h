@@ -8,10 +8,11 @@
 UENUM(BlueprintType)
 enum class EHardwareTier : uint8
 {
-    LowEnd   = 0,
-    MidRange = 1,
-    HighEnd  = 2,
-    Ultra    = 3
+    UltraLowEnd = 0,  // integrated GPU / no dedicated VRAM — iGPU path
+    LowEnd      = 1,
+    MidRange    = 2,
+    HighEnd     = 3,
+    Ultra       = 4
 };
 
 USTRUCT(BlueprintType)
@@ -36,6 +37,9 @@ struct FHardwareProfile
 
     UPROPERTY(BlueprintReadOnly)
     FString AdapterName;
+
+    UPROPERTY(BlueprintReadOnly)
+    bool bIsIntegratedGPU = false;
 };
 
 USTRUCT(BlueprintType)

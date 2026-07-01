@@ -17,13 +17,25 @@ static const TCHAR* CVar_AudioRayCount   = TEXT("mahlanya.GeometricAudio.RayCoun
 static const TCHAR* CVar_AudioMaxBounces = TEXT("mahlanya.GeometricAudio.MaxBounces");
 static const TCHAR* CVar_DrawDistance    = TEXT("mahlanya.DrawDistance.Km");
 
+static bool IsIntegratedGPU(const FString& AdapterName)
+{
+    const FString Lower = AdapterName.ToLower();
+    if (Lower.Contains(TEXT("intel")))
+        return !Lower.Contains(TEXT("arc")); // Intel Arc = discrete; everything else = iGPU
+    if (Lower.Contains(TEXT("vega")) && !Lower.Contains(TEXT("rx")))
+        return true; // AMD Ryzen iGPU (Radeon Vega Graphics, Vega 8, Vega 11)
+    if (Lower.Contains(TEXT("amd")) && Lower.Contains(TEXT("radeon graphics")) && !Lower.Contains(TEXT("rx")))
+        return true; // AMD Radeon Graphics (Ryzen 4000+ iGPU)
+    return false;
+}
+
 void UHardwareAdaptiveScaler::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
 
     // Developer override: skip detection when ForceHardwareTier != -1
     const int32 ForcedTier = MahlanyaPerformanceCVars::ForceHardwareTier.GetValueOnGameThread();
-    if (ForcedTier >= 0 && ForcedTier <= 3)
+    if (ForcedTier >= 0 && ForcedTier <= 4)
     {
         DetectedTier = static_cast<EHardwareTier>(ForcedTier);
         bProfileDetected = true;
@@ -66,6 +78,17 @@ EHardwareTier UHardwareAdaptiveScaler::DetectHardwareTier()
         HardwareProfile.AdapterName = FString(GDynamicRHI->RHIGetAdapterName());
     }
 
+    HardwareProfile.bIsIntegratedGPU = IsIntegratedGPU(HardwareProfile.AdapterName);
+
+    // Integrated GPU → UltraLowEnd regardless of CPU/RAM score
+    if (HardwareProfile.bIsIntegratedGPU)
+    {
+        UE_LOG(LogMahlanyaHardware, Warning,
+               TEXT("Integrated GPU detected (%s) — forcing UltraLowEnd tier. Nanite/Lumen disabled."),
+               *HardwareProfile.AdapterName);
+        return EHardwareTier::UltraLowEnd;
+    }
+
     // Consoles: always Ultra
     if (HardwareProfile.bIsConsole)
     {
@@ -101,6 +124,13 @@ FAdaptiveSimulationConfig UHardwareAdaptiveScaler::BuildConfigForTier(EHardwareT
     FAdaptiveSimulationConfig Cfg;
     switch (Tier)
     {
+    case EHardwareTier::UltraLowEnd:
+        Cfg.ReplicationUpdateFrequency = 5.f;
+        Cfg.MaxReplicatedProperties    = 15;
+        Cfg.SimulationTickBudgetMs     = 0.5f;
+        Cfg.TrustUpdateRateHz          = 2.f;
+        Cfg.MaxActiveNPCs              = 5;
+        break;
     case EHardwareTier::LowEnd:
         Cfg.ReplicationUpdateFrequency = 10.f;
         Cfg.MaxReplicatedProperties    = 30;
@@ -152,6 +182,29 @@ void UHardwareAdaptiveScaler::WriteCVarsForTier(EHardwareTier Tier)
 
     switch (Tier)
     {
+    case EHardwareTier::UltraLowEnd:
+        SetInt  (CVar_RuntimeErosion,  0);
+        SetInt  (CVar_RuntimeVoronoi,  0);
+        SetInt  (CVar_AudioRayCount,   0);
+        SetInt  (CVar_AudioMaxBounces, 0);
+        SetFloat(CVar_DrawDistance,    0.5f);
+        // Renderer downgrades — disable all UE5 advanced features that require DX12
+        SetInt  (TEXT("r.Nanite"),                   0);
+        SetInt  (TEXT("r.Lumen.Enabled"),            0);
+        SetInt  (TEXT("r.VolumetricCloud"),          0);
+        SetInt  (TEXT("r.SkyAtmosphere"),            0);
+        SetFloat(TEXT("r.ScreenPercentage"),        50.f);
+        SetInt  (TEXT("r.BloomQuality"),             0);
+        SetInt  (TEXT("r.DepthOfFieldQuality"),      0);
+        SetInt  (TEXT("r.MotionBlurQuality"),        0);
+        SetInt  (TEXT("r.AmbientOcclusionLevels"),   0);
+        SetInt  (TEXT("r.MaterialQualityLevel"),     0);
+        SetInt  (TEXT("r.ReflectionCaptureResolution"), 64);
+        SetInt  (TEXT("sg.ShadowQuality"),           0);
+        SetInt  (TEXT("sg.TextureQuality"),          0);
+        SetInt  (TEXT("sg.EffectsQuality"),          0);
+        SetInt  (TEXT("sg.PostProcessQuality"),      0);
+        break;
     case EHardwareTier::LowEnd:
         SetInt  (CVar_RuntimeErosion,  0);
         SetInt  (CVar_RuntimeVoronoi,  0);
