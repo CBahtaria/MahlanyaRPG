@@ -93,4 +93,24 @@ namespace MahlanyaPerformanceCVars
         0,
         TEXT("[Cheat] 1=show throttle state overlay on screen"),
         ECVF_Cheat);
+
+    TAutoConsoleVariable<int32> ProximityLODEnabled(
+        TEXT("mahlanya.ProximityLOD.Enabled"), 1,
+        TEXT("Enable view-based LOD tier system (0=off, 1=on)."),
+        ECVF_Default);
+
+    TAutoConsoleVariable<float> ProximityLODInterval(
+        TEXT("mahlanya.ProximityLOD.EvalIntervalSeconds"), 0.1f,
+        TEXT("How often (seconds) to re-evaluate LOD tiers."),
+        ECVF_Default);
+
+    TAutoConsoleVariable<float> ProximityLODFocusConeAngle(
+        TEXT("mahlanya.ProximityLOD.FocusConeAngle"), 25.f,
+        TEXT("Half-angle (degrees) of the Focus tier cone around the camera forward vector."),
+        ECVF_Default);
+
+    TAutoConsoleVariable<float> ProximityLODBackgroundDotThreshold(
+        TEXT("mahlanya.ProximityLOD.BackgroundDotThreshold"), -0.2f,
+        TEXT("Dot product threshold below which objects enter Background tier (force lowest LOD)."),
+        ECVF_Default);
 }

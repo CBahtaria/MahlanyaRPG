@@ -25,4 +25,10 @@ namespace MahlanyaPerformanceCVars
     extern TAutoConsoleVariable<float>  SimulationBandwidthShare;
     extern TAutoConsoleVariable<int32>  ShowTrustMatrixOverlay;
     extern TAutoConsoleVariable<int32>  ShowThrottleState;
+
+    // View-based LOD tier system (Phase 11)
+    extern TAutoConsoleVariable<int32>  ProximityLODEnabled;
+    extern TAutoConsoleVariable<float>  ProximityLODInterval;
+    extern TAutoConsoleVariable<float>  ProximityLODFocusConeAngle;
+    extern TAutoConsoleVariable<float>  ProximityLODBackgroundDotThreshold;
 }
