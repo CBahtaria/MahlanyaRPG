@@ -1,5 +1,6 @@
 name: Phase 10 — Production Validation
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'Source/MahlanyaRPG/Performance/**'
