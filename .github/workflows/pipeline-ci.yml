@@ -50,7 +50,7 @@ jobs:
       - name: Build Zig compute library
         run: |
           cd pipeline/compute
-          zig build -Doptimize=ReleaseFast
+          zig build
           ls -la zig-out/lib/
 
       - name: Run Zig unit tests
