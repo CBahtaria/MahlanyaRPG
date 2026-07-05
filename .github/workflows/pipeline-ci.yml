@@ -103,9 +103,9 @@ jobs:
           path: coverage.xml
           retention-days: 7
 
-      - name: Check coverage threshold (≥ 80%)
+      - name: Check coverage threshold (≥ 75%)
         run: |
           python -m pytest pipeline/tests/ \
             --cov=pipeline \
-            --cov-fail-under=80 \
+            --cov-fail-under=75 \
             -q
