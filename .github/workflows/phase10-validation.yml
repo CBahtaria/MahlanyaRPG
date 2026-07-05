@@ -26,6 +26,8 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install pytest
+      - name: Install pipeline dependencies
+        run: pip install -r pipeline/requirements.txt
       - name: Run advanced validator tests
         run: python -m pytest pipeline/tests/history/test_advanced_validator.py -v
       - name: Run regression detector tests
