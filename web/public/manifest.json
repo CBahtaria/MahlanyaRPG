@@ -1,0 +1,11 @@
+{
+  "name": "Mahlanya World Viewer",
+  "short_name": "Mahlanya",
+  "description": "Eswatini DEM heightmap with live UAV fog-density overlay.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "orientation": "landscape",
+  "icons": []
+}

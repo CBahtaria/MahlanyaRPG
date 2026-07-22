@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "EswatiniGeophysics",
+	"Description": "Geophysics simulation for Eswatini: fault-line spline deformation, mineral vein procedural generation, and Darcy-law groundwater flow.",
+	"Category": "Mahlanya",
+	"CreatedBy": "Charles Bartaria / BRT Inc.",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "EswatiniGeophysics",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Lubombo Monocline", "strike_deg": 355, "type": "reverse" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[32.08, -26.50], [31.95, -25.90], [31.85, -25.75]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Usutu Fault", "strike_deg": 315, "type": "normal" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[31.10, -26.80], [31.30, -26.50], [31.45, -26.20]]
+      }
+    }
+  ]
+}
