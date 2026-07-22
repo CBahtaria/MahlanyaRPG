@@ -265,6 +265,7 @@ The offline science pipeline, Zig compute kernels, C++ plugin source, and UE5 pr
 | **8 — Mobile** | Artifact packager, `UMahlanyaScalabilitySubsystem`, mobile tiers | ✅ Source complete |
 | **9 — Co-op** | `AMahlanyaGameState`, `UMahlanyaCoopBridgeComponent`, GAS replication | ✅ Source complete |
 | **10 — Production** | Hardware scaler, runtime throttle, trust matrix, year-change orchestrator, Insights tracing | ✅ Source complete |
+| **11 — River & Cinematics** | Usuthu canoe traversal, `ACinematicDialogueDirector`, bilingual subtitle renderer, emabutfo armor pipeline | 🔲 Specced |
 | **Bootstrap UE5** | Compile + open project; import first terrain tile | 🔲 Next |
 | **First Playable** | Mahlanya moves through one Middleveld area | 🔲 Planned |
 | **Ship** | Platform certification | 🔲 Planned |
