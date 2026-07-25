@@ -33,6 +33,29 @@ Use **Opus 4.7** for changes to `Source/Mahlanya/Simulation/`, `zig/erosion/`, o
 - A Nanite-incompatible mesh added because "it was faster to author."
 - A performance CVar change that helps one tier by regressing another beyond 15%.
 
+## UE5 Technical Rules
+
+**Rendering pipeline:**
+- Lumen GI is the authoritative indirect lighting path. Do not bake static lighting for any interior. If Lumen quality is unacceptable on UltraLowEnd, tune `r.Lumen.Reflections.Allow` and `r.Lumen.DiffuseIndirect.Allow` CVars per tier — do not switch to baked.
+- Virtual Shadow Maps (VSM) only. No cascaded shadow maps for new code. VSM page size budget is set in `Config/DefaultEngine.ini` and must not be raised without a performance regression sign-off.
+- TSR (Temporal Super Resolution) over DLSS/FSR for shipped builds — no third-party upscaler plugins without explicit approval.
+- World Partition with HLOD enabled. New actors must have a correct HLOD layer assigned; uncategorised actors are CI-blocked.
+
+**Blueprint vs C++ boundary:**
+- Gameplay logic that touches simulation data (`UGeomorphComponent`, `UHydrologyState`, `UErosionSolver`) must be C++. No Blueprint calling into the Zig bridge — go through the C++ wrapper layer.
+- UI, dialogue trees, quest flow: Blueprints are fine. Do not port Blueprint quest logic to C++ for performance reasons without a profiler trace proving it.
+- Never use `KismetSystemLibrary::PrintString` in shipped code. Use `UE_LOG(LogMahlanya, ...)` with appropriate verbosity.
+
+**Asset pipeline:**
+- All `.uasset` modifications must pass `UnrealEditor -run=DerivedDataCache` before commit to prevent DDC cache misses in CI.
+- Texture streaming pool is capped at 2 GB for the UltraLowEnd tier. Any texture array or atlas exceeding 4096×4096 needs a streaming mip chain.
+- Audio: MetaSounds only for new SFX. Legacy SoundCue assets may stay but must not be duplicated.
+
+**C++ hard lines:**
+- No `UPROPERTY(EditAnywhere)` on simulation-layer structs — use `EditDefaultsOnly` or omit the specifier.
+- All `FRunnable` threads must have `FScopeLock` guards on shared state. No `volatile` as a substitute for proper synchronisation.
+- `check()` / `ensure()` assertions are allowed in editor/debug builds. In shipping builds, use `ensureMsgf()` and handle the false case gracefully.
+
 ## Reference
 
 Rules lifted from `~/my-projects/personal/second-brain/about-me.md` and the phase-10 production-hardening spec at `docs/spec/phase-10.md`. Cultural protocols come from `docs/cultural-review-protocol.md` — that document is authoritative on ambiguity.
