@@ -63,3 +63,7 @@ package-lock.json
 .idea/
 *.iml
 .vscode/settings.json
+
+# Generated knowledge graph artifacts (rebuilt by CI)
+pipeline/history/knowledge_graph.ndjson
+pipeline/history/data/knowledge_graph.ndjson

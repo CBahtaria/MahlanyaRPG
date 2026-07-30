@@ -40,25 +40,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml pytest
 
-      - name: Build knowledge graph from data files
+      - name: Build and validate knowledge graph
         run: |
-          if [ -f pipeline/history/build_knowledge_graph.py ]; then
-            python -m pipeline.history.build_knowledge_graph \
-              --data-dir pipeline/history/data \
-              --output-path pipeline/history/data/knowledge_graph.ndjson \
-              || echo "Knowledge graph build skipped (stub not yet implemented)"
-          fi
+          python -m pipeline.history.build_knowledge_graph \
+            --data-dir pipeline/history/data \
+            --output-path pipeline/history/data/knowledge_graph.ndjson
 
       - name: Run historical content validator
         id: validate
         run: |
-          if [ -f pipeline/history/data/knowledge_graph.ndjson ]; then
-            python pipeline/history/validate_content.py \
-              Content/Dialogue \
-              pipeline/history/data/knowledge_graph.ndjson
-          else
-            echo "knowledge_graph.ndjson not found — validation skipped (Plan 6 pending)"
-          fi
+          python pipeline/history/validate_content.py \
+            Content/Dialogue \
+            pipeline/history/data/knowledge_graph.ndjson
 
       - name: Post violation summary to PR
         if: failure() && github.event_name == 'pull_request'
