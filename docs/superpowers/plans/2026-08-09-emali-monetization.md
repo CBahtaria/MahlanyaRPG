@@ -36,7 +36,7 @@
 **Money and identifiers:**
 - Amount stored as integer cents; currency default `SZL`.
 - eMali payee number: `+26879657744`. Owner notification recipient: `charleskris9@gmail.com`.
-- `SUPPORTER_TIER_PRICE_CENTS` is a single named constant (placeholder `5000` = E50.00) — the real price is an operator decision outside this plan; flagged, not silently assumed.
+- `SUPPORTER_TIER_PRICE_CENTS` is a single named constant, set to `10000` = E100.00 (operator-confirmed 2026-08-09).
 
 **Security:**
 - No `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, or `ADMIN_EMALI_SECRET` ever referenced in a client component or `NEXT_PUBLIC_`-prefixed variable.
@@ -173,7 +173,7 @@ EOF
 
 ```typescript
 export const EMALI_NUMBER = '+26879657744'
-export const SUPPORTER_TIER_PRICE_CENTS = 5000
+export const SUPPORTER_TIER_PRICE_CENTS = 10000
 export const SUPPORTER_TIER_CURRENCY = 'SZL'
 export const SUPPORTER_TIER_SERVICE_SLUG = 'mahlanya-demo-supporter'
 export const BUILD_ARTIFACT_BUCKET = 'mahlanya-builds'
@@ -306,7 +306,7 @@ export async function POST(request: NextRequest) {
   const resend = new Resend(process.env.RESEND_API_KEY)
   try {
     await resend.emails.send({
-      from: 'Mahlanya <onboarding@resend.dev>',
+      from: 'Mahlanya RPG <mahlanya@brtinc.dev>',
       to: 'charleskris9@gmail.com',
       subject: `New eMali reference — ${payerName}`,
       html: `<p>${payerName} (${payerContact}) submitted eMali reference <strong>${emaliReference}</strong> for the supporter build (E${(SUPPORTER_TIER_PRICE_CENTS / 100).toFixed(2)}). Confirm at /admin/emali.</p>`,
@@ -656,7 +656,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   const resend = new Resend(process.env.RESEND_API_KEY)
   try {
     await resend.emails.send({
-      from: 'Mahlanya <onboarding@resend.dev>',
+      from: 'Mahlanya RPG <mahlanya@brtinc.dev>',
       to: existing.payer_contact,
       subject: 'Your Mahlanya supporter build download',
       html: `<p>Thanks for supporting Mahlanya, ${existing.payer_name}. Your download link is valid for 7 days:</p><p><a href="${signed.signedUrl}">${signed.signedUrl}</a></p>`,
@@ -903,7 +903,7 @@ Expected: Vercel auto-deploys via its GitHub integration (per the linked `.verce
 
 **Spec coverage** — every bullet in `docs/superpowers/specs/2026-08-09-emali-monetization-design.md` maps to a task: isolated Supabase project + table + bucket → Task 1; deps/env/client → Task 2; public submit → Task 3; access page → Task 4; admin auth/list/confirm/signed-URL/delivery → Task 5; admin UI → Task 6; gates/deploy → Task 7. No spec bullet is unaddressed.
 
-**Placeholder scan** — no "TBD"/"handle appropriately"/"similar to Task N" language; every step has real, complete code. The two genuinely undetermined values (`SUPPORTER_TIER_PRICE_CENTS`, the Resend sending domain) are not disguised as decided — they're called out explicitly as operator follow-ups in both the spec and Task 2/3, not silently assumed.
+**Placeholder scan** — no "TBD"/"handle appropriately"/"similar to Task N" language; every step has real, complete code. `SUPPORTER_TIER_PRICE_CENTS` (E100, `brtinc.dev` as the Resend sending domain) were both operator-confirmed 2026-08-09 and are no longer open items.
 
 **Type consistency** — `PaymentReference` shape (`id, service_slug, amount_cents, currency, payer_name, payer_contact, emali_reference, status, created_at`) is used identically in Task 5's `GET /api/emali/list` and Task 6's admin page. `isAuthorizedAdmin(request: Request): boolean` (Task 5, Step 1) is imported with that exact signature in both Task 5's `list`/`[id]` routes. `getSupabaseAdmin(): SupabaseClient` (Task 2) is imported identically in Tasks 3 and 5. Constant names (`SUPPORTER_TIER_PRICE_CENTS`, `SUPPORTER_TIER_CURRENCY`, `SUPPORTER_TIER_SERVICE_SLUG`, `BUILD_ARTIFACT_BUCKET`, `SIGNED_URL_TTL_SECONDS`, `EMALI_NUMBER`) are defined once in Task 2 and referenced by the same names in Tasks 3, 4, and 5 — no drift.
 

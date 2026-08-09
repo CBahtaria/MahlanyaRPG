@@ -30,9 +30,9 @@ Swazi Mobile E-Mali has no public merchant/developer API. The only reliable inte
 - `ADMIN_EMALI_SECRET` — server-only. Compared with `crypto.timingSafeEqual`, fail-closed if unset or mismatched (never a default-allow).
 - `EMALI_BUILD_ARTIFACT_PATH` — server-only. Object path inside `mahlanya-builds`, e.g. `releases/mahlanya-demo-v1.zip`. Changes each time the operator uploads a new build; not hardcoded, since the version will move.
 
-**Open item flagged, not assumed:** Resend requires a verified sending domain for production `from` addresses. This repo has no evidence of one configured (no `.env`, no prior email sends). The plan uses Resend's sandbox `onboarding@resend.dev` sender for dev/testing; swapping to a verified domain is an operator task outside this plan's scope, called out here so it isn't silently forgotten.
+**Resolved 2026-08-09:** sending domain is `brtinc.dev`, already verified with Resend for brt-inc's own transactional email (`app/api/send-email/route.ts`, `app/api/contact/route.ts` there use `noreply@brtinc.dev`). MahlanyaRPG's mail uses `mahlanya@brtinc.dev` as a sub-address on the same verified domain rather than standing up a separate `mahlanyarpg.com` domain and its own Resend verification for a pre-launch title.
 
-**Pricing placeholder flagged, not assumed:** the master spec says "a fan pays a fixed amount" but doesn't state the amount. The plan uses `SUPPORTER_TIER_PRICE_CENTS = 5000` (E50.00) as a single named constant the operator edits before going live — not a real, confirmed price.
+**Resolved 2026-08-09:** `SUPPORTER_TIER_PRICE_CENTS = 10000` (E100.00), operator-confirmed.
 
 ## Global Constraints — parent CLAUDE.md applicability
 
