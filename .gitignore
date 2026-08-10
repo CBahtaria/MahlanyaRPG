@@ -64,6 +64,9 @@ package-lock.json
 *.iml
 .vscode/settings.json
 
+# Git worktrees (local isolation scratch, never committed)
+.worktrees/
+
 # Generated knowledge graph artifacts (rebuilt by CI)
 pipeline/history/knowledge_graph.ndjson
 pipeline/history/data/knowledge_graph.ndjson
