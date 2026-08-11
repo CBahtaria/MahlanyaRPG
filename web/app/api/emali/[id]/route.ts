@@ -40,13 +40,20 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 
   if (parsed.data.action === 'reject') {
-    const { error } = await supabase
+    // .select() is required to learn the row count: supabase-js reports error:null
+    // for a filtered UPDATE that matched zero rows, so without it a no-op write
+    // would report success.
+    const { data: rejected, error } = await supabase
       .from('payment_references')
       .update({ status: 'rejected', confirmed_at: new Date().toISOString() })
       .eq('id', params.id)
       .eq('status', 'pending')
+      .select('id')
     if (error) {
       return NextResponse.json({ error: 'Could not update reference' }, { status: 500 })
+    }
+    if (!rejected || rejected.length === 0) {
+      return NextResponse.json({ error: 'Reference not found or already resolved' }, { status: 404 })
     }
     return NextResponse.json({ ok: true })
   }
@@ -54,6 +61,12 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   const artifactPath = process.env.EMALI_BUILD_ARTIFACT_PATH
   if (!artifactPath) {
     return NextResponse.json({ error: 'Build artifact path not configured' }, { status: 500 })
+  }
+
+  // The Resend constructor throws synchronously on a falsy key. Check it here so a
+  // misconfigured deployment returns a structured error instead of an uncaught 500.
+  if (!process.env.RESEND_API_KEY) {
+    return NextResponse.json({ error: 'Email delivery not configured' }, { status: 500 })
   }
 
   const { data: signed, error: signError } = await supabase.storage
@@ -64,26 +77,35 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     return NextResponse.json({ error: 'Could not generate download link' }, { status: 500 })
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY)
+  // Resend converts non-2xx responses, JSON parse failures, and network errors alike
+  // into a returned `error` field — it does not throw. The returned error is therefore
+  // the load-bearing check; the try/catch is only defense-in-depth against a future
+  // SDK version that does throw. Either way the row stays `pending`, because a
+  // "confirmed but never delivered" state must not be silently reachable.
+  let sendFailed = false
   try {
     const safeName = escapeHtml(String(existing.payer_name))
     const safeUrl = escapeHtml(signed.signedUrl)
-    await resend.emails.send({
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    const { error: sendError } = await resend.emails.send({
       from: 'Mahlanya RPG <mahlanya@brtinc.dev>',
       to: String(existing.payer_contact),
       subject: 'Your Mahlanya supporter build download',
       html: `<p>Thanks for supporting Mahlanya, ${safeName}. Your download link is valid for 7 days:</p><p><a href="${safeUrl}">${safeUrl}</a></p>`,
     })
+    sendFailed = Boolean(sendError)
   } catch {
-    // Row stays `pending` deliberately: a "confirmed but never delivered" state
-    // must never be silently reachable. Retry from the admin page.
+    sendFailed = true
+  }
+
+  if (sendFailed) {
     return NextResponse.json(
       { error: 'Payment confirmed but delivery email failed — retry from the admin page' },
       { status: 502 },
     )
   }
 
-  const { error: updateError } = await supabase
+  const { data: confirmed, error: updateError } = await supabase
     .from('payment_references')
     .update({
       status: 'confirmed',
@@ -92,11 +114,18 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     })
     .eq('id', params.id)
     .eq('status', 'pending')
+    .select('id')
 
   if (updateError) {
     return NextResponse.json(
       { error: 'Email sent but status update failed — check the table manually' },
       { status: 500 },
+    )
+  }
+  if (!confirmed || confirmed.length === 0) {
+    return NextResponse.json(
+      { error: 'Reference not found or already resolved — a delivery email was sent, check for a duplicate' },
+      { status: 404 },
     )
   }
 
