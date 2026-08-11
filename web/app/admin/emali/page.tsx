@@ -39,7 +39,7 @@ export default function EmaliAdminPage() {
         return
       }
       const body = await res.json()
-      setRefs(body.references)
+      setRefs(body.references ?? [])
       setUnlocked(true)
     } catch {
       setError('Network error — try again')
