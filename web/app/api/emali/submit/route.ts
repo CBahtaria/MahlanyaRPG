@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { Resend } from 'resend'
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
+import { escapeHtml } from '@/lib/escapeHtml'
 import {
   SUPPORTER_TIER_PRICE_CENTS,
   SUPPORTER_TIER_CURRENCY,
@@ -68,11 +69,14 @@ export async function POST(request: NextRequest) {
 
   const resend = new Resend(process.env.RESEND_API_KEY)
   try {
+    const safeName = escapeHtml(payerName)
+    const safeContact = escapeHtml(payerContact)
+    const safeReference = escapeHtml(emaliReference)
     await resend.emails.send({
       from: 'Mahlanya RPG <mahlanya@brtinc.dev>',
       to: 'charleskris9@gmail.com',
       subject: `New eMali reference — ${payerName}`,
-      html: `<p>${payerName} (${payerContact}) submitted eMali reference <strong>${emaliReference}</strong> for the supporter build (E${(SUPPORTER_TIER_PRICE_CENTS / 100).toFixed(2)}). Confirm at /admin/emali.</p>`,
+      html: `<p>${safeName} (${safeContact}) submitted eMali reference <strong>${safeReference}</strong> for the supporter build (E${(SUPPORTER_TIER_PRICE_CENTS / 100).toFixed(2)}). Confirm at /admin/emali.</p>`,
     })
   } catch {
     // Notification failure must not block the recorded submission — the admin list is authoritative.
