@@ -161,7 +161,7 @@ Name it `.env.example` (not `.env.local.example`) so it matches the root `.gitig
 
 ```bash
 cat > web/.env.example << 'EOF'
-NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 RESEND_API_KEY=
 ADMIN_EMALI_SECRET=
@@ -191,7 +191,7 @@ export function getSupabaseAdmin(): SupabaseClient {
   if (cached) {
     return cached
   }
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const url = process.env.SUPABASE_URL
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !serviceRoleKey) {
     throw new Error('Supabase server credentials are not configured')
@@ -340,7 +340,7 @@ curl -s -X POST http://localhost:3001/api/emali/submit \
   -H 'Content-Type: application/json' \
   -d '{"payerName":"Test User","payerContact":"+26876000000","emaliReference":"TESTREF123"}'
 ```
-Expected: `{"ok":true,"id":"<uuid>"}`. Confirm the row appears in the Supabase table editor with `status = 'pending'` and `amount_cents = 5000` (the server-side constant, not client-supplied).
+Expected: `{"ok":true,"id":"<uuid>"}`. Confirm the row appears in the Supabase table editor with `status = 'pending'` and `amount_cents = 10000` (the server-side constant, not client-supplied).
 
 - [ ] **Step 4: Commit**
 
@@ -881,7 +881,7 @@ Expected: 0 type errors, build succeeds, no missing imports.
 
 ```bash
 cd ~/my-projects/MahlanyaRPG/web
-vercel env add NEXT_PUBLIC_SUPABASE_URL production
+vercel env add SUPABASE_URL production
 vercel env add SUPABASE_SERVICE_ROLE_KEY production
 vercel env add RESEND_API_KEY production
 vercel env add ADMIN_EMALI_SECRET production
@@ -889,13 +889,13 @@ vercel env add EMALI_BUILD_ARTIFACT_PATH production
 ```
 Expected: each prompts for a value and confirms it was added to the `mahlanya-world-viewer` project (per `.vercel/project.json`). Repeat for `preview`/`development` environments if preview deploys should also exercise this flow.
 
-- [ ] **Step 4: Push and confirm deploy**
+- [ ] **Step 4: Push the feature branch and merge via review**
 
 ```bash
 cd ~/my-projects/MahlanyaRPG
-git push origin master
+git push origin worktree-emali-monetization
 ```
-Expected: Vercel auto-deploys via its GitHub integration (per the linked `.vercel/project.json`). Confirm the deploy succeeds in the Vercel dashboard, then load the production `/access` and `/admin/emali` URLs to confirm they render before considering this plan complete.
+This is financial code — per the feature-branch decision applied throughout this session, push the feature branch only, never `master` directly. Master's `git push` triggers an instant Vercel production deploy with no review gate in between. Open a PR, get it reviewed, and merge to `master` through that path. Expected: after merge, Vercel auto-deploys via its GitHub integration (per the linked `.vercel/project.json`). Confirm the deploy succeeds in the Vercel dashboard, then load the production `/access` and `/admin/emali` URLs to confirm they render before considering this plan complete.
 
 ---
 

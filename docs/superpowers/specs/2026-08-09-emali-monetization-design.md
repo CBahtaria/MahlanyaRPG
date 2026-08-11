@@ -13,7 +13,7 @@ Swazi Mobile E-Mali has no public merchant/developer API. The only reliable inte
 ## What ships
 
 1. **New isolated Supabase project** — not shared with brt-inc, wheels-deals-eswatini, likhono-lami, or maize-model. A leaked key here can't expose any other repo's rows. This app never ships a browser-side Supabase key (no `NEXT_PUBLIC` anon key at all) — every read/write goes through a server-only service-role key inside API routes. Simpler than the sibling repos that have browser sessions, and it means Row Level Security policies aren't load-bearing here (they're a fail-closed backstop in case a key is ever exposed by mistake, not the access-control mechanism).
-2. **`payment_references` table** — one row per submitted claim. `status` starts `pending`; only the authenticated confirm route can move it to `confirmed` or `rejected`.
+2. **`payment_references` table** — one row per submitted claim. `status` starts `pending`; only the authenticated confirm route can move it to `confirmed` or `rejected`. This is an application-level guarantee, not a database-level one: the migration has no trigger and no transition CHECK constraint blocking e.g. `confirmed → pending`. The only guard is the confirm/reject route's own `.eq('status', 'pending')` filter before writing. That route runs as `service_role`, which bypasses RLS entirely (BYPASSRLS), so the RLS-zero-policies backstop described below does not apply to it either — a bug in the route's own filter is the only thing standing between a settled row and an overwrite. The test suite's C7 assertion proves this directly: `service_role` has full UPDATE/DELETE access on this table regardless of row status.
 3. **Fixed-price supporter tier** — unlike brt-inc (variable per-service pricing, client-supplied amount), MahlanyaRPG sells one thing (the supporter/demo build) at one price. The amount is a server-side constant, never read from the client request body. This removes price-tampering as a bug class entirely rather than validating against it.
 4. **`web/app/access/page.tsx`** — public page: price, eMali number, instructions, and the reference-submission form.
 5. **`POST /api/emali/submit`** — public, rate-limited, zod-validated. Inserts a `pending` row, emails the owner via Resend. Never auto-confirms.
@@ -24,7 +24,7 @@ Swazi Mobile E-Mali has no public merchant/developer API. The only reliable inte
 
 ## Environment variables (server-only unless noted)
 
-- `NEXT_PUBLIC_SUPABASE_URL` — project URL. Safe to expose (it's just an endpoint, not a credential).
+- `SUPABASE_URL` — project URL. Deliberately not `NEXT_PUBLIC_`-prefixed even though the value itself isn't sensitive: this app has no browser-side Supabase client at all, so nothing ever needs it client-side, and a `NEXT_PUBLIC_` prefix here would be a misleading signal that one exists.
 - `SUPABASE_SERVICE_ROLE_KEY` — server-only. Never referenced from a client component, never `NEXT_PUBLIC_`-prefixed.
 - `RESEND_API_KEY` — server-only.
 - `ADMIN_EMALI_SECRET` — server-only. Compared with `crypto.timingSafeEqual`, fail-closed if unset or mismatched (never a default-allow).
