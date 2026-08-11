@@ -20,23 +20,33 @@ export default function EmaliAdminPage() {
   const [refs, setRefs] = useState<PaymentReference[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  // Per-row in-flight guard. Without this a double-click fires two concurrent
+  // PATCHes; both pass the API's `status = 'pending'` check before either
+  // write lands, and since confirm sends the delivery email before marking
+  // the row non-pending, both could email the payer before the loser 404s.
+  const [busyIds, setBusyIds] = useState<Set<string>>(new Set())
 
   async function load(currentSecret: string) {
     setLoading(true)
     setError('')
-    const res = await fetch('/api/emali/list', {
-      headers: { Authorization: `Bearer ${currentSecret}` },
-    })
-    if (!res.ok) {
-      setError('Unauthorized or request failed')
+    try {
+      const res = await fetch('/api/emali/list', {
+        headers: { Authorization: `Bearer ${currentSecret}` },
+      })
+      if (!res.ok) {
+        setError('Unauthorized or request failed')
+        setUnlocked(false)
+        return
+      }
+      const body = await res.json()
+      setRefs(body.references)
+      setUnlocked(true)
+    } catch {
+      setError('Network error — try again')
       setUnlocked(false)
+    } finally {
       setLoading(false)
-      return
     }
-    const body = await res.json()
-    setRefs(body.references)
-    setUnlocked(true)
-    setLoading(false)
   }
 
   // Branches on res.ok (HTTP status) only — never on error message text. The
@@ -46,20 +56,35 @@ export default function EmaliAdminPage() {
   // was sent, safe to retry. Both are distinguishable to the operator only if
   // we surface the real string instead of writing our own generic one.
   async function act(id: string, action: 'confirm' | 'reject') {
-    const res = await fetch(`/api/emali/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${secret}`,
-      },
-      body: JSON.stringify({ action }),
-    })
-    if (!res.ok) {
-      const responseBody = await res.json().catch(() => ({ error: 'Unknown error' }))
-      setError(responseBody.error ?? 'Action failed')
+    if (busyIds.has(id)) {
       return
     }
-    load(secret)
+    setBusyIds((prev) => new Set(prev).add(id))
+    setError('')
+    try {
+      const res = await fetch(`/api/emali/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${secret}`,
+        },
+        body: JSON.stringify({ action }),
+      })
+      if (!res.ok) {
+        const responseBody = await res.json().catch(() => ({ error: 'Unknown error' }))
+        setError(responseBody.error ?? 'Action failed')
+        return
+      }
+      await load(secret)
+    } catch {
+      setError('Network error — try again')
+    } finally {
+      setBusyIds((prev) => {
+        const next = new Set(prev)
+        next.delete(id)
+        return next
+      })
+    }
   }
 
   if (!unlocked) {
@@ -91,8 +116,12 @@ export default function EmaliAdminPage() {
           <p>Ref: {r.emali_reference} &mdash; Status: {r.status}</p>
           {r.status === 'pending' && (
             <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-              <button onClick={() => act(r.id, 'confirm')}>Confirm</button>
-              <button onClick={() => act(r.id, 'reject')}>Reject</button>
+              <button onClick={() => act(r.id, 'confirm')} disabled={busyIds.has(r.id)}>
+                {busyIds.has(r.id) ? 'Working…' : 'Confirm'}
+              </button>
+              <button onClick={() => act(r.id, 'reject')} disabled={busyIds.has(r.id)}>
+                {busyIds.has(r.id) ? 'Working…' : 'Reject'}
+              </button>
             </div>
           )}
         </div>
