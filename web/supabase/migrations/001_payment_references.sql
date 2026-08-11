@@ -22,6 +22,16 @@ ALTER TABLE payment_references ENABLE ROW LEVEL SECURITY;
 -- enabled with zero policies as a fail-closed backstop — if an anon key is ever
 -- accidentally exposed in a future change, it grants access to nothing.
 
+REVOKE ALL ON payment_references FROM anon, authenticated;
+-- Second, independent layer. Supabase grants ALL on new public-schema tables to
+-- anon/authenticated by default, so RLS alone is the only thing standing between
+-- an exposed anon key and this table. Grants and RLS are ANDed, so removing the
+-- underlying privilege means even a permissive policy added later (the
+-- CREATE POLICY ... USING (true) reflex when someone hits empty query results)
+-- still grants nothing. No CI watches web/, so that regression would otherwise
+-- ship unnoticed. service_role is deliberately not revoked — it needs the grant,
+-- since BYPASSRLS bypasses RLS but not table privileges.
+
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('mahlanya-builds', 'mahlanya-builds', false)
 ON CONFLICT (id) DO NOTHING;

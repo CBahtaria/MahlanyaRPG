@@ -264,9 +264,12 @@ BEGIN
   RAISE NOTICE 'C2 ok: zero RLS policies on payment_references';
 END $$;
 
--- C3: control assertion. anon and authenticated DO hold table grants (Supabase
--- installs these by default). Without this, the "anon sees nothing" assertions
--- below would pass for the wrong reason — a missing GRANT rather than RLS.
+-- C3: the migration's REVOKE landed — anon and authenticated hold *zero*
+-- privileges on this table. Supabase's ALTER DEFAULT PRIVILEGES grants ALL on new
+-- public-schema tables to both roles, and 00_supabase_stubs.sql replicates that,
+-- so this assertion fails loudly if the REVOKE is ever dropped from the migration.
+-- This is the grant layer. C8 below covers the RLS layer independently, so
+-- neither assertion is vacuous just because the other passes.
 DO $$
 DECLARE
   anon_privs text;
@@ -280,13 +283,23 @@ BEGIN
   FROM information_schema.role_table_grants
   WHERE table_schema = 'public' AND table_name = 'payment_references' AND grantee = 'authenticated';
 
-  IF anon_privs IS NULL OR anon_privs NOT LIKE '%SELECT%' OR anon_privs NOT LIKE '%INSERT%' THEN
-    RAISE EXCEPTION 'C3 FAILED: anon lacks table grants (%) — the RLS assertions below would be vacuous', coalesce(anon_privs, '<none>');
+  IF anon_privs IS NOT NULL THEN
+    RAISE EXCEPTION 'C3 FAILED: anon still holds privileges [%] — the migration REVOKE was dropped', anon_privs;
   END IF;
-  IF auth_privs IS NULL OR auth_privs NOT LIKE '%SELECT%' THEN
-    RAISE EXCEPTION 'C3 FAILED: authenticated lacks table grants (%)', coalesce(auth_privs, '<none>');
+  IF auth_privs IS NOT NULL THEN
+    RAISE EXCEPTION 'C3 FAILED: authenticated still holds privileges [%] — the migration REVOKE was dropped', auth_privs;
   END IF;
-  RAISE NOTICE 'C3 ok: anon grants=[%], authenticated grants=[%] — RLS is what blocks, not missing grants', anon_privs, auth_privs;
+
+  -- service_role must keep its grant: BYPASSRLS bypasses RLS, not table privileges.
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.role_table_grants
+    WHERE table_schema = 'public' AND table_name = 'payment_references'
+      AND grantee = 'service_role' AND privilege_type = 'SELECT'
+  ) THEN
+    RAISE EXCEPTION 'C3 FAILED: the REVOKE stripped service_role too — the app cannot read its own table';
+  END IF;
+
+  RAISE NOTICE 'C3 ok: anon and authenticated hold zero privileges; service_role retains its grant';
 END $$;
 
 -- Seed one settled row for the role assertions to try (and fail) to reach.
@@ -297,11 +310,59 @@ VALUES
    'Sentinel Row', '+26876000001', 'SENTINEL-REF', 'confirmed', now())
 ON CONFLICT (id) DO NOTHING;
 
--- C4/C5: anon and authenticated can read nothing, write nothing, and cannot
--- re-decide the settled sentinel row. This is the exact class of hole that was
--- found and fixed on the sibling brt-inc repo (an UPDATE policy with
--- USING (true) let any authenticated user rewrite a settled payment). Here the
--- equivalent must be structurally impossible: there is no policy at all.
+-- C4/C5 — grant layer. With the REVOKE in place, anon and authenticated are
+-- denied outright on every verb: they cannot read the sentinel row, forge a
+-- payment, or re-decide a settled one. This is the exact class of hole found and
+-- fixed on the sibling brt-inc repo (an UPDATE policy with USING (true) let any
+-- authenticated user rewrite a settled payment); here it is denied one layer
+-- below RLS, so no future policy can reintroduce it.
+DO $$
+DECLARE
+  target text;
+  stmt text;
+  denied int;
+  attempted int;
+  stmts text[] := ARRAY[
+    'SELECT count(*) FROM payment_references',
+    'INSERT INTO payment_references (service_slug, amount_cents, payer_name, payer_contact, emali_reference)
+       VALUES (''forged'', 1, ''Attacker'', ''x'', ''FORGED'')',
+    'UPDATE payment_references SET status = ''confirmed'', confirmed_at = now()',
+    'UPDATE payment_references SET status = ''pending'', confirmed_at = NULL
+       WHERE id = ''11111111-1111-1111-1111-111111111111''',
+    'DELETE FROM payment_references'
+  ];
+BEGIN
+  FOREACH target IN ARRAY ARRAY['anon', 'authenticated'] LOOP
+    EXECUTE format('SET LOCAL ROLE %I', target);
+    denied := 0;
+    attempted := 0;
+
+    FOREACH stmt IN ARRAY stmts LOOP
+      attempted := attempted + 1;
+      BEGIN
+        EXECUTE stmt;
+      EXCEPTION WHEN insufficient_privilege THEN
+        denied := denied + 1;
+      END;
+    END LOOP;
+
+    IF denied <> attempted THEN
+      RESET ROLE;
+      RAISE EXCEPTION 'C4/C5 FAILED: role % was denied only %/% statements — read/write is reachable',
+        target, denied, attempted;
+    END IF;
+
+    RESET ROLE;
+    RAISE NOTICE 'C4/C5 ok: role % — all % statements (SELECT/INSERT/UPDATE/re-open/DELETE) denied at the grant layer',
+      target, attempted;
+  END LOOP;
+END $$;
+
+-- C8 — RLS layer, proved independently of the grants. Temporarily re-grants ALL
+-- to anon/authenticated, i.e. simulates exactly the regression C3 guards against
+-- (the migration's REVOKE dropped, or a later migration re-granting), and asserts
+-- RLS-with-zero-policies still yields nothing. Without this, C3 and C4/C5 would
+-- only ever prove the grant layer, and the RLS backstop would be untested.
 DO $$
 DECLARE
   target text;
@@ -309,13 +370,15 @@ DECLARE
   touched int;
   insert_blocked boolean;
 BEGIN
+  GRANT ALL ON payment_references TO anon, authenticated;
+
   FOREACH target IN ARRAY ARRAY['anon', 'authenticated'] LOOP
     EXECUTE format('SET LOCAL ROLE %I', target);
 
     EXECUTE 'SELECT count(*) FROM payment_references' INTO seen;
     IF seen <> 0 THEN
       RESET ROLE;
-      RAISE EXCEPTION 'C4 FAILED: role % can SELECT % row(s) — RLS is not fail-closed', target, seen;
+      RAISE EXCEPTION 'C8 FAILED: with grants restored, role % can SELECT % row(s) — RLS is not fail-closed', target, seen;
     END IF;
 
     insert_blocked := false;
@@ -327,14 +390,14 @@ BEGIN
     END;
     IF NOT insert_blocked THEN
       RESET ROLE;
-      RAISE EXCEPTION 'C5 FAILED: role % was able to INSERT a payment row', target;
+      RAISE EXCEPTION 'C8 FAILED: with grants restored, role % inserted a payment row', target;
     END IF;
 
     EXECUTE 'UPDATE payment_references SET status = ''confirmed'', confirmed_at = now()';
     GET DIAGNOSTICS touched = ROW_COUNT;
     IF touched <> 0 THEN
       RESET ROLE;
-      RAISE EXCEPTION 'C5 FAILED: role % updated % row(s) — a settled payment is re-decidable', target, touched;
+      RAISE EXCEPTION 'C8 FAILED: with grants restored, role % updated % row(s) — a settled payment is re-decidable', target, touched;
     END IF;
 
     EXECUTE 'UPDATE payment_references SET status = ''pending'', confirmed_at = NULL
@@ -342,19 +405,22 @@ BEGIN
     GET DIAGNOSTICS touched = ROW_COUNT;
     IF touched <> 0 THEN
       RESET ROLE;
-      RAISE EXCEPTION 'C5 FAILED: role % reopened the settled sentinel row', target;
+      RAISE EXCEPTION 'C8 FAILED: with grants restored, role % reopened the settled sentinel row', target;
     END IF;
 
     EXECUTE 'DELETE FROM payment_references';
     GET DIAGNOSTICS touched = ROW_COUNT;
     IF touched <> 0 THEN
       RESET ROLE;
-      RAISE EXCEPTION 'C5 FAILED: role % deleted % row(s)', target, touched;
+      RAISE EXCEPTION 'C8 FAILED: with grants restored, role % deleted % row(s)', target, touched;
     END IF;
 
     RESET ROLE;
-    RAISE NOTICE 'C4/C5 ok: role % — SELECT 0 rows, INSERT denied, UPDATE 0 rows, re-open 0 rows, DELETE 0 rows', target;
+    RAISE NOTICE 'C8 ok: role % with full grants restored — SELECT 0 rows, INSERT denied, UPDATE 0 rows, re-open 0 rows, DELETE 0 rows', target;
   END LOOP;
+
+  -- Restore the migration's posture so C3 stays true for any later re-run.
+  REVOKE ALL ON payment_references FROM anon, authenticated;
 END $$;
 
 -- C6: the sentinel row is still intact and still confirmed after all of that.
@@ -435,6 +501,14 @@ BEGIN
   RAISE NOTICE 'D1 ok: bucket mahlanya-builds exists exactly once, public=false';
 END $$;
 
+-- Both tables D2 inspects must be non-empty first, or "anon enumerates 0 rows"
+-- passes because the table is empty rather than because RLS is blocking. The
+-- bucket row comes from the migration; this supplies the object row. run-tests.sh
+-- seeds the same row earlier so E1 covers it too — ON CONFLICT makes both safe.
+INSERT INTO storage.objects (bucket_id, name)
+VALUES ('mahlanya-builds', 'releases/mahlanya-demo-v1.zip')
+ON CONFLICT (bucket_id, name) DO NOTHING;
+
 -- D2: no storage.objects policies were added for this bucket, and anon can
 -- neither enumerate buckets nor read objects. Downloads are only ever reachable
 -- through a service-role-minted signed URL (Task 5).
@@ -442,10 +516,21 @@ DO $$
 DECLARE
   n int;
   seen int;
+  seeded int;
 BEGIN
   SELECT count(*) INTO n FROM pg_policies WHERE schemaname = 'storage';
   IF n <> 0 THEN
     RAISE EXCEPTION 'D2 FAILED: expected 0 storage policies, found %', n;
+  END IF;
+
+  -- Anti-vacuity guard: prove there is actually something for anon to fail to see.
+  SELECT count(*) INTO seeded FROM storage.objects;
+  IF seeded < 1 THEN
+    RAISE EXCEPTION 'D2 FAILED: storage.objects is empty — the anon check below would be vacuous';
+  END IF;
+  SELECT count(*) INTO seeded FROM storage.buckets;
+  IF seeded < 1 THEN
+    RAISE EXCEPTION 'D2 FAILED: storage.buckets is empty — the anon check below would be vacuous';
   END IF;
 
   SET LOCAL ROLE anon;
@@ -460,7 +545,7 @@ BEGIN
     RAISE EXCEPTION 'D2 FAILED: anon can enumerate % storage object(s)', seen;
   END IF;
   RESET ROLE;
-  RAISE NOTICE 'D2 ok: zero storage policies; anon enumerates 0 buckets and 0 objects';
+  RAISE NOTICE 'D2 ok: zero storage policies; with 1+ bucket and 1+ object present, anon enumerates 0 of each';
 END $$;
 
 -- ===========================================================================

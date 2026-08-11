@@ -95,13 +95,19 @@ psql_file "$STUBS"
 echo "==> applying migration (first apply)"
 psql_file "$MIGRATION"
 
-echo "==> seeding a settled row before re-applying"
+echo "==> seeding a settled row and a stored object before re-applying"
 psql_cmd "INSERT INTO payment_references
             (id, service_slug, amount_cents, payer_name, payer_contact, emali_reference, status, confirmed_at)
           VALUES
             ('11111111-1111-1111-1111-111111111111', 'mahlanya-demo-supporter', 10000,
              'Sentinel Row', '+26876000001', 'SENTINEL-REF', 'confirmed', now())
           ON CONFLICT (id) DO NOTHING;"
+
+# storage.objects must be non-empty before D2 runs, or 'anon enumerates 0 objects'
+# passes because the table is empty rather than because RLS is blocking.
+psql_cmd "INSERT INTO storage.objects (bucket_id, name)
+          VALUES ('mahlanya-builds', 'releases/mahlanya-demo-v1.zip')
+          ON CONFLICT (bucket_id, name) DO NOTHING;"
 
 echo "==> applying migration (second apply — idempotency)"
 psql_file "$MIGRATION"
