@@ -100,7 +100,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
   if (sendFailed) {
     return NextResponse.json(
-      { error: 'Payment confirmed but delivery email failed — retry from the admin page' },
+      { error: 'Payment not confirmed — delivery email failed, retry from the admin page' },
       { status: 502 },
     )
   }
