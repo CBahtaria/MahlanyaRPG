@@ -244,7 +244,10 @@ BEGIN
   IF NOT enabled THEN
     RAISE EXCEPTION 'C1 FAILED: row level security is NOT enabled on payment_references';
   END IF;
-  RAISE NOTICE 'C1 ok: RLS enabled (relforcerowsecurity=%)', forced;
+  IF forced THEN
+    RAISE EXCEPTION 'C1 FAILED: row level security is FORCED on payment_references — expected NOT forced (table owner/service_role access is intentional here)';
+  END IF;
+  RAISE NOTICE 'C1 ok: RLS enabled and not forced (relforcerowsecurity=%)', forced;
 END $$;
 
 -- C2: exactly zero policies. This is the design's core claim — RLS is a
