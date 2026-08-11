@@ -26,7 +26,7 @@ function isRateLimited(ip: string): boolean {
 
 const SubmitSchema = z.object({
   payerName: z.string().min(1).max(200),
-  payerContact: z.string().min(1).max(200),
+  payerContact: z.string().email().max(200),
   emaliReference: z.string().min(1).max(100),
 })
 

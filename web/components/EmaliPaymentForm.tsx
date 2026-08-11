@@ -47,8 +47,8 @@ export default function EmaliPaymentForm() {
         <input name="name" required style={inputStyle} />
       </label>
       <label>
-        Contact email or phone
-        <input name="contact" required style={inputStyle} />
+        Email
+        <input name="contact" type="email" required style={inputStyle} />
       </label>
       <label>
         eMali transaction reference
