@@ -58,6 +58,9 @@ cdk.context.json
 # Node (CDK tooling)
 node_modules/
 package-lock.json
+# web/ is a real Next.js app (not CDK tooling) — its lockfile must be
+# committed for reproducible installs of the eMali monetization feature.
+!web/package-lock.json
 
 # IDE
 .idea/
