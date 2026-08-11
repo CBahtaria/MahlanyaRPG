@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     await resend.emails.send({
       from: 'Mahlanya RPG <mahlanya@brtinc.dev>',
       to: 'charleskris9@gmail.com',
-      subject: `New eMali reference — ${payerName}`,
+      subject: `New eMali reference — ${safeName}`,
       html: `<p>${safeName} (${safeContact}) submitted eMali reference <strong>${safeReference}</strong> for the supporter build (E${(SUPPORTER_TIER_PRICE_CENTS / 100).toFixed(2)}). Confirm at /admin/emali.</p>`,
     })
   } catch {
