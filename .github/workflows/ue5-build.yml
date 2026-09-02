@@ -23,6 +23,8 @@ concurrency:
 jobs:
   build:
     name: UE5 C++ Plugin Compile
+    # Skip this job unless UE5_ROOT is configured (self-hosted runner required)
+    if: ${{ vars.UE5_ROOT != '' }}
     # Self-hosted runner required: must have UE5.4+ installed at $UE5_ROOT
     # GitHub-hosted runners do not have UE5 — set up a dedicated Linux build server.
     # Runner label: 'ue5-linux'
@@ -30,7 +32,8 @@ jobs:
     timeout-minutes: 60
 
     env:
-      UE5_ROOT: ${{ vars.UE5_ROOT || '/opt/UnrealEngine' }}
+      # Read UE5 installation path from repository/organization variable.
+      UE5_ROOT: ${{ vars.UE5_ROOT }}
 
     steps:
       - name: Checkout
@@ -40,9 +43,15 @@ jobs:
 
       - name: Verify UE5 installation
         run: |
+          if [ -z "$UE5_ROOT" ]; then
+            echo "ERROR: UE5_ROOT is not set. This job should have been skipped — please set the repository or organization variable 'UE5_ROOT' to the UE5 installation path to enable this job."
+            echo "Self-hosted runner requirements: a Linux runner with UE5 installed and labeled 'ue5-linux'."
+            echo "See README or CI docs for configuring a self-hosted runner and the UE5_ROOT variable."
+            exit 1
+          fi
           if [ ! -f "$UE5_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" ]; then
             echo "ERROR: UE5 not found at $UE5_ROOT"
-            echo "Set the UE5_ROOT repository variable to your UE5 installation path."
+            echo "Ensure UE5 is installed on the self-hosted runner at that path and that the runner has the 'ue5-linux' label."
             exit 1
           fi
           echo "UE5 found at $UE5_ROOT"
